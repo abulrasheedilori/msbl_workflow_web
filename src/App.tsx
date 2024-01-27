@@ -1,0 +1,41 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import CreateUser from "./screens/auth/CreateUser";
+import ViewUsersScreen from "./screens/auth/ViewUsersScreen";
+import DashboardScreen from "./screens/dashboard/DashboardScreen";
+import Homepage from "./screens/homepage/Homepage";
+import CreateRequest from "./screens/request/CreateRequest";
+import ViewRequest from "./screens/request/ViewRequest";
+import ViewRequestFull from "./screens/request/ViewRequestFull";
+import RequestTable from "./screens/review/RequestTable";
+import { useAppSelector } from "./store/hooks";
+
+const App = () => {
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
+  return (
+    <BrowserRouter>
+      <Routes>
+        {isAuthenticated ? (
+          <Route path="dashboard" element={<DashboardScreen />}>
+            {user && !(user.roles[0] === "ROLE_ADMIN") ? (
+              <Route index element={<ViewRequest />} />
+            ) : (
+              <Route index element={<ViewUsersScreen />} />
+            )}
+            {user && !(user.roles[0] === "ROLE_ADMIN") && (
+              <Route path="/dashboard/:id" element={<ViewRequestFull />} />
+            )}
+            <Route path="create-request" element={<CreateRequest />} />
+            <Route path="create-user" element={<CreateUser />} />
+            <Route path="manage-user" element={<ViewUsersScreen />} />
+            <Route path="audit" element={<RequestTable requests={[]} />} />
+          </Route>
+        ) : (
+          <Route path="*" element={<Homepage />} />
+        )}
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default App;
