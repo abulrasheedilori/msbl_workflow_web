@@ -1,7 +1,6 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 import {
   filterRequest,
@@ -20,13 +19,12 @@ interface RequestsTableProps {
   requests: RequestType[];
 }
 
-const RequestsTable: React.FC<RequestsTableProps> = ({ requests }) => {
+const RequestsTable = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [dateError, setDateError] = useState("");
   const dispatch = useAppDispatch();
   const { listOfRequest } = useAppSelector((state) => state.auth);
-  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllRequestsFromAllUsers());
@@ -75,44 +73,6 @@ const RequestsTable: React.FC<RequestsTableProps> = ({ requests }) => {
     );
   };
 
-  const exportToPDF = () => {
-    const pdf = new ExtendedPDF();
-    pdf.autoTable({
-      head: [
-        [
-          "id",
-          "Title",
-          "Status",
-          "Client Name",
-          "Client Email",
-          "Client Mobile",
-          "Approval",
-          "Initiator",
-          "Request Type",
-          "Created At",
-          "updated At",
-          "Comment",
-        ],
-      ],
-      body: listOfRequest?.map((request) => [
-        request.id,
-        request.title,
-        request.status,
-        request.clientName,
-        request.clientEmail,
-        request.clientMobile,
-        request.isApproved ? "APPROVED" : "NOT_APPROVED",
-        request.user.firstname + " " + request.user.lastname,
-        request.reqType,
-        new Date(request.createdAt).toLocaleString(),
-        new Date(request.updatedAt).toLocaleString(),
-        request.comments.map((comment) => comment.message).join(", "),
-      ]),
-    });
-
-    pdf.save("requests_audit_for_" + new Date().toUTCString() + ".pdf");
-  };
-
   const validateDates = async () => {
     if (startDate === "" || endDate === "") {
       return setDateError("Neither start date/end date must be empty!");
@@ -133,7 +93,7 @@ const RequestsTable: React.FC<RequestsTableProps> = ({ requests }) => {
       endDate,
     };
     dispatch(filterRequest(filterReq))
-      .then((response) => {
+      .then(() => {
         setStartDate("");
         setEndDate("");
       })

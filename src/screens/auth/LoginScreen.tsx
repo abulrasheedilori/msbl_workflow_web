@@ -11,7 +11,7 @@ import StatusUpdateLayout from "../components/StatusUpdateLayout";
 const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading, error, user } = useAppSelector((state) => state.auth);
+  const { error } = useAppSelector((state) => state.auth);
   const [statusUpdate, setStatusUpdate] =
     useState<StatusUpdatePropsType | null>(null);
 

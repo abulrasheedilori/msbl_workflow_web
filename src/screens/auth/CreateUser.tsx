@@ -11,10 +11,9 @@ const CreateUser: React.FC = () => {
   const [statusUpdate, setStatusUpdate] =
     useState<UpdatePropType>(initialUpdates);
   const [showStatus, setShowStatus] = useState<boolean>(false);
-  const { loading, error, message } = useAppSelector((state) => state.auth);
+  const { loading, error } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const roles = ["initiator", "operator", "supervisor", "admin"];
-  // const gender = ["MALE", "FEMALE", "BOTH", "LESBIAN", "GAY", "UNDISLOSED"];
 
   const formik = useFormik({
     initialValues: {

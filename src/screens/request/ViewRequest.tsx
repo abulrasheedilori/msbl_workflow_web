@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FaShoppingBasket } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import {
-  filterRequest,
   getAllRequestsFromAllUsers,
   getRequestsWithComments,
 } from "../../store/apiService";
-import { FilteredReqType, RequestResponseType } from "../../store/apiTypes";
+import { RequestResponseType } from "../../store/apiTypes";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import formatDate from "../../utils/formatDate";
 import SearchFilter from "../components/SearchFilter";
@@ -14,10 +13,6 @@ import SearchFilter from "../components/SearchFilter";
 const ViewRequest = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [dateError, setDateError] = useState("");
-  const [showFilter, setShowFilter] = useState<boolean>(false);
 
   const { listOfRequest, user } = useAppSelector((state) => state.auth);
 
@@ -33,47 +28,8 @@ const ViewRequest = () => {
     }
   }, [dispatch, user?.roles]);
 
-  const validateDates = async () => {
-    if (startDate === "" || endDate === "") {
-      return setDateError("Neither start date/end date must be empty!");
-    }
-    setDateError("");
-    const startDateObj = new Date(startDate);
-    const endDateObj = new Date(endDate);
-
-    if (endDateObj < startDateObj) {
-      setDateError("End Date must not be before Start Date.");
-      setEndDate("");
-      return;
-    }
-
-    setDateError("");
-    const filterReq: FilteredReqType = {
-      startDate,
-      endDate,
-    };
-    await dispatch(filterRequest(filterReq))
-      .then((response) => {
-        setStartDate("");
-        setEndDate("");
-        // console.log("FILTERED REQUESTS SUCCESS: ", response);
-      })
-      .catch((error: any) => setDateError(error.message));
-  };
-
   const handleViewRequest = (id: number) => {
-    // const str = JSON.stringify(id);
-    // localStorage.setItem("requestId", str);
     navigate(`/dashboard/${id}`);
-  };
-
-  const handleStartDate = (e: any) => {
-    setStartDate(e.target.value);
-    e.target.blur();
-  };
-  const handleEndDate = (e: any) => {
-    setEndDate(e.target.value);
-    e.target.blur();
   };
 
   return (
@@ -91,7 +47,7 @@ const ViewRequest = () => {
       {listOfRequest.length > 0 ? (
         <section className="flex flex-col justify-start p-2 l lg:flex-wrap lg:flex-row">
           {listOfRequest.map((item: RequestResponseType) => {
-            const { id, title, message, status, createdAt, updatedAt } = item;
+            const { id, title, message, status, createdAt } = item;
 
             return (
               <section

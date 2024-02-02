@@ -9,11 +9,8 @@ const ViewUsersScreen = () => {
   const [showAssignRolePopUp, setShowAssignRolePopUp] = useState(false);
 
   const dispatch = useAppDispatch();
-  const { listOfUser, user, loading, error } = useAppSelector(
-    (state) => state.auth
-  );
+  const { listOfUser, user } = useAppSelector((state) => state.auth);
   useEffect(() => {
-    // console.log("ONLOAD: ", user);
     dispatch(getAllUsers());
   }, [dispatch, user]);
 

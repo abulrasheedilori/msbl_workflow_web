@@ -1,6 +1,5 @@
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { createRequest, getAllRequestType } from "../../store/apiService";
 import { RequestReqType, RequestTypeType } from "../../store/apiTypes";
@@ -21,7 +20,6 @@ const CreateRequest: React.FC = () => {
   const [showStatus, setShowStatus] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { requestTypes, loading } = useAppSelector((state) => state.auth);
-  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllRequestType());
