@@ -17,12 +17,12 @@ const App = () => {
       <Routes>
         {isAuthenticated ? (
           <Route path="dashboard" element={<DashboardScreen />}>
-            {user && !(user.roles[0] === "ROLE_ADMIN") ? (
+            {user && !user.roles.includes("ROLE_ADMIN") ? (
               <Route index element={<ViewRequest />} />
             ) : (
               <Route index element={<ViewUsersScreen />} />
             )}
-            {user && !(user.roles[0] === "ROLE_ADMIN") && (
+            {user && !user.roles.includes("ROLE_ADMIN") && (
               <Route path="/dashboard/:id" element={<ViewRequestFull />} />
             )}
             <Route path="create-request" element={<CreateRequest />} />

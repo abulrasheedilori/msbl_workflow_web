@@ -42,13 +42,16 @@ const DashboardScreen: React.FC = () => {
   };
 
   return (
-    <section className="w-screen h-screen">
+    <section className="w-screen h-screen border-2 border-red-700">
       <section className=" w-full h-[10vh] bg-green-950 flex flex-row justify-between items-center">
         <img
           src={require("../../asset/images/meristem_name_logo.png")}
           alt=""
-          className="bg-white w-50 h-5 lg:w-[200px] lg:h-12 rounded-xl shadow-md m-1 lg:m-8 animate-bounce"
+          className="bg-green-200 w-50 h-5 lg:w-[200px] lg:h-12 rounded-xl shadow-md m-1 lg:m-8 animate-bounce"
         />
+        <span className="font-bold text-center text-white lg:p-8 lg:text-5xl lg:flex">
+          MSBL DASHBOARD
+        </span>
         {showMenu ? (
           <IoClose
             size={36}
@@ -65,9 +68,6 @@ const DashboardScreen: React.FC = () => {
           />
         )}
 
-        <span className="hidden font-bold text-center text-white lg:p-8 lg:text-5xl lg:flex">
-          MSBL DASHBOARD
-        </span>
         <section className="hidden h-[50px] lg:flex flex-row justify-center item-center">
           <section className="flex flex-col items-center justify-center">
             <span className="mr-4 text-center text-green-50">
@@ -80,7 +80,7 @@ const DashboardScreen: React.FC = () => {
           <FaUser size={48} className="mr-8 text-green-100" />
         </section>
       </section>
-      <section className="relative flex w-full h-[90vh] lg:flex-row bg-green-50 border-4 border-black">
+      <section className="relative flex w-full h-[90vh] lg:flex-row bg-green-50">
         <nav
           className={`${
             !showMenu && "hidden lg:flex"

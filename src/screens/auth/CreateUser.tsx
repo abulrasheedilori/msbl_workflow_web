@@ -93,227 +93,224 @@ const CreateUser: React.FC = () => {
   });
 
   return (
-    <section className="w-full h-auto overflow-y-auto border-2 lg:w-full">
+    <section className="w-full h-full overflow-y-auto border-2 border-blue-700 lg:w-full">
       <header className="hidden p-8 text-xl font-bold text-green-900 lg:flex lg:text-4xl">
         New User
       </header>
-      <div className="w-full h-full pt-8 lg:w-[33vw] flex items-center justify-center mx-auto rounded-xl overflow-y-auto shadow-md">
-        <div className="p-8 ">
-          <h2 className="text-2xl font-bold text-center text-green-900">
-            Create New User
-          </h2>
-          <p className="p-4 pl-0">
-            Kindly create a user and assign its role here
-          </p>
-          <form
-            onSubmit={formik.handleSubmit}
-            className="w-full h-full lg:h-[60vh] flex flex-col"
-          >
-            <div className="mb-4">
-              <label
-                htmlFor="firstName"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Username
-              </label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.username}
-                className="w-full p-2 border border-gray-300 rounded lg:w-96"
-              />
-              {formik.touched.username && formik.errors.username && (
-                <div className="mt-1 text-xs text-red-500">
-                  {formik.errors.username}
-                </div>
-              )}
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="firstName"
-                className="block text-sm font-medium text-gray-600"
-              >
-                First Name
-              </label>
-              <input
-                type="text"
-                id="firstname"
-                name="firstname"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.firstname}
-                className="w-full p-2 border border-gray-300 rounded lg:w-96"
-              />
-              {formik.touched.firstname && formik.errors.firstname && (
-                <div className="mt-1 text-xs text-red-500">
-                  {formik.errors.firstname}
-                </div>
-              )}
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="lastName"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Last Name
-              </label>
-              <input
-                type="text"
-                id="lastname"
-                name="lastname"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.lastname}
-                className="w-full p-2 border border-gray-300 rounded lg:w-96"
-              />
-              {formik.touched.lastname && formik.errors.lastname && (
-                <div className="mt-1 text-xs text-red-500">
-                  {formik.errors.lastname}
-                </div>
-              )}
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="mobile"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Mobile Number
-              </label>
-              <input
-                type="number"
-                id="mobile"
-                name="mobile"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.mobile}
-                className="w-full p-2 border border-gray-300 rounded lg:w-96"
-              />
-              {formik.touched.mobile && formik.errors.mobile && (
-                <div className="mt-1 text-xs text-red-500">
-                  {formik.errors.mobile}
-                </div>
-              )}
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
-                className="w-full p-2 border border-gray-300 rounded lg:w-96"
-              />
-              {formik.touched.email && formik.errors.email && (
-                <div className="mt-1 text-xs text-red-500">
-                  {formik.errors.email}
-                </div>
-              )}
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.password}
-                className="w-full p-2 border border-gray-300 rounded lg:w-96"
-              />
-              {formik.touched.password && formik.errors.password && (
-                <div className="mt-1 text-xs text-red-500">
-                  {formik.errors.password}
-                </div>
-              )}
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="confirmpassword"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                id="confirmpassword"
-                name="confirmpassword"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.confirmpassword}
-                className="w-full p-2 border border-gray-300 rounded lg:w-96"
-              />
-              {formik.touched.confirmpassword &&
-                formik.errors.confirmpassword && (
-                  <div className="mt-1 text-xs text-red-500">
-                    {formik.errors.confirmpassword}
-                  </div>
-                )}
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="role"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Role
-              </label>
-              <select
-                id="role"
-                name="role"
-                onChange={formik.handleChange}
-                value={formik.values.role}
-                className="w-full p-2 border border-gray-300 rounded lg:w-96"
-              >
-                <option value="" disabled>
-                  Select a role
-                </option>
-                {roles.map((role) => (
-                  <option key={role} value={role} className="w-full p-2">
-                    {role.toUpperCase()}
-                  </option>
-                ))}
-              </select>
-              {formik.touched.role && formik.errors.role && (
-                <div className="mt-1 text-red-500">{formik.errors.role}</div>
-              )}
-            </div>
-
-            <Status
-              {...statusUpdate}
-              showStatus={showStatus}
-              setShowStatus={setShowStatus}
+      <div className=" w-full h-full p-8 lg:w-[33vw]  mx-auto rounded-xl shadow-lg border-2 border-grey">
+        {/* <div className="flex-1 border-2 border-green-700 "> */}
+        <h2 className="text-2xl font-bold text-center">Create New User</h2>
+        <p className="p-4 pl-0 text-justify">
+          Kindly create a user and assign its role here
+        </p>
+        <form
+          onSubmit={formik.handleSubmit}
+          className="flex flex-col w-full pb-24"
+        >
+          <div className="mb-4">
+            <label
+              htmlFor="firstName"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.username}
+              className="w-full p-2 border border-gray-300 rounded"
             />
-            <div className="text-center">
-              <button
-                type="submit"
-                disabled={!formik.isValid || !formik.dirty}
-                className={`${
-                  !formik.isValid || !formik.dirty
-                    ? "bg-slate-400 text-gray-500"
-                    : "bg-green-900 text-white "
-                }   py-2 px-4 font-bold rounded cursor-pointer shadow-md mb-4`}
-              >
-                {loading === "pending" ? "Creating User..." : "Create User"}
-              </button>
-            </div>
-          </form>
-        </div>
+            {formik.touched.username && formik.errors.username && (
+              <div className="mt-1 text-xs text-red-500">
+                {formik.errors.username}
+              </div>
+            )}
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="firstName"
+              className="block text-sm font-medium text-gray-600"
+            >
+              First Name
+            </label>
+            <input
+              type="text"
+              id="firstname"
+              name="firstname"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.firstname}
+              className="w-full p-2 border border-gray-300 rounded"
+            />
+            {formik.touched.firstname && formik.errors.firstname && (
+              <div className="mt-1 text-xs text-red-500">
+                {formik.errors.firstname}
+              </div>
+            )}
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="lastName"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Last Name
+            </label>
+            <input
+              type="text"
+              id="lastname"
+              name="lastname"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.lastname}
+              className="w-full p-2 border border-gray-300 rounded"
+            />
+            {formik.touched.lastname && formik.errors.lastname && (
+              <div className="mt-1 text-xs text-red-500">
+                {formik.errors.lastname}
+              </div>
+            )}
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="mobile"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Mobile Number
+            </label>
+            <input
+              type="tel"
+              id="mobile"
+              name="mobile"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.mobile}
+              className="w-full p-2 border border-gray-300 rounded"
+            />
+            {formik.touched.mobile && formik.errors.mobile && (
+              <div className="mt-1 text-xs text-red-500">
+                {formik.errors.mobile}
+              </div>
+            )}
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              className="w-full p-2 border border-gray-300 rounded"
+            />
+            {formik.touched.email && formik.errors.email && (
+              <div className="mt-1 text-xs text-red-500">
+                {formik.errors.email}
+              </div>
+            )}
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              className="w-full p-2 border border-gray-300 rounded"
+            />
+            {formik.touched.password && formik.errors.password && (
+              <div className="mt-1 text-xs text-red-500">
+                {formik.errors.password}
+              </div>
+            )}
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="confirmpassword"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              id="confirmpassword"
+              name="confirmpassword"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.confirmpassword}
+              className="w-full p-2 border border-gray-300 rounded"
+            />
+            {formik.touched.confirmpassword &&
+              formik.errors.confirmpassword && (
+                <div className="mt-1 text-xs text-red-500">
+                  {formik.errors.confirmpassword}
+                </div>
+              )}
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="role"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Role
+            </label>
+            <select
+              id="role"
+              name="role"
+              onChange={formik.handleChange}
+              value={formik.values.role}
+              className="w-full p-2 border border-gray-300 rounded"
+            >
+              <option value="" disabled>
+                Select a role
+              </option>
+              {roles.map((role) => (
+                <option key={role} value={role} className="w-full p-2">
+                  {role.toUpperCase()}
+                </option>
+              ))}
+            </select>
+            {formik.touched.role && formik.errors.role && (
+              <div className="mt-1 text-red-500">{formik.errors.role}</div>
+            )}
+          </div>
+
+          <Status
+            {...statusUpdate}
+            showStatus={showStatus}
+            setShowStatus={setShowStatus}
+          />
+          <div className="text-center ">
+            <button
+              type="submit"
+              disabled={!formik.isValid || !formik.dirty}
+              className={`${
+                !formik.isValid || !formik.dirty
+                  ? "bg-slate-400 text-gray-500"
+                  : "bg-green-900 text-white "
+              }   py-2 px-4 font-bold rounded cursor-pointer shadow-md mb-4`}
+            >
+              {loading === "pending" ? "Creating User..." : "Create User"}
+            </button>
+          </div>
+        </form>
       </div>
     </section>
   );

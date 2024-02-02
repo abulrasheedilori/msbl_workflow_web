@@ -25,6 +25,7 @@ const RequestsTable = () => {
   const [dateError, setDateError] = useState("");
   const dispatch = useAppDispatch();
   const { listOfRequest } = useAppSelector((state) => state.auth);
+  const [requests, setRequests] = useState<any>(listOfRequest);
 
   useEffect(() => {
     dispatch(getAllRequestsFromAllUsers());
@@ -32,7 +33,7 @@ const RequestsTable = () => {
       "REQUEST_TABLE-LIST_OF_REQUESTS BEFORE MOUNTING: ",
       listOfRequest
     );
-  }, []);
+  }, [dispatch]);
 
   const flattenRequests = listOfRequest?.flatMap((request) => {
     const { comments, user, ...rest } = request;
@@ -110,38 +111,42 @@ const RequestsTable = () => {
   };
 
   return (
-    <section className="w-full h-[90vh] p-8 lg:pt-8 scroll-smooth">
-      <section className="h-[] bg-green-950 lg:static lg:bg-transparent">
-        <section className="flex flex-row justify-between item-center">
-          <header className="mx-2 text-xl font-bold text-white lg:text-black text-start lg:mx-8 lg:text-4xl">
+    <section className="w-screen h-[90vh] lg:p-8 lg:pt-8 scroll-smooth">
+      <section className="w-full lg:static lg:bg-transparent">
+        <section className="p-4">
+          <header className="my-4 text-xl font-bold text-black text-start lg:text-4xl">
             Audit Requests
           </header>
+          <p className="text-xs lg:text-lg">
+            You can filter all requests here and export it as an excel sheet for
+            auditing purpose.
+          </p>
         </section>
-        <section className="flex flex-col justify-center gap-1 mt-8 lg:items-center lg:flex-row">
+        <section className="flex flex-col justify-center w-full gap-1 p-4 mt-0 lg:mt-8 lg:items-center lg:flex-row">
           {/* <SearchFilter /> */}
-          <section className="flex flex-row justify-start gap-2">
-            <section className="flex flex-row gap-4 flex-start">
+          <section className="flex flex-col justify-start gap-2 lg:flex-row">
+            <section className="flex flex-col gap-2 lg:flex-row flex-start">
               <input
-                className="w-[96vw] lg:w-[12vw] p-2 h-[40px] focus:border-green-600 outline-none border-2 border-slate-200 rounded-lg shadow-sm"
+                className="w-full lg:w-[12vw] p-2 h-[40px] focus:border-green-600 outline-none border-2 border-slate-200 rounded-lg shadow-sm"
                 type="datetime-local"
                 value={startDate}
                 onChange={(e) => handleStartDate(e)}
                 onBlur={validateDates}
               />
               <input
-                className="w-[96vw] mx-[2vw] p-2 lg:w-[12vw] lg:mx-0 h-[40px] border-2 focus:border-green-600 outline-none border-slate-200 rounded-lg shadow-sm"
+                className="w-full mx-auto p-2 lg:w-[12vw] lg:mx-0 h-[40px] border-2 focus:border-green-600 outline-none border-slate-200 rounded-lg shadow-sm"
                 type="datetime-local"
                 value={endDate}
                 onChange={(e) => handleEndDate(e)}
                 onBlur={validateDates}
               />
               <button className="p-2 font-serif font-bold text-white bg-green-900 border border-green-800 rounded-lg hover:bg-green-600">
-                Filter Requests
+                Filter
               </button>
             </section>
             <section className="flex flex-row gap-4 flex-start">
               <button
-                className="p-2 font-serif font-bold text-green-900 bg-yellow-400 border border-green-800 rounded-lg hover:bg-green-600"
+                className="w-full p-2 font-serif font-bold text-green-900 bg-yellow-400 border border-green-800 rounded-lg lg:w-auto hover:bg-green-600"
                 onClick={exportToExcel}
               >
                 Export to Excel
@@ -157,7 +162,7 @@ const RequestsTable = () => {
         </section>
         <p className="pb-4 text-xs text-center text-red-500">{dateError}</p>
       </section>
-      <section className="w-[85vw] h-[73vh] overflow-auto">
+      <section className="w-full h-full lg:w-[85vw] lg:h-[73vh] overflow-auto">
         <table className="mx-auto bg-white border border-gray-300">
           <thead>
             <tr className="border border-gray-300 bg-slate-50 text-nowrap">
@@ -187,55 +192,47 @@ const RequestsTable = () => {
               </th>
             </tr>
           </thead>
+
           <tbody>
-            {listOfRequest?.length > 0 ? (
-              listOfRequest?.map((request) => (
-                <tr
-                  key={request.id}
-                  className=" text-nowrap hover:bg-green-900 hover:text-green-50"
-                >
-                  <td className="flex-1 border-b">{request.id}</td>
-                  <td className="py-2 border-b flex-3">{request.title}</td>
-                  <td className="flex-1 py-2 border-b">
-                    {request.status.toLocaleUpperCase()}
-                  </td>
-                  <td className="flex-1 py-2 border-b">{request.clientName}</td>
-                  <td className="flex-1 py-2 border-b">
-                    {request.clientEmail}
-                  </td>
-                  <td className="flex-1 py-2 border-b">
-                    {request.clientMobile}
-                  </td>
-                  <td className="flex-1 py-2 border-b">
-                    {request.isApproved ? "APPROVED" : "NOT_APPROVED"}
-                  </td>
-                  <td className="flex-1 py-2 border-b">
-                    {request.user.firstname + " " + request.user.lastname}
-                  </td>
-                  <td className="flex-1 py-2 border-b">
-                    {request.user.mobile}
-                  </td>
-                  <td className="py-2 border-b flex-3">{request.reqType}</td>
-                  <td className="flex-1 py-2 border-b">
-                    {new Date(request.createdAt).toUTCString()}
-                  </td>
-                  <td className="flex-1 py-2 border-b">
-                    {request.comments
-                      .map((comment) => comment.message)
-                      .join(", ")}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <section>
-                <h1 className="text-center"> REQUESTS STATUS</h1>
-                <p className="text-center">
-                  {listOfRequest.length === 0 && "No Requests to display"}
-                </p>
-              </section>
-            )}
+            {listOfRequest?.map((request) => (
+              <tr
+                key={request.id}
+                className=" text-nowrap hover:bg-green-900 hover:text-green-50"
+              >
+                <td className="flex-1 border-b">{request.id}</td>
+                <td className="py-2 border-b flex-3">{request.title}</td>
+                <td className="flex-1 py-2 border-b">
+                  {request.status.toLocaleUpperCase()}
+                </td>
+                <td className="flex-1 py-2 border-b">{request.clientName}</td>
+                <td className="flex-1 py-2 border-b">{request.clientEmail}</td>
+                <td className="flex-1 py-2 border-b">{request.clientMobile}</td>
+                <td className="flex-1 py-2 border-b">
+                  {request.isApproved ? "APPROVED" : "NOT_APPROVED"}
+                </td>
+                <td className="flex-1 py-2 border-b">
+                  {request.user.firstname + " " + request.user.lastname}
+                </td>
+                <td className="flex-1 py-2 border-b">{request.user.mobile}</td>
+                <td className="py-2 border-b flex-3">{request.reqType}</td>
+                <td className="flex-1 py-2 border-b">
+                  {new Date(request.createdAt).toUTCString()}
+                </td>
+                <td className="flex-1 py-2 border-b">
+                  {request.comments
+                    .map((comment) => comment.message)
+                    .join(", ")}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
+        {listOfRequest.length === 0 && (
+          <section className="w-48 h-auto p-4 mx-auto mt-16 bg-white rounded-md shadow-md">
+            <h1 className="mb-4 font-bold text-center"> REQUESTS STATUS</h1>
+            <p className="text-center">No Requests to display</p>
+          </section>
+        )}
       </section>
     </section>
   );
