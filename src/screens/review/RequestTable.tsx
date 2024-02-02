@@ -36,32 +36,32 @@ const RequestsTable: React.FC<RequestsTableProps> = ({ requests }) => {
     );
   }, []);
 
-  const flattenRequests = listOfRequest.flatMap((request) => {
-    const { comments, user, ...rest } = request; // Exclude the password field
+  const flattenRequests = listOfRequest?.flatMap((request) => {
+    const { comments, user, ...rest } = request;
     const sortedComments = comments
-      .slice() // Create a copy to avoid modifying the original array
+      .slice()
       .sort(
         (a, b) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       )
-      .map((comment) => comment.message)
-      .join(", "); // Concatenate comments in descending order
+      .map((comment) => comment.message + `[${comment.createdAt}]`)
+      .join(", ");
 
     return [
       {
-        ID: request.id,
-        TITLE: request.title,
+        ID: request?.id,
+        TITLE: request?.title,
         "REQUEST STATUS": request.status,
-        "CLIENT NAME": request.clientName,
-        "CLIENT EMAIL": request.clientEmail,
-        "CLIENT MOBILE": request.clientMobile,
-        "APPROVAL STATUS": request.isApproved ? "APPROVED" : "NOT_APPROVED",
-        INITIATOR: request.user.firstname + " " + request.user.lastname,
-        "INITIATOR MOBILE": request.user.mobile,
-        "REQUEST TYPE OR SLA": request.reqType,
-        "CREATION DATE": new Date(request.createdAt).toLocaleString(),
+        "CLIENT NAME": request?.clientName,
+        "CLIENT EMAIL": request?.clientEmail,
+        "CLIENT MOBILE": request?.clientMobile,
+        "APPROVAL STATUS": request?.isApproved ? "APPROVED" : "NOT_APPROVED",
+        INITIATOR: request?.user.firstname + " " + request?.user.lastname,
+        "INITIATOR MOBILE": request?.user.mobile,
+        "REQUEST TYPE OR SLA": request?.reqType,
+        "CREATION DATE": new Date(request?.createdAt).toLocaleString(),
         COMMENTS: sortedComments,
-      }, // Include the main request information with sorted comments
+      },
     ];
   });
 
@@ -94,7 +94,7 @@ const RequestsTable: React.FC<RequestsTableProps> = ({ requests }) => {
           "Comment",
         ],
       ],
-      body: listOfRequest.map((request) => [
+      body: listOfRequest?.map((request) => [
         request.id,
         request.title,
         request.status,
@@ -228,7 +228,7 @@ const RequestsTable: React.FC<RequestsTableProps> = ({ requests }) => {
             </tr>
           </thead>
           <tbody>
-            {listOfRequest.length > 0 ? (
+            {listOfRequest?.length > 0 ? (
               listOfRequest?.map((request) => (
                 <tr
                   key={request.id}
