@@ -11,7 +11,7 @@ import User, {
 } from "./apiTypes";
 
 const api = axios.create({
-  baseURL: process.env.BASE_URL,
+  baseURL: process.env.REACT_APP_BASE_URL,
 });
 // api.defaults.headers.common["Access-Control-Allow-Origin"] = origin;
 // api.defaults.headers.common["Access-Control-Allow-Headers"] =
