@@ -28,7 +28,7 @@ const App = () => {
             <Route path="create-request" element={<CreateRequest />} />
             <Route path="create-user" element={<CreateUser />} />
             <Route path="manage-user" element={<ViewUsersScreen />} />
-            <Route path="audit" element={<RequestTable requests={[]} />} />
+            <Route path="audit" element={<RequestTable />} />
           </Route>
         ) : (
           <Route path="*" element={<Homepage />} />
