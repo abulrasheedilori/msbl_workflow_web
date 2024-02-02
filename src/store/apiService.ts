@@ -11,7 +11,7 @@ import User, {
 } from "./apiTypes";
 
 const api = axios.create({
-  baseURL: "https://msblworkflow-46do3.ondigitalocean.app/",
+  baseURL: process.env.BASE_URL,
 });
 // api.defaults.headers.common["Access-Control-Allow-Origin"] = origin;
 // api.defaults.headers.common["Access-Control-Allow-Headers"] =
