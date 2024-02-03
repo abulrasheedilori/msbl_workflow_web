@@ -1,6 +1,7 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { useEffect, useState } from "react";
+import { FaFilter } from "react-icons/fa";
 import * as XLSX from "xlsx";
 import {
   filterRequest,
@@ -22,20 +23,44 @@ interface RequestsTableProps {
 const RequestsTable = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [dateError, setDateError] = useState("");
+  const [isDateValid, setIsDateValid] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { listOfRequest } = useAppSelector((state) => state.auth);
-  const [requests, setRequests] = useState<any>(listOfRequest);
+  const [requests, setRequests] = useState(listOfRequest);
+  const [showFilter, setShowFilter] = useState(false);
 
   useEffect(() => {
-    dispatch(getAllRequestsFromAllUsers());
-    console.log(
-      "REQUEST_TABLE-LIST_OF_REQUESTS BEFORE MOUNTING: ",
-      listOfRequest
-    );
+    dispatch(getAllRequestsFromAllUsers())
+      .then((response) => setRequests(response.payload.data.data))
+      .catch((error) =>
+        console.log(
+          "AUDIT_REQ: ON MOUNT - dispatch getAllRequestsFromAllUsers: ",
+          error
+        )
+      );
   }, [dispatch]);
 
-  const flattenRequests = listOfRequest?.flatMap((request) => {
+  useEffect(() => {
+    // Check if startDate and endDate are not empty strings
+    const isValidStartDate = startDate !== "";
+    const isValidEndDate = endDate !== "";
+
+    // Check date validity conditions
+    const isDateValid =
+      isValidStartDate &&
+      isValidEndDate &&
+      new Date(startDate) <= new Date(endDate) &&
+      new Date(endDate) <= new Date();
+
+    // Set the state
+    setIsDateValid(isDateValid);
+  }, [startDate, endDate]);
+
+  const handleShowFilter = () => {
+    setShowFilter(!showFilter);
+  };
+
+  const flattenRequests = requests?.flatMap((request) => {
     const { comments, user, ...rest } = request;
     const sortedComments = comments
       .slice()
@@ -70,98 +95,104 @@ const RequestsTable = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Requests");
     XLSX.writeFile(
       workbook,
-      "requests_audit_for_" + new Date().toUTCString() + ".xlsx"
+      "requests_audit_until_" + new Date().toUTCString() + ".xlsx"
     );
   };
 
-  const validateDates = async () => {
-    if (startDate === "" || endDate === "") {
-      return setDateError("Neither start date/end date must be empty!");
-    }
-    setDateError("");
-    const startDateObj = new Date(startDate);
-    const endDateObj = new Date(endDate);
-
-    if (endDateObj < startDateObj) {
-      setDateError("End Date must not be before Start Date.");
-      setEndDate("");
-      return;
-    }
-
-    setDateError("");
+  const filterRequestByDate = async () => {
     const filterReq: FilteredReqType = {
       startDate,
       endDate,
     };
+
+    if (!isDateValid) {
+      console.log(isDateValid);
+      setStartDate("");
+      setEndDate("");
+      return;
+    }
+
     dispatch(filterRequest(filterReq))
-      .then(() => {
+      .then((response) => {
+        setRequests(response.payload.data.data);
         setStartDate("");
         setEndDate("");
       })
-      .catch((error: any) => setDateError(error.message));
+      .catch((error: any) => setIsDateValid(false));
   };
 
+  //Handle Select Start Date
   const handleStartDate = (e: any) => {
     setStartDate(e.target.value);
     e.target.blur();
   };
+  //Handle select End Date
   const handleEndDate = (e: any) => {
     setEndDate(e.target.value);
     e.target.blur();
   };
 
   return (
-    <section className="w-screen h-[90vh] lg:p-8 lg:pt-8 scroll-smooth">
+    <section className="relative w-screen h-[90vh] lg:p-8 lg:pt-8 scroll-smooth">
       <section className="w-full lg:static lg:bg-transparent">
-        <section className="p-4">
-          <header className="my-4 text-xl font-bold text-black text-start lg:text-4xl">
-            Audit Requests
-          </header>
+        <section className="p-4 mb-4">
+          <section className="flex items-center justify-between fle-row">
+            <header className="my-4 text-xl font-bold text-black text-start lg:text-4xl">
+              Audit Requests
+            </header>
+            <FaFilter color="black" size={18} onClick={handleShowFilter} />
+          </section>
           <p className="text-xs lg:text-lg">
             You can filter all requests here and export it as an excel sheet for
             auditing purpose.
           </p>
         </section>
-        <section className="flex flex-col justify-center w-full gap-1 p-4 mt-0 lg:mt-8 lg:items-center lg:flex-row">
-          {/* <SearchFilter /> */}
-          <section className="flex flex-col justify-start gap-2 lg:flex-row">
-            <section className="flex flex-col gap-2 lg:flex-row flex-start">
-              <input
-                className="w-full lg:w-[12vw] p-2 h-[40px] focus:border-green-600 outline-none border-2 border-slate-200 rounded-lg shadow-sm"
-                type="datetime-local"
-                value={startDate}
-                onChange={(e) => handleStartDate(e)}
-                onBlur={validateDates}
-              />
-              <input
-                className="w-full mx-auto p-2 lg:w-[12vw] lg:mx-0 h-[40px] border-2 focus:border-green-600 outline-none border-slate-200 rounded-lg shadow-sm"
-                type="datetime-local"
-                value={endDate}
-                onChange={(e) => handleEndDate(e)}
-                onBlur={validateDates}
-              />
-              <button className="p-2 font-serif font-bold text-white bg-green-900 border border-green-800 rounded-lg hover:bg-green-600">
-                Filter
-              </button>
+        {showFilter && (
+          <section className="fixed transition-opacity duration-300 ease-in-out bg-white rounded-md opacity-100 lg:static lg:bg-transparent top-40 left-2 right-2 hover:opacity-100">
+            <section className="flex flex-col justify-center  w-[94vw] mx-auto lg:w-fit gap-1 p-4 mt-0  lg:mt-8 lg:items-center lg:flex-row">
+              <section className="flex flex-col justify-start gap-2 lg:flex-row">
+                <section className="flex flex-col gap-2 lg:flex-row flex-start">
+                  <input
+                    className="w-full lg:w-[12vw] p-2 h-[40px] focus:border-green-600 outline-none border-2 border-slate-200 rounded-lg shadow-sm"
+                    type="date"
+                    value={startDate}
+                    onChange={(e) => handleStartDate(e)}
+                    // onBlur={validateDates}
+                  />
+                  <input
+                    className="w-full mx-auto p-2 lg:w-[12vw] lg:mx-0 h-[40px] border-2 focus:border-green-600 outline-none border-slate-200 rounded-lg shadow-sm"
+                    type="date"
+                    value={endDate}
+                    onChange={(e) => handleEndDate(e)}
+                    // onBlur={validateDates}
+                  />
+                  <button
+                    onClick={filterRequestByDate}
+                    className="p-2 font-serif font-bold text-white bg-green-900 border border-green-800 rounded-lg hover:bg-green-600"
+                  >
+                    Filter
+                  </button>
+                </section>
+                <section className="flex flex-row gap-4 flex-start">
+                  <button
+                    className="w-full p-2 font-serif font-bold text-green-900 bg-yellow-400 border border-green-800 rounded-lg lg:w-auto hover:bg-green-600"
+                    onClick={exportToExcel}
+                  >
+                    Export to Excel
+                  </button>
+                </section>
+              </section>
             </section>
-            <section className="flex flex-row gap-4 flex-start">
-              <button
-                className="w-full p-2 font-serif font-bold text-green-900 bg-yellow-400 border border-green-800 rounded-lg lg:w-auto hover:bg-green-600"
-                onClick={exportToExcel}
-              >
-                Export to Excel
-              </button>
-              {/* <button
-                className="p-2 font-serif font-bold text-green-900 bg-red-400 border border-green-800 rounded-lg hover:bg-green-600"
-                onClick={exportToPDF}
-              >
-                Export to PDF
-              </button> */}
-            </section>
+            {!isDateValid && (
+              <p className="px-4 pb-4 text-xs text-center text-red-500">
+                start date must not be greater than end date. All fields are
+                required.
+              </p>
+            )}
           </section>
-        </section>
-        <p className="pb-4 text-xs text-center text-red-500">{dateError}</p>
+        )}
       </section>
+
       <section className="w-full h-full lg:w-[85vw] lg:h-[73vh] overflow-auto">
         <table className="mx-auto bg-white border border-gray-300">
           <thead>
@@ -194,7 +225,7 @@ const RequestsTable = () => {
           </thead>
 
           <tbody>
-            {listOfRequest?.map((request) => (
+            {requests?.map((request) => (
               <tr
                 key={request.id}
                 className=" text-nowrap hover:bg-green-900 hover:text-green-50"
@@ -227,9 +258,9 @@ const RequestsTable = () => {
             ))}
           </tbody>
         </table>
-        {listOfRequest.length === 0 && (
-          <section className="w-48 h-auto p-4 mx-auto mt-16 bg-white rounded-md shadow-md">
-            <h1 className="mb-4 font-bold text-center"> REQUESTS STATUS</h1>
+        {requests.length === 0 && (
+          <section className="fixed w-48 h-auto p-4 transition-opacity duration-500 ease-in-out transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-md shadow-md opacity-0 top-1/2 left-1/2 hover:opacity-100">
+            <h1 className="mb-4 font-bold text-center">REQUESTS STATUS</h1>
             <p className="text-center">No Requests to display</p>
           </section>
         )}

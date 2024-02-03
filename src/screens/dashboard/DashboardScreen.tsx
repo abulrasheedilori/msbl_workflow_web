@@ -42,14 +42,14 @@ const DashboardScreen: React.FC = () => {
   };
 
   return (
-    <section className="w-screen h-screen border-2 border-red-700">
+    <section className="w-screen h-screen">
       <section className=" w-full h-[10vh] bg-green-950 flex flex-row justify-between items-center">
         <img
           src={require("../../asset/images/meristem_name_logo.png")}
           alt=""
           className="bg-green-200 w-50 h-5 lg:w-[200px] lg:h-12 rounded-xl shadow-md m-1 lg:m-8 animate-bounce"
         />
-        <span className="font-bold text-center text-white lg:p-8 lg:text-5xl lg:flex">
+        <span className="hidden font-bold text-center text-white lg:p-8 lg:text-5xl lg:flex">
           MSBL DASHBOARD
         </span>
         {showMenu ? (
