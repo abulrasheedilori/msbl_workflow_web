@@ -11,7 +11,7 @@ import StatusUpdateLayout from "../components/StatusUpdateLayout";
 const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { error } = useAppSelector((state) => state.auth);
+  const { error, loading } = useAppSelector((state) => state.auth);
   const [statusUpdate, setStatusUpdate] =
     useState<StatusUpdatePropsType | null>(null);
 
@@ -113,7 +113,7 @@ const LoginScreen: React.FC = () => {
           }`}
           disabled={formik.isSubmitting || !formik.isValid}
         >
-          Log In
+          {loading === "pending" ? "Processing..." : "Log In"}
         </button>
       </form>
     </div>

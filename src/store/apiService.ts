@@ -13,6 +13,12 @@ import User, {
 const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   timeout: 10000,
+  // onUploadProgress: (e) => {
+  //   return e.progress;
+  // },
+  // onDownloadProgress: (e) => {
+  //   return e.progress;
+  // },
 });
 // api.defaults.headers.common["Access-Control-Allow-Origin"] = origin;
 // api.defaults.headers.common["Access-Control-Allow-Headers"] =

@@ -1,4 +1,3 @@
-import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa";
@@ -7,18 +6,8 @@ import {
   filterRequest,
   getAllRequestsFromAllUsers,
 } from "../../store/apiService";
-import { FilteredReqType, RequestType } from "../../store/apiTypes";
+import { FilteredReqType } from "../../store/apiTypes";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-
-class ExtendedPDF extends jsPDF {
-  autoTable = (options: object) => {
-    // @ts-ignore
-    jsPDF.API.autoTable.apply(this, [this, options]);
-  };
-}
-interface RequestsTableProps {
-  requests: RequestType[];
-}
 
 const RequestsTable = () => {
   const [startDate, setStartDate] = useState("");
@@ -66,22 +55,22 @@ const RequestsTable = () => {
       .slice()
       .sort(
         (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          new Date(b?.createdAt).getTime() - new Date(a?.createdAt).getTime()
       )
-      .map((comment) => comment.message + `[${comment.createdAt}]`)
+      .map((comment) => comment?.message + `[${comment?.createdAt}]`)
       .join(", ");
 
     return [
       {
         ID: request?.id,
         TITLE: request?.title,
-        "REQUEST STATUS": request.status,
+        "REQUEST STATUS": request?.status,
         "CLIENT NAME": request?.clientName,
         "CLIENT EMAIL": request?.clientEmail,
         "CLIENT MOBILE": request?.clientMobile,
         "APPROVAL STATUS": request?.isApproved ? "APPROVED" : "NOT_APPROVED",
-        INITIATOR: request?.user.firstname + " " + request?.user.lastname,
-        "INITIATOR MOBILE": request?.user.mobile,
+        INITIATOR: request?.user?.firstname + " " + request?.user?.lastname,
+        "INITIATOR MOBILE": request?.user?.mobile,
         "REQUEST TYPE OR SLA": request?.reqType,
         "CREATION DATE": new Date(request?.createdAt).toLocaleString(),
         COMMENTS: sortedComments,
@@ -114,7 +103,7 @@ const RequestsTable = () => {
 
     dispatch(filterRequest(filterReq))
       .then((response) => {
-        setRequests(response.payload.data.data);
+        setRequests(response.payload?.data?.data);
         setStartDate("");
         setEndDate("");
       })
@@ -185,7 +174,7 @@ const RequestsTable = () => {
             </section>
             {!isDateValid && (
               <p className="px-4 pb-4 text-xs text-center text-red-500">
-                start date must not be greater than end date. All fields are
+                Start date must not be greater than end date. All fields are
                 required.
               </p>
             )}
@@ -227,38 +216,38 @@ const RequestsTable = () => {
           <tbody>
             {requests?.map((request) => (
               <tr
-                key={request.id}
+                key={request?.id}
                 className=" text-nowrap hover:bg-green-900 hover:text-green-50"
               >
-                <td className="flex-1 border-b">{request.id}</td>
-                <td className="py-2 border-b flex-3">{request.title}</td>
-                <td className="flex-1 py-2 border-b">
-                  {request.status.toLocaleUpperCase()}
+                <td className="flex-1 border-b">{request?.id}</td>
+                <td className="p-2 border-b flex-3">{request?.title}</td>
+                <td className="flex-1 p-2 border-b">
+                  {request?.status?.toLocaleUpperCase()}
                 </td>
-                <td className="flex-1 py-2 border-b">{request.clientName}</td>
-                <td className="flex-1 py-2 border-b">{request.clientEmail}</td>
-                <td className="flex-1 py-2 border-b">{request.clientMobile}</td>
-                <td className="flex-1 py-2 border-b">
-                  {request.isApproved ? "APPROVED" : "NOT_APPROVED"}
+                <td className="flex-1 p-2 border-b">{request?.clientName}</td>
+                <td className="flex-1 p-2 border-b">{request?.clientEmail}</td>
+                <td className="flex-1 p-2 border-b">{request?.clientMobile}</td>
+                <td className="flex-1 p-2 border-b">
+                  {request?.isApproved ? "APPROVED" : "NOT_APPROVED"}
                 </td>
-                <td className="flex-1 py-2 border-b">
-                  {request.user.firstname + " " + request.user.lastname}
+                <td className="flex-1 p-2 border-b">
+                  {request?.user?.firstname + " " + request?.user?.lastname}
                 </td>
-                <td className="flex-1 py-2 border-b">{request.user.mobile}</td>
-                <td className="py-2 border-b flex-3">{request.reqType}</td>
-                <td className="flex-1 py-2 border-b">
-                  {new Date(request.createdAt).toUTCString()}
+                <td className="flex-1 p-2 border-b">{request?.user?.mobile}</td>
+                <td className="p-2 border-b flex-3">{request?.reqType}</td>
+                <td className="flex-1 p-2 border-b">
+                  {new Date(request?.createdAt).toUTCString()}
                 </td>
-                <td className="flex-1 py-2 border-b">
-                  {request.comments
-                    .map((comment) => comment.message)
+                <td className="flex-1 p-2 border-b">
+                  {request?.comments
+                    .map((comment) => comment?.message)
                     .join(", ")}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        {requests.length === 0 && (
+        {requests?.length === 0 && (
           <section className="fixed w-48 h-auto p-4 transition-opacity duration-500 ease-in-out transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-md shadow-md opacity-0 top-1/2 left-1/2 hover:opacity-100">
             <h1 className="mb-4 font-bold text-center">REQUESTS STATUS</h1>
             <p className="text-center">No Requests to display</p>

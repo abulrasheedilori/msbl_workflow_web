@@ -110,8 +110,8 @@ const DashboardScreen: React.FC = () => {
                 Create Request
               </Link>
             )}
-            {user?.roles.includes("ROLE_ADMIN") ||
-              (user?.roles.includes("ROLE_SUPERVISOR") && (
+            {user?.roles?.includes("ROLE_ADMIN") ||
+              (user?.roles?.includes("ROLE_SUPERVISOR") && (
                 <Link
                   to="/dashboard/manage-user"
                   onClick={() => handleSelectedRoute("MANAGE_USER")}
@@ -122,6 +122,7 @@ const DashboardScreen: React.FC = () => {
                   Manage Users
                 </Link>
               ))}
+
             {user && user.roles[0] === "ROLE_ADMIN" && (
               <Link
                 to="/dashboard/create-user"

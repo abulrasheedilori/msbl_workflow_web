@@ -1,10 +1,7 @@
 import { useEffect } from "react";
 import { FaShoppingBasket } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import {
-  getAllRequestsFromAllUsers,
-  getRequestsWithComments,
-} from "../../store/apiService";
+import { getRequestsWithComments } from "../../store/apiService";
 import { RequestResponseType } from "../../store/apiTypes";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import formatDate from "../../utils/formatDate";
@@ -17,15 +14,7 @@ const ViewRequest = () => {
   const { listOfRequest, user } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    if (
-      user?.roles.includes("ROLE_SUPERVISOR") ||
-      user?.roles.includes("ROLE_OPERATOR")
-    ) {
-      dispatch(getAllRequestsFromAllUsers());
-    }
-    if (user?.roles.includes("ROLE_INITIATOR")) {
-      dispatch(getRequestsWithComments());
-    }
+    dispatch(getRequestsWithComments());
   }, [dispatch, user?.roles]);
 
   const handleViewRequest = (id: number) => {
@@ -44,9 +33,9 @@ const ViewRequest = () => {
           <SearchFilter />
         </section>
       </section>
-      {listOfRequest.length > 0 ? (
+      {listOfRequest?.length > 0 ? (
         <section className="flex flex-col justify-start p-2 l lg:flex-wrap lg:flex-row">
-          {listOfRequest.map((item: RequestResponseType) => {
+          {listOfRequest?.map((item: RequestResponseType) => {
             const { id, title, message, status, createdAt } = item;
 
             return (
@@ -55,7 +44,7 @@ const ViewRequest = () => {
                 onClick={() => handleViewRequest(id)}
                 className="relative w-full lg:w-[17vw] my-1 lg:mx-2 bg-slate-50 p-8 shadow-md rounded-md border-2 hover:bg-green-200 hover:border-green-900"
               >
-                {item.status && (
+                {item?.status && (
                   <span className="absolute p-2 text-sm shadow-md top-2 right-2 bg-red-50 rounded-xl">
                     {status?.toUpperCase()}
                   </span>

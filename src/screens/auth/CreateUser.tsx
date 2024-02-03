@@ -44,7 +44,7 @@ const CreateUser: React.FC = () => {
           "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
         ),
       confirmpassword: Yup.string()
-        .oneOf([Yup.ref("confirmpassword"), ""], "Passwords must match")
+        .oneOf([Yup.ref("password"), ""], "Passwords must match")
         .required("Confirm Password is required"),
       // gender: Yup.string().required("Required"),
     }),
@@ -84,8 +84,8 @@ const CreateUser: React.FC = () => {
           console.log("ERROR IN SIGN UP: ", err);
           setStatusUpdate({
             status: "error",
-            title: "Failed",
-            message: error!,
+            title: "Error Creating User",
+            message: "An unexpected error occur while creating a new user",
           });
           setShowStatus(true);
         });
@@ -93,7 +93,7 @@ const CreateUser: React.FC = () => {
   });
 
   return (
-    <section className="w-full h-full overflow-y-auto border-2 border-blue-700 lg:w-full">
+    <section className="w-full h-full overflow-y-auto lg:w-full">
       <header className="hidden p-8 text-xl font-bold text-green-900 lg:flex lg:text-4xl">
         New User
       </header>
