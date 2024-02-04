@@ -24,14 +24,21 @@ const Homepage = () => {
         <img src={bgImage} alt="" className="w-screen h-full opacity-40" />
 
         <p className="absolute hidden text-4xl text-white lg:flex z-100 top-36 left-16">
-          Welcome to MSBL
+          Welcome to MSBL Workflow !
         </p>
-        <p className="absolute hidden text-4xl text-white lg:flex z-100 top-48 left-20">
+        {/* <p className="absolute hidden text-4xl text-white lg:flex z-100 top-48 left-20 animate-spin animate-ping">
           a new world
         </p>
-        <p className="absolute hidden text-4xl text-white lg:flex z-100 top-60 left-24">
+        <p className="absolute hidden text-4xl text-white lg:flex z-100 top-60 left-24 animate-spin animate-ping">
           of resolving and managing your client's expectation...
+        </p> */}
+        <p className="absolute hidden text-3xl text-green-500 duration-50 lg:flex z-100 top-48 left-24 ">
+          ... a green world
         </p>
+        <p className="absolute hidden text-2xl text-green-200 duration-50 lg:flex z-100 top-60 left-36 overflow-clip overflow-ellipsis">
+          of resolving and managing your client's expectation
+        </p>
+
         <LoginScreen />
       </section>
     </section>
