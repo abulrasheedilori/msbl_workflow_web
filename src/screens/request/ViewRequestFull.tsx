@@ -43,6 +43,7 @@ const ViewRequestFull = () => {
   const [statusUpdate, setStatusUpdate] =
     useState<UpdatePropType>(initialUpdates);
   const [showStatus, setShowStatus] = useState<boolean>(false);
+  const [reload, setReload] = useState<number>(0);
 
   const dispatch = useAppDispatch();
   const { loading, user, error } = useAppSelector((state) => state.auth);
@@ -141,7 +142,7 @@ const ViewRequestFull = () => {
     };
 
     fetchData(id!);
-  }, [dispatch, id]);
+  }, [dispatch, id, reload]);
 
   const goBack = () => {
     navigate("/dashboard");
@@ -157,6 +158,7 @@ const ViewRequestFull = () => {
             title: "Successful",
             message: response.payload.data.message,
           });
+          setReload((prev) => prev + 1);
           setShowStatus(true);
         } else {
           setStatusUpdate({
@@ -165,10 +167,6 @@ const ViewRequestFull = () => {
             message: response.payload.response.data.message,
           });
         }
-      })
-      .then(() => {
-        // user?.roles.includes("ROLE_OPERATOR") &&
-        dispatch(getRequestById(paramId));
       })
       .catch((err: any) => {
         // console.log("ERROR IN ASSIGN_ROLES: ", err);

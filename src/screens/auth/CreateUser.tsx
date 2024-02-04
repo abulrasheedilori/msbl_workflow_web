@@ -97,7 +97,7 @@ const CreateUser: React.FC = () => {
       <header className="hidden p-8 text-xl font-bold text-green-900 lg:flex lg:text-4xl">
         New User
       </header>
-      <div className=" w-full h-full p-8 lg:w-[33vw]  mx-auto rounded-xl shadow-lg border-2 border-grey">
+      <div className=" w-full p-8 lg:w-[33vw]  mx-auto rounded-xl shadow-lg border-2 border-grey">
         {/* <div className="flex-1 border-2 border-green-700 "> */}
         <h2 className="text-2xl font-bold text-center">Create New User</h2>
         <p className="p-4 pl-0 text-justify">

@@ -58,7 +58,7 @@ const ViewUsersScreen = () => {
               .filter((user) => !user.roles.includes("ROLE_ADMIN"))
               .map((user_, index) => (
                 <tr
-                  key={user_.id}
+                  key={user_.id?.toString()}
                   className="flex flex-row gap-4 p-4 my-1 text-center shadow-sm lg:gap-8 hover:bg-green-300"
                 >
                   <td className="w-4 size-fit">{index + 1}</td>
