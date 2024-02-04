@@ -331,8 +331,7 @@ const ViewRequestFull = () => {
             showStatus={showStatus}
             setShowStatus={setShowStatus}
           />
-          {selectedReq &&
-            !selectedReq.isApproved &&
+          {!selectedReq?.isApproved &&
             user?.roles.includes("ROLE_OPERATOR") && (
               <section className="flex flex-row justify-start gap-4 m-4 item-center">
                 <span
@@ -341,12 +340,6 @@ const ViewRequestFull = () => {
                 >
                   Approve
                 </span>
-                {/* <span
-                  onClick={() => handleAuthorizeRequest(paramId, false)}
-                  className="w-24 p-2 text-center text-white bg-red-500 rounded-md cursor-pointer hover:bg-red-700 hover:text-md"
-                >
-                  Reject
-                </span> */}
               </section>
             )}
         </section>
@@ -359,10 +352,11 @@ const ViewRequestFull = () => {
             <p className="text-md text-left border-green-200 lg:w-[30vw]">
               {selectedReq?.message ?? "Loading..."}
             </p>
-            <p className="font-serif text-xs text-right text-slate-500 ">
-              {/* {"Created on: " + formatDate(selectedReq!.createdAt!) ??
-                "Loading..."} */}
-            </p>
+            {selectedReq && (
+              <p className="font-serif text-xs text-right text-slate-500 ">
+                {formatDate(selectedReq.createdAt)}
+              </p>
+            )}
           </section>
           {/* ------display comments ------------- */}
           <section className="p-4 my-4 border border-green-100">

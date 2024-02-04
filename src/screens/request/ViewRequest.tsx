@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { FaShoppingBasket } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { getRequestsWithComments } from "../../store/apiService";
+import { getAllRequestsFromAllUsers } from "../../store/apiService";
 import { RequestResponseType } from "../../store/apiTypes";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import formatDate from "../../utils/formatDate";
@@ -14,7 +14,7 @@ const ViewRequest = () => {
   const { listOfRequest, user } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    dispatch(getRequestsWithComments());
+    dispatch(getAllRequestsFromAllUsers());
   }, [dispatch, user?.roles]);
 
   const handleViewRequest = (id: number) => {

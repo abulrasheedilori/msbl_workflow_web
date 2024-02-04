@@ -12,7 +12,7 @@ import User, {
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
-  timeout: 10000,
+  timeout: 30000,
   // onUploadProgress: (e) => {
   //   return e.progress;
   // },

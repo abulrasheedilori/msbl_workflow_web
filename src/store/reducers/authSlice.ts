@@ -112,7 +112,7 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(getRequestsWithComments.fulfilled, (state, action) => {
-        state.listOfRequest = action.payload?.data.data;
+        state.listOfRequest = action.payload?.data?.data;
         state.loading = "succeeded";
       })
       .addCase(getRequestsWithComments.rejected, (state, action: any) => {
