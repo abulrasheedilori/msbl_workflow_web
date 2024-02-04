@@ -58,7 +58,7 @@ const ViewRequestFull = () => {
           setParamId(parsedId);
           await dispatch(getRequestById(parsedId))
             .then((response) => {
-              console.log("REQUEST RESPONSE BY ID: ", response);
+              // console.log("REQUEST RESPONSE BY ID: ", response);
               if (response.payload.status === 200) {
                 const request = response.payload.data.data;
                 setSelectedReq(request);
@@ -158,7 +158,7 @@ const ViewRequestFull = () => {
             title: "Successful",
             message: response.payload.data.message,
           });
-          setReload((prev) => prev + 1);
+          setReload(1);
           setShowStatus(true);
         } else {
           setStatusUpdate({
@@ -243,7 +243,7 @@ const ViewRequestFull = () => {
       <header className="mx-8 text-xl font-bold text-center lg:text-4xl">
         Request Details
       </header>
-      <section className="relative h-auto p-4 mx-auto my-8 border rounded-md ">
+      <section className="relative h-auto p-4 mx-auto my-8 border rounded-md lg:p-16 ">
         <span className="text-sm lg:text.md absolute p-2 shadow-md top-2 right-2 bg-red-50 rounded-xl">
           {selectedReq?.status?.toUpperCase() ?? "Loading..."}
         </span>
@@ -257,7 +257,7 @@ const ViewRequestFull = () => {
           {request ? (
             request.map((item) => (
               <div
-                key={item.id}
+                key={item.id.toString()}
                 className="flex flex-col w-full my-4 lg:flex-row item-center"
               >
                 <label

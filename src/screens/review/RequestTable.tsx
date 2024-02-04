@@ -130,6 +130,14 @@ const RequestsTable = () => {
     e.target.blur();
   };
 
+  if (!requests) {
+    return (
+      <section className="w-full h-full">
+        <header className="text-2xl text-center lg:text-4xl">Loading...</header>
+      </section>
+    );
+  }
+
   return (
     <section className="relative w-screen h-[90vh] lg:p-8 lg:pt-8 scroll-smooth">
       <section className="w-full lg:static lg:bg-transparent">

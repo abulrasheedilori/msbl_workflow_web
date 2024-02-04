@@ -58,14 +58,14 @@ const ViewRequest = () => {
                   {title}
                 </p>
                 <section>
-                  <p className="pt-2 pb-8 text-sm border-green-100 text border-y-2">
+                  <p className="pt-2 pb-8 overflow-hidden text-sm border-green-100 overflow-ellipsis text border-y-2">
                     {message}
                   </p>
-                  {/* <span className="mt-4 text-xs font-semibold">
+                  <span className="mt-4 text-xs font-semibold">
                     Created on:
-                  </span> */}
+                  </span>
                   <p className="font-serif text-xs text-right ">
-                    {formatDate(createdAt)}
+                    {formatDate?.(createdAt)}
                   </p>
                 </section>
               </section>

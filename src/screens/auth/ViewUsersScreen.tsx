@@ -37,6 +37,10 @@ const ViewUsersScreen = () => {
       <header className="py-8 text-xl font-bold lg:text-4xl">
         Manage Users
       </header>
+      <p className="mx-8 my-4 text-xs lg:text-lg">
+        You can filter all requests here and export it as an excel sheet for
+        auditing purpose.
+      </p>
       <section className="w-full overflow-auto">
         <table className="w-auto">
           <thead>

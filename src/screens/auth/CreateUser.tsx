@@ -46,7 +46,6 @@ const CreateUser: React.FC = () => {
       confirmpassword: Yup.string()
         .oneOf([Yup.ref("password"), ""], "Passwords must match")
         .required("Confirm Password is required"),
-      // gender: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
       const { firstname, lastname, role, email, username, mobile, password } =
@@ -60,7 +59,7 @@ const CreateUser: React.FC = () => {
         password,
         roles: [role.toLowerCase()],
       };
-      console.log("Sign UP submitted:", user);
+      // console.log("Sign UP submitted:", user);
       dispatch(signup(user))
         .then((response) => {
           // console.log("SIGN IN RESPONSE : ", response);
@@ -98,7 +97,6 @@ const CreateUser: React.FC = () => {
         New User
       </header>
       <div className=" w-full p-8 lg:w-[33vw]  mx-auto rounded-xl shadow-lg border-2 border-grey">
-        {/* <div className="flex-1 border-2 border-green-700 "> */}
         <h2 className="text-2xl font-bold text-center">Create New User</h2>
         <p className="p-4 pl-0 text-justify">
           Kindly create a user and assign its role here
@@ -121,7 +119,7 @@ const CreateUser: React.FC = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.username}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-2 border rounded outline-none focus:border-green-900 "
             />
             {formik.touched.username && formik.errors.username && (
               <div className="mt-1 text-xs text-red-500">
@@ -143,7 +141,7 @@ const CreateUser: React.FC = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.firstname}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-2 border rounded outline-none focus:border-green-900 "
             />
             {formik.touched.firstname && formik.errors.firstname && (
               <div className="mt-1 text-xs text-red-500">
@@ -165,7 +163,7 @@ const CreateUser: React.FC = () => {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.lastname}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-2 border rounded outline-none focus:border-green-900 "
             />
             {formik.touched.lastname && formik.errors.lastname && (
               <div className="mt-1 text-xs text-red-500">
@@ -187,7 +185,7 @@ const CreateUser: React.FC = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.mobile}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-2 border rounded outline-none focus:border-green-900 "
             />
             {formik.touched.mobile && formik.errors.mobile && (
               <div className="mt-1 text-xs text-red-500">
@@ -209,7 +207,7 @@ const CreateUser: React.FC = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-2 border rounded outline-none focus:border-green-900 "
             />
             {formik.touched.email && formik.errors.email && (
               <div className="mt-1 text-xs text-red-500">
@@ -232,7 +230,7 @@ const CreateUser: React.FC = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.password}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-2 border rounded outline-none focus:border-green-900 "
             />
             {formik.touched.password && formik.errors.password && (
               <div className="mt-1 text-xs text-red-500">
@@ -255,7 +253,7 @@ const CreateUser: React.FC = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.confirmpassword}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-2 border rounded outline-none focus:border-green-900 "
             />
             {formik.touched.confirmpassword &&
               formik.errors.confirmpassword && (
@@ -276,7 +274,7 @@ const CreateUser: React.FC = () => {
               name="role"
               onChange={formik.handleChange}
               value={formik.values.role}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-2 border rounded outline-none focus:border-green-900 "
             >
               <option value="" disabled>
                 Select a role
@@ -307,7 +305,7 @@ const CreateUser: React.FC = () => {
                   : "bg-green-900 text-white "
               }   py-2 px-4 font-bold rounded cursor-pointer shadow-md mb-4`}
             >
-              {loading === "pending" ? "Creating User..." : "Create User"}
+              {loading === "pending" ? "Proceesing..." : "Create User"}
             </button>
           </div>
         </form>
