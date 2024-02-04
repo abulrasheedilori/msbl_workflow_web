@@ -88,32 +88,10 @@ const RequestsTable = () => {
     );
   };
 
-  // const filterRequestByDate = async () => {
-  //   const filterReq: FilteredReqType = {
-  //     startDate,
-  //     endDate,
-  //   };
-
-  //   if (!isDateValid) {
-  //     console.log(isDateValid);
-  //     setStartDate("");
-  //     setEndDate("");
-  //     return;
-  //   }
-
-  //   dispatch(filterRequest(filterReq))
-  //     .then((response) => {
-  //       setRequests(response.payload?.data?.data);
-  //       setStartDate("");
-  //       setEndDate("");
-  //     })
-  //     .catch((error: any) => setIsDateValid(false));
-  // };
-
   const filterRequestByDate = async () => {
     const filterReq: FilteredReqType = {
-      startDate,
-      endDate,
+      startDate: startDate + "T00:00:00.000Z",
+      endDate: endDate + "T23:59:59.999Z",
     };
 
     if (!isDateValid) {
@@ -125,16 +103,16 @@ const RequestsTable = () => {
 
     dispatch(filterRequest(filterReq))
       .then((response) => {
-        const filteredRequests = response.payload.data.data.filter(
-          (request: any) => {
-            const requestDate = new Date(request.createdAt);
-            return (
-              requestDate >= new Date(startDate + "T00:00:00.000Z") &&
-              requestDate <= new Date(endDate + "T23:59:59.999Z")
-            );
-          }
-        );
-        setRequests(filteredRequests);
+        // const filteredRequests = response.payload.data.data.filter(
+        //   (request: any) => {
+        //     const requestDate = new Date(request.createdAt);
+        //     return (
+        //       requestDate >= new Date(startDate + "T00:00:00.000Z") &&
+        //       requestDate <= new Date(endDate + "T23:59:59.999Z")
+        //     );
+        //   }
+        // );
+        setRequests(response.payload?.data?.data);
         setStartDate("");
         setEndDate("");
       })
