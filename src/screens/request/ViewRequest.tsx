@@ -24,10 +24,14 @@ const ViewRequest = () => {
   return (
     <section className="flex-1 w-full mx-auto overflow-y-auto lg:pt-8 scroll-smooth">
       <section className="sticky top-0 left-0 right-0 z-40 w-full py-2 bg-green-950 lg:static lg:bg-transparent">
-        <section className="flex flex-row justify-between item-center">
+        <section>
           <header className="mx-2 text-xl font-bold text-white lg:text-black text-start lg:mx-8 lg:text-4xl">
             Requests
           </header>
+          <p className="mx-8 my-4 text-xs lg:text-lg">
+            Welcome!, you can create or log a request here. Just fill in all the
+            details and your request shall be attended to
+          </p>
         </section>
         <section className="flex flex-col justify-center gap-1 mt-8 lg:items-center lg:flex-row">
           <SearchFilter />

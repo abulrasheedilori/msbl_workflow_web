@@ -50,7 +50,7 @@ const RequestsTable = () => {
   };
 
   const flattenRequests = requests?.flatMap((request) => {
-    const { comments, user, ...rest } = request;
+    const { comments, user } = request;
     const sortedComments = comments
       .slice()
       .sort(
@@ -69,8 +69,8 @@ const RequestsTable = () => {
         "CLIENT EMAIL": request?.clientEmail,
         "CLIENT MOBILE": request?.clientMobile,
         "APPROVAL STATUS": request?.isApproved ? "APPROVED" : "NOT_APPROVED",
-        INITIATOR: request?.user?.firstname + " " + request?.user?.lastname,
-        "INITIATOR MOBILE": request?.user?.mobile,
+        INITIATOR: user?.firstname + " " + user?.lastname,
+        "INITIATOR MOBILE": user?.mobile,
         "REQUEST TYPE OR SLA": request?.reqType,
         "CREATION DATE": new Date(request?.createdAt).toLocaleString(),
         COMMENTS: sortedComments,
@@ -103,16 +103,16 @@ const RequestsTable = () => {
 
     dispatch(filterRequest(filterReq))
       .then((response) => {
-        // const filteredRequests = response.payload.data.data.filter(
-        //   (request: any) => {
-        //     const requestDate = new Date(request.createdAt);
-        //     return (
-        //       requestDate >= new Date(startDate + "T00:00:00.000Z") &&
-        //       requestDate <= new Date(endDate + "T23:59:59.999Z")
-        //     );
-        //   }
-        // );
-        setRequests(response.payload?.data?.data);
+        const filteredRequests = response.payload?.data?.data?.filter(
+          (request: any) => {
+            const requestDate = new Date(request?.createdAt);
+            return (
+              requestDate >= new Date(startDate + "T00:00:00.000Z") &&
+              requestDate <= new Date(endDate + "T23:59:59.999Z")
+            );
+          }
+        );
+        setRequests(filteredRequests);
         setStartDate("");
         setEndDate("");
       })
@@ -195,6 +195,7 @@ const RequestsTable = () => {
         <table className="mx-auto bg-white border border-gray-300">
           <thead>
             <tr className="border border-gray-300 bg-slate-50 text-nowrap">
+              <th className="flex-1 px-2 py-1 text-center border-b">S/NO</th>
               <th className="flex-1 px-2 py-1 text-center border-b">ID</th>
               <th className="px-2 py-1 text-center border-b flex-3">TITLE</th>
               <th className="flex-1 px-2 py-1 text-center border-b">STATUS</th>
@@ -223,11 +224,12 @@ const RequestsTable = () => {
           </thead>
 
           <tbody>
-            {requests?.map((request) => (
+            {requests?.map((request, index) => (
               <tr
                 key={request?.id}
-                className=" text-nowrap hover:bg-green-900 hover:text-green-50"
+                className="text-center text-nowrap hover:bg-green-900 hover:text-green-50"
               >
+                <td className="flex-1 border-b">{index + 1}</td>
                 <td className="flex-1 border-b">{request?.id}</td>
                 <td className="p-2 border-b flex-3">{request?.title}</td>
                 <td className="flex-1 p-2 border-b">

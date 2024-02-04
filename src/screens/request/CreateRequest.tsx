@@ -107,10 +107,14 @@ const CreateRequest: React.FC = () => {
       <header className="m-8 text-xl font-bold text-left lg:text-4xl">
         Create Request
       </header>
-      <div className="w-full lg:w-[45vw] h-auto lg:mx-auto my-8 rounded-2xl lg:shadow-md">
-        <div className="p-8">
+      <p className="mx-8 my-4 text-xs lg:text-lg">
+        Welcome!, you can create or log a request here. Just fill in all the
+        details and your request shall be attended to
+      </p>
+      <div className="w-full lg:w-[45vw] h-auto lg:mx-auto my-8 rounded-2xl lg:shadow-md border-2 border-slate-200">
+        <div className="p-8 ">
           <h2 className="hidden text-lg font-bold text-center text-black lg:flex lg:text-2xl">
-            New Request
+            New Request Form
           </h2>
           <p className="p-4 pl-0 text-sm lg:text-md">
             Kindly fill in your request here.
@@ -148,6 +152,7 @@ const CreateRequest: React.FC = () => {
               <textarea
                 id="message"
                 name="message"
+                maxLength={5000}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.message}
