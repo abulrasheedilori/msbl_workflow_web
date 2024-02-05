@@ -347,7 +347,7 @@ const ViewRequestFull = () => {
             <p className="mt-8 mb-4 text-xl font-bold text-center text-green-900">
               {selectedReq?.title ?? "Loading ..."}
             </p>
-            <p className="text-md text-left border-green-200 lg:w-[30vw]">
+            <p className=" text-md text-left border-green-200 lg:w-[30vw] ">
               {selectedReq?.message ?? "Loading..."}
             </p>
             {selectedReq && (

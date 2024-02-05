@@ -93,9 +93,13 @@ const CreateUser: React.FC = () => {
 
   return (
     <section className="w-full h-full overflow-y-auto lg:w-full">
-      <header className="hidden p-8 text-xl font-bold text-green-900 lg:flex lg:text-4xl">
+      <header className="hidden text-xl font-bold text-black lg:pt-12 lg:px-8 lg:flex lg:text-4xl">
         New User
       </header>
+      <p className="hidden mx-8 mb-8 text-xs text-white lg:flex lg:text-lg lg:text-black">
+        Welcome! you can create a new user with a role here. Just fill in all
+        the details, enable the user and the user is a go.
+      </p>
       <div className=" w-full p-8 lg:w-[33vw]  mx-auto rounded-xl shadow-lg border-2 border-grey">
         <h2 className="text-2xl font-bold text-center">Create New User</h2>
         <p className="p-4 pl-0 text-justify">

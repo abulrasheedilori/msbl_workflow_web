@@ -34,12 +34,12 @@ const ViewUsersScreen = () => {
 
   return (
     <section className="w-screen h-full p-2 lg:w-[85vw] lg:p-8">
-      <header className="py-8 text-xl font-bold lg:text-4xl">
+      <header className="text-xl font-bold lg:pt-8 lg:text-4xl">
         Manage Users
       </header>
-      <p className="mx-8 my-4 text-xs lg:text-lg">
-        You can filter all requests here and export it as an excel sheet for
-        auditing purpose.
+      <p className="mt-4 mb-8 text-xs lg:text-lg">
+        You can manage all users, change password, re-assign roles and
+        disable/enable users here.
       </p>
       <section className="w-full overflow-auto">
         <table className="w-auto">

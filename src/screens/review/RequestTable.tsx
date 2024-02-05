@@ -139,16 +139,16 @@ const RequestsTable = () => {
   }
 
   return (
-    <section className="relative w-screen h-[90vh] lg:p-8 lg:pt-8 scroll-smooth">
+    <section className="relative p-2 w-full h-[90vh] lg:p-8 lg:pt-12  scroll-smooth">
       <section className="w-full lg:static lg:bg-transparent">
-        <section className="p-4 mb-4">
+        <section className="mb-4 lg:p-4">
           <section className="flex items-center justify-between fle-row">
-            <header className="my-4 text-xl font-bold text-black text-start lg:text-4xl">
+            <header className="text-xl font-bold text-black text-start lg:text-4xl">
               Audit Requests
             </header>
             <FaFilter color="black" size={18} onClick={handleShowFilter} />
           </section>
-          <p className="text-xs lg:text-lg">
+          <p className="my-4 text-xs lg:text-lg">
             You can filter all requests here and export it as an excel sheet for
             auditing purpose.
           </p>
