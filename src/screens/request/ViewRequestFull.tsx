@@ -239,11 +239,11 @@ const ViewRequestFull = () => {
   });
 
   return (
-    <section className="w-full lg:h-[90vh] flex-1 bg-green-50 mx-auto p-12 pt-8 overflow-y-auto">
+    <section className="w-full lg:h-[90vh] flex-1 bg-green-50 mx-auto p-2 pt-8 overflow-y-auto">
       <header className="mx-8 text-xl font-bold text-center lg:text-4xl">
         Request Details
       </header>
-      <section className="relative h-auto p-4 mx-auto my-8 border rounded-md lg:p-16 ">
+      <section className="relative h-auto p-4 mx-auto my-8 rounded-md lg:p-16">
         <span className="text-sm lg:text.md absolute p-2 shadow-md top-2 right-2 bg-red-50 rounded-xl">
           {selectedReq?.status?.toUpperCase() ?? "Loading..."}
         </span>
