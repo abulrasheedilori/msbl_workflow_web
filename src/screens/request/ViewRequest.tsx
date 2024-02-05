@@ -28,8 +28,8 @@ const ViewRequest = () => {
           <header className="mx-2 text-xl font-bold text-white lg:text-black text-start lg:mx-8 lg:text-4xl">
             Requests
           </header>
-          <p className="mx-8 my-4 text-xs lg:text-lg">
-            Welcome!, you can create or log a request here. Just fill in all the
+          <p className="mx-8 my-4 text-xs text-white lg:text-lg lg:text-black">
+            Welcome! you can create or log a request here. Just fill in all the
             details and your request shall be attended to
           </p>
         </section>
