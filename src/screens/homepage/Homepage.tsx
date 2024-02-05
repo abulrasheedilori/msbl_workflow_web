@@ -1,7 +1,7 @@
 import LoginScreen from "../auth/LoginScreen";
 
 const Homepage = () => {
-  const bgImage = require("../../asset/images/stock_market.jpeg");
+  const bgImage = require("../../asset/images/meristem_front_3.jpeg");
 
   return (
     <section className="w-full h-screen bg-green-950 ">
