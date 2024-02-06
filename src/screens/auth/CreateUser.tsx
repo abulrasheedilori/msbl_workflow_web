@@ -93,7 +93,7 @@ const CreateUser: React.FC = () => {
 
   return (
     <section className="w-full h-full overflow-y-auto lg:w-full">
-      <header className="hidden text-xl font-bold text-black lg:pt-12 lg:px-8 lg:flex lg:text-4xl">
+      <header className="hidden py-4 text-xl font-bold text-black lg:pt-12 lg:px-8 lg:flex lg:text-4xl">
         New User
       </header>
       <p className="hidden mx-8 mb-8 text-xs text-white lg:flex lg:text-lg lg:text-black">

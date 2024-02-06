@@ -1,4 +1,3 @@
-import "jspdf-autotable";
 import { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa";
 import * as XLSX from "xlsx";

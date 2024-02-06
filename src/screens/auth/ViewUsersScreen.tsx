@@ -33,7 +33,7 @@ const ViewUsersScreen = () => {
   };
 
   return (
-    <section className="w-screen h-full p-2 lg:w-[85vw] lg:p-8">
+    <section className="w-full h-full p-2 lg:w-[85vw] lg:p-8">
       <header className="text-xl font-bold lg:pt-8 lg:text-4xl">
         Manage Users
       </header>
