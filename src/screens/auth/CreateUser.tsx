@@ -92,9 +92,9 @@ const CreateUser: React.FC = () => {
   });
 
   return (
-    <section className="w-full h-full overflow-y-auto lg:w-full">
+    <section className="w-full h-full overflow-y-auto">
       <header className="hidden py-4 text-xl font-bold text-black lg:pt-12 lg:px-8 lg:flex lg:text-4xl">
-        New User
+        Create User
       </header>
       <p className="hidden mx-8 mb-8 text-xs text-white lg:flex lg:text-lg lg:text-black">
         Welcome! you can create a new user with a role here. Just fill in all
@@ -107,7 +107,7 @@ const CreateUser: React.FC = () => {
         </p>
         <form
           onSubmit={formik.handleSubmit}
-          className="flex flex-col w-full pb-24"
+          className="flex flex-col w-full pb-8"
         >
           <div className="mb-4">
             <label
@@ -306,7 +306,7 @@ const CreateUser: React.FC = () => {
               className={`${
                 !formik.isValid || !formik.dirty
                   ? "bg-slate-400 text-gray-500"
-                  : "bg-green-900 text-white "
+                  : "bg-green-900 text-white"
               }   py-2 px-4 font-bold rounded cursor-pointer shadow-md mb-4`}
             >
               {loading === "pending" ? "Proceesing..." : "Create User"}
