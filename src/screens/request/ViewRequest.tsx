@@ -54,7 +54,7 @@ const ViewRequest = () => {
                   </span>
                 )}
 
-                <p className="mt-12 mb-4 text-xl font-bold text-center text-black">
+                <p className="p-4 mt-12 mb-4 overflow-hidden text-xl font-bold text-center text-black break-word overflow-ellipsis">
                   {title}
                 </p>
                 <section>

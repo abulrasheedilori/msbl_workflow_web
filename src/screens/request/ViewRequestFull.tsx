@@ -43,7 +43,7 @@ const ViewRequestFull = () => {
   const [statusUpdate, setStatusUpdate] =
     useState<UpdatePropType>(initialUpdates);
   const [showStatus, setShowStatus] = useState<boolean>(false);
-  const [reload, setReload] = useState<number>(0);
+  const [isAuthorize, setIsAuthorize] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
   const { loading, user, error } = useAppSelector((state) => state.auth);
@@ -141,8 +141,8 @@ const ViewRequestFull = () => {
       }
     };
 
-    fetchData(id!);
-  }, [dispatch, id, reload]);
+    fetchData?.(id!);
+  }, [dispatch, selectedReq]);
 
   const goBack = () => {
     navigate("/dashboard");
@@ -151,14 +151,21 @@ const ViewRequestFull = () => {
   const handleAuthorizeRequest = (requestId: number, isApproved: boolean) => {
     const request = { requestId, isApproved };
     dispatch(approveRequest(request))
-      .then((response) => {
+      .then(async (response) => {
         if (response.payload.status === 200) {
+          // user?.roles.includes("ROLE_OPERATOR") &&
+          dispatch(getRequestById(requestId))
+            .then((response) => {
+              setSelectedReq(response.payload.data.data);
+            })
+            .catch((err) => {
+              console.log("RELOAD_STATUS: ", err);
+            });
           setStatusUpdate({
             status: "succeeded",
             title: "Successful",
             message: response.payload.data.message,
           });
-          setReload((prev) => prev + 1);
           setShowStatus(true);
         } else {
           setStatusUpdate({
@@ -255,7 +262,7 @@ const ViewRequestFull = () => {
         </button>
         <section className="mt-16">
           {request ? (
-            request.map((item) => (
+            request?.map((item) => (
               <div
                 key={item.id.toString()}
                 className="flex flex-col w-full my-4 lg:flex-row item-center"
