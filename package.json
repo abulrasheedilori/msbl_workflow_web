@@ -11,6 +11,7 @@
     "@types/node": "^16.18.68",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
+    "strip-ansi": "5.2.0",
     "async_hooks": "^1.0.0",
     "autoprefixer": "^10.4.16",
     "axios": "^1.6.3",
