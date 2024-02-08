@@ -11,7 +11,7 @@ const CreateUser: React.FC = () => {
   const [statusUpdate, setStatusUpdate] =
     useState<UpdatePropType>(initialUpdates);
   const [showStatus, setShowStatus] = useState<boolean>(false);
-  const { loading, error } = useAppSelector((state) => state.auth);
+  const { loading } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const roles = ["initiator", "operator", "supervisor", "admin"];
 

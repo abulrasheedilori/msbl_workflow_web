@@ -158,7 +158,7 @@ const ViewRequestFull = () => {
             title: "Successful",
             message: response.payload.data.message,
           });
-          setReload(1);
+          setReload((prev) => prev + 1);
           setShowStatus(true);
         } else {
           setStatusUpdate({
