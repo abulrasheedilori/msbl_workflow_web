@@ -200,7 +200,7 @@ const RequestsTable = () => {
 
       <section className="w-full h-full lg:w-[85vw] lg:h-[73vh] overflow-auto">
         <table className="mx-auto bg-white border border-gray-300">
-          <thead>
+          <thead className="sticky top-0 ">
             <tr className="border border-gray-300 bg-slate-50 text-nowrap">
               <th className="flex-1 px-2 py-1 text-center border-b">S/NO</th>
               <th className="flex-1 px-2 py-1 text-center border-b">ID</th>
