@@ -283,6 +283,7 @@ const ViewRequestFull = () => {
                     <a
                       className="font-semibold text-red-600 underline whitespace-normal text-md"
                       href={item.value}
+                      target="_blank"
                     >
                       {item.value}
                     </a>
