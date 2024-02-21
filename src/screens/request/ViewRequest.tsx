@@ -62,7 +62,7 @@ const ViewRequest = () => {
                     {message}
                   </p>
                   <p className="text-xs text-gray-400">{`Created by: ${user?.firstname} ${user?.lastname}`}</p>
-                  <span className="mt-4 text-xs ">Created on:</span>
+                  {/* <span className="mt-4 text-xs ">Created on:</span> */}
                   <p className="font-serif text-xs text-right ">
                     {formatDate?.(createdAt)}
                   </p>

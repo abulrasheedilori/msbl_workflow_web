@@ -34,7 +34,7 @@ const CreateUser: React.FC = () => {
         .required("Required"),
       firstname: Yup.string().required("required"),
       lastname: Yup.string().required("required"),
-      // mobile: Yup.string().required("required"),
+      mobile: Yup.string(),
       role: Yup.string().required("required"),
       password: Yup.string()
         .required("Password is required")
@@ -51,12 +51,12 @@ const CreateUser: React.FC = () => {
       const { firstname, lastname, role, email, username, mobile, password } =
         values;
       const user: User = {
-        firstname,
-        lastname,
-        username,
-        email,
-        mobile: mobile.toString(),
-        password,
+        firstname: firstname.trim(),
+        lastname: lastname.trim(),
+        username: username.trim(),
+        email: email.trim(),
+        mobile: mobile.trim().toString(),
+        password: password.trim(),
         roles: [role.toLowerCase()],
       };
       // console.log("Sign UP submitted:", user);

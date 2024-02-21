@@ -142,7 +142,7 @@ const ViewRequestFull = () => {
     };
 
     fetchData?.(id!);
-  }, [dispatch, selectedReq]);
+  }, [dispatch]);
 
   const goBack = () => {
     navigate("/dashboard");
@@ -275,13 +275,13 @@ const ViewRequestFull = () => {
                 </label>
                 <span
                   id="clientName"
-                  className="px-2 overflow-x-auto text-green-900 lg:text-md text-bold"
+                  className="px-2 text-green-900 lg:text-md text-bold"
                 >
-                  {!item.id.toLowerCase().includes("url") ? (
-                    item.value
+                  {!item?.id.toLowerCase().includes("url") ? (
+                    item?.value
                   ) : (
                     <a
-                      className="font-semibold text-red-600 underline text-md"
+                      className="font-semibold text-red-600 underline whitespace-normal text-md"
                       href={item.value}
                     >
                       {item.value}
@@ -336,8 +336,8 @@ const ViewRequestFull = () => {
             showStatus={showStatus}
             setShowStatus={setShowStatus}
           />
-          {!selectedReq?.isApproved &&
-            user?.roles.includes("ROLE_OPERATOR") && (
+          {user?.roles.includes("ROLE_OPERATOR") &&
+            !selectedReq?.isApproved && (
               <section className="flex flex-row justify-start gap-4 m-4 item-center">
                 <span
                   onClick={() => handleAuthorizeRequest(paramId, true)}

@@ -18,6 +18,7 @@ import {
   searchRequest,
   signup,
   updateStatus,
+  updateUser,
 } from "../apiService";
 import User, {
   LoginResponse,
@@ -94,6 +95,22 @@ const authSlice = createSlice({
           action.payload.message ||
           "Sign Up a user failed. Please, check and try again";
       })
+
+      //signup
+      .addCase(updateUser.pending, (state) => {
+        state.loading = "pending";
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = "succeeded";
+      })
+      .addCase(updateUser.rejected, (state, action: any) => {
+        state.loading = "failed";
+        state.error =
+          action.payload.message ||
+          "Updating user failed. Please, check and try again";
+      })
+
       //create request
       .addCase(createRequest.pending, (state, action) => {
         state.loading = "pending";

@@ -8,22 +8,14 @@ import User, {
   RequestReqType,
   RequestsListType,
   UpdateStatusRequestType,
+  UserUpdate,
 } from "./apiTypes";
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
-  // baseURL: "localhost:8089/api",
+  // baseURL: "http://localhost:8080/api",
   timeout: 60000,
-  // onUploadProgress: (e) => {
-  //   return e.progress;
-  // },
-  // onDownloadProgress: (e) => {
-  //   return e.progress;
-  // },
 });
-// api.defaults.headers.common["Access-Control-Allow-Origin"] = origin;
-// api.defaults.headers.common["Access-Control-Allow-Headers"] =
-//   "Origin, X-Requested-With, Content-Type, Accept";
 
 //api or endpoints
 const login = createAsyncThunk(
@@ -42,12 +34,29 @@ const login = createAsyncThunk(
 
 const signup = createAsyncThunk("auth/signup", async (user: User) => {
   try {
-    const response = await api.post("/auth/signup", user);
+    const response = await api.post("/signup", user);
     return response;
   } catch (error: any) {
     return error;
   }
 });
+
+const updateUser = createAsyncThunk(
+  "auth/updateUser",
+  async (req: UserUpdate) => {
+    try {
+      const user = localStorage.getItem("user");
+      const parsedAuth = user && JSON.parse(user);
+      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const response = await api.patch("/users", req, {
+        headers: auth,
+      });
+      return response;
+    } catch (error: any) {
+      return error;
+    }
+  }
+);
 
 const createRequest = createAsyncThunk(
   "request/createRequest",
@@ -394,4 +403,5 @@ export {
   searchRequest,
   signup,
   updateStatus,
+  updateUser,
 };

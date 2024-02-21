@@ -32,10 +32,10 @@ const AssignRoleScreen: React.FC<{ email: string; close: () => void }> = ({
         email,
         roles,
       };
-      // console.log("Sign UP submitted:", user);
+      console.log("Assign_Roles Req Obj submitted:", user);
       dispatch(assignRoles(user))
         .then((response) => {
-          // console.log("SIGN IN RESPONSE : ", response);
+          console.log("SIGN IN RESPONSE : ", response);
           if (response.payload.status === 200) {
             setStatusUpdate({
               status: "succeeded",

@@ -98,18 +98,20 @@ const DashboardScreen: React.FC = () => {
                 View Requests
               </Link>
             )}
-            {user && user.roles.includes("ROLE_INITIATOR") && (
-              <Link
-                to="/dashboard/create-request"
-                onClick={() => handleSelectedRoute("CREATE_REQUEST")}
-                className={`border border-green-300 hover:bg-green-900 hover:text-white p-2 rounded-md ${
-                  selectedRoute === "CREATE_REQUEST" &&
-                  "bg-green-900 text-white"
-                }`}
-              >
-                Create Request
-              </Link>
-            )}
+            {user &&
+              !user.roles.includes("ROLE_ADMIN") &&
+              !user.roles.includes("ROLE_OPERATIONS") && (
+                <Link
+                  to="/dashboard/create-request"
+                  onClick={() => handleSelectedRoute("CREATE_REQUEST")}
+                  className={`border border-green-300 hover:bg-green-900 hover:text-white p-2 rounded-md ${
+                    selectedRoute === "CREATE_REQUEST" &&
+                    "bg-green-900 text-white"
+                  }`}
+                >
+                  Create Request
+                </Link>
+              )}
             {user &&
               (user.roles.includes("ROLE_ADMIN") ||
                 user.roles.includes("ROLE_SUPERVISOR")) && (

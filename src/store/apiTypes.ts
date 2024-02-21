@@ -11,6 +11,14 @@ type User = {
 };
 export default User;
 
+export type UserUpdate = {
+  userId: number;
+  username: string;
+  firstname: string;
+  lastname: string;
+  mobile: string;
+};
+
 export type ResponseData = {
   data: ResponseData;
   message: string;

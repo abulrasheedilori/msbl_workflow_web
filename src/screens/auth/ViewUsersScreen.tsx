@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import { enableOrDisableUser, getAllUsers } from "../../store/apiService";
+import User, { UserUpdate } from "../../store/apiTypes";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import AssignRolesScreen from "./AssignRolesScreen";
+import ChangeUserDetails from "./ChangeUserDetails";
 import ResetPwdScreen from "./ResetPwdScreen";
 
 const ViewUsersScreen = () => {
   const [showResetPopUp, setShowResetPopUp] = useState(false);
   const [showAssignRolePopUp, setShowAssignRolePopUp] = useState(false);
+  const [targetedUserEmail, setTargetedUserEmail] = useState("");
+  const [showUserDetailPopUp, setShowUserDetailPopUp] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<UserUpdate | null>(null);
 
   const dispatch = useAppDispatch();
   const { listOfUser, user } = useAppSelector((state) => state.auth);
@@ -19,13 +24,30 @@ const ViewUsersScreen = () => {
     dispatch(enableOrDisableUser(request)).then(() => dispatch(getAllUsers()));
   };
 
-  const handleShowResetPopUp = () => {
+  const handleShowUserDetailPopUp = (id: number, user: User) => {
+    const { username, firstname, lastname, mobile } = user && user;
+    console.log("PROPS FOR USERUPDATE = ", user);
+    if (!id) return;
+    const userReq: UserUpdate = {
+      userId: id,
+      username,
+      mobile,
+      firstname,
+      lastname,
+    };
+    setSelectedUser(userReq);
+    setShowUserDetailPopUp(true);
+  };
+
+  const handleShowResetPopUp = (email: string) => {
+    setTargetedUserEmail(email); // Set the targeted user's email
     setShowResetPopUp(true);
   };
   const handleCloseResetPopUp = () => {
     setShowResetPopUp(false);
   };
-  const handleShowAssignRolePopUp = () => {
+  const handleShowAssignRolePopUp = (email: string) => {
+    setTargetedUserEmail(email); // Set the targeted user's email
     setShowAssignRolePopUp(true);
   };
   const handleCLoseAssignRolePopUp = () => {
@@ -48,12 +70,16 @@ const ViewUsersScreen = () => {
               <th className="flex-1 px-2 py-1">ID</th>
               <th className="px-2 py-1 flex-6">Username</th>
               <th className="px-2 py-1 flex-6">Full Name</th>
+              <th className="px-2 py-1 flex-6">Email</th>
               {user?.roles.includes("ROLE_ADMIN") && (
                 <th className="flex-1 px-2 py-1 ">Password</th>
               )}
               <th className="flex-1 px-2 py-1 ">Roles</th>
               {user?.roles.includes("ROLE_ADMIN") && (
                 <th className="flex-1 px-2 py-1">Actions</th>
+              )}
+              {user?.roles.includes("ROLE_ADMIN") && (
+                <th className="flex-1 px-2 py-1 ">Update User Details</th>
               )}
             </tr>
           </thead>
@@ -62,20 +88,21 @@ const ViewUsersScreen = () => {
               .filter((user) => !user.roles.includes("ROLE_ADMIN"))
               .map((user_, index) => (
                 <tr
-                  key={user_.id?.toString()}
+                  key={user_?.id?.toString()}
                   className="text-center border-b bg-slate-50 text-nowrap hover:bg-green-900 hover:text-green-50"
                 >
                   <td className="flex-1 px-2 py-1">{index + 1}</td>
                   <td className="px-2 py-1 tex-wrap flex-3">
-                    {user_.username}
+                    {user_?.username}
                   </td>
                   <td className="px-2 py-1 text-wrap flex-3">
-                    {user_.firstname + " " + user_.lastname}
+                    {user_?.firstname + " " + user_.lastname}
                   </td>
+                  <td className="px-2 py-1 text-wrap flex-3">{user_?.email}</td>
                   {user?.roles.includes("ROLE_ADMIN") && (
                     <td
                       className="flex-1 px-2 py-1 "
-                      onClick={handleShowResetPopUp}
+                      onClick={() => handleShowResetPopUp(user_?.email)}
                     >
                       <span className="flex-1 px-2 py-1 text-sm font-semibold text-center text-yellow-700 hover:underline hover:text-md">
                         Change
@@ -86,7 +113,7 @@ const ViewUsersScreen = () => {
                     className="flex-1 px-2 py-1 "
                     onClick={
                       user?.roles.includes("ROLE_SUPERVISOR")
-                        ? handleShowAssignRolePopUp
+                        ? () => handleShowAssignRolePopUp(user_?.email)
                         : () => null
                     }
                   >
@@ -106,8 +133,8 @@ const ViewUsersScreen = () => {
                       className="flex-1 px-2 py-1 text-sm hover:text:md"
                       onClick={() =>
                         handleEnableOrDisabledUser(
-                          user_.email,
-                          !user_.isDisabled
+                          user_?.email,
+                          !user_?.isDisabled
                         )
                       }
                     >
@@ -116,23 +143,41 @@ const ViewUsersScreen = () => {
                           user_.isDisabled ? "text-green-600" : "text-red-600"
                         } font-bold `}
                       >
-                        {user_.isDisabled ? "ENABLED" : "DISABLED"}
+                        {user_?.isDisabled ? "ENABLED" : "DISABLED"}
                       </p>
                       <p className="text-xs text-red-500 hover:underline">
-                        {!user_.isDisabled ? "enable" : "disable"}
+                        {!user_?.isDisabled ? "enable" : "disable"}
                       </p>
+                    </td>
+                  )}
+                  {user?.roles.includes("ROLE_ADMIN") && (
+                    <td
+                      className="flex-1 px-2 py-1 "
+                      onClick={() =>
+                        handleShowUserDetailPopUp(user_.id!, user_)
+                      }
+                    >
+                      <span className="flex-1 px-2 py-1 text-sm font-semibold text-center text-yellow-700 hover:underline hover:text-md">
+                        Update User
+                      </span>
                     </td>
                   )}
                   {showResetPopUp && (
                     <ResetPwdScreen
-                      email={user_.email}
+                      email={targetedUserEmail}
                       close={handleCloseResetPopUp}
                     />
                   )}
                   {showAssignRolePopUp && (
                     <AssignRolesScreen
-                      email={user_.email}
+                      email={targetedUserEmail}
                       close={handleCLoseAssignRolePopUp}
+                    />
+                  )}
+                  {showUserDetailPopUp && (
+                    <ChangeUserDetails
+                      user={selectedUser!}
+                      close={() => setShowUserDetailPopUp(false)}
                     />
                   )}
                 </tr>
