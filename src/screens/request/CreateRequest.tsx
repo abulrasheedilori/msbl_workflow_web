@@ -56,9 +56,9 @@ const CreateRequest: React.FC = () => {
       clientEmail: Yup.string()
         .min(2, "Client Email must be more than 2 characters")
         .required("Required"),
-      clientMobile: Yup.string()
-        .min(12, "Client Mobile must be more than 12 characters")
-        .required("Required"),
+      // clientMobile: Yup.string()
+      //   .min(12, "Client Mobile must be more than 12 characters")
+      //   .required("Required"),
       documentUrl: Yup.string()
         .min(16, "Document Url must be more than 16 characters")
         .required("Required"),
@@ -221,16 +221,16 @@ const CreateRequest: React.FC = () => {
                 type="number"
                 id="clientMobile"
                 name="clientMobile"
-                onBlur={formik.handleBlur}
+                // onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 value={formik.values.clientMobile}
                 className="w-full p-2 border-2 rounded outline-none focus:border-green-900"
               />
-              {formik.touched.clientMobile && formik.errors.clientMobile && (
+              {/* {formik.touched.clientMobile && formik.errors.clientMobile && (
                 <div className="mt-1 text-xs text-red-500">
                   {formik.errors.clientMobile}
                 </div>
-              )}
+              )} */}
             </div>
 
             <div className="mb-1">

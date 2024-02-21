@@ -99,10 +99,10 @@ const ResetPwdScreen: React.FC<{
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.newPassword}
-            className="w-full p-2 border rounded outline-none bg-slate-200 focus:border-green-700"
+            className="w-full p-2 text-black border rounded outline-none bg-slate-200 focus:border-green-700"
           />
           {formik.touched.newPassword && formik.errors.newPassword && (
-            <div className="w-full mt-1 text-xs text-red-500">
+            <div className="mt-1 text-xs text-red-500 whitespace-normal w-fit">
               {formik.errors.newPassword}
             </div>
           )}
@@ -122,12 +122,12 @@ const ResetPwdScreen: React.FC<{
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.confirmPassword}
-            className="w-full p-2 border rounded outline-none bg-slate-200 focus:border-green-700"
+            className="w-full p-2 text-black border rounded outline-none bg-slate-200 focus:border-green-700"
           />
           {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-            <div className="w-full mt-1 text-xs text-red-500">
+            <p className="mt-1 text-red-500 whitespace-normal">
               {formik.errors.confirmPassword}
-            </div>
+            </p>
           )}
         </div>
 

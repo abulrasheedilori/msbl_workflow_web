@@ -172,6 +172,7 @@ const authSlice = createSlice({
         state.loading = "failed";
         state.error = action.payload.message || "Get Request-types Failed";
       })
+
       //get All users
       .addCase(getAllUsers.pending, (state, _action) => {
         state.loading = "pending";
@@ -185,6 +186,7 @@ const authSlice = createSlice({
         state.loading = "failed";
         state.error = action.payload.message || "Getting all users Failed";
       })
+
       //get users by id
       .addCase(getUserById.pending, (state, _action) => {
         state.loading = "pending";
@@ -198,6 +200,7 @@ const authSlice = createSlice({
         state.loading = "failed";
         state.error = action.payload.message || "Getting users Failed";
       })
+
       //get All requests from all users
       .addCase(getAllRequestsFromAllUsers.pending, (state, _action) => {
         state.loading = "pending";
@@ -213,6 +216,7 @@ const authSlice = createSlice({
           action.payload.message ||
           "Getting all requests from all users Failed";
       })
+
       //Assign Roles to Users
       .addCase(assignRoles.pending, (state, _action) => {
         state.loading = "pending";
@@ -226,6 +230,7 @@ const authSlice = createSlice({
         state.error =
           action.payment.message || "Assigning roles to user Failed";
       })
+
       //Reset Password
       .addCase(resetPassword.pending, (state, _action) => {
         state.loading = "pending";
@@ -238,6 +243,7 @@ const authSlice = createSlice({
         state.loading = "failed";
         state.error = action.payment.message || "Reseting Password Failed";
       })
+
       //Approve Request
       .addCase(approveRequest.pending, (state, _action) => {
         state.loading = "pending";
@@ -250,6 +256,7 @@ const authSlice = createSlice({
         state.loading = "failed";
         state.error = action.payment.message || "Request Approval Failed";
       })
+
       //Search by fields in Request
       .addCase(searchRequest.pending, (state, _action) => {
         state.loading = "pending";
@@ -263,6 +270,7 @@ const authSlice = createSlice({
         state.loading = "failed";
         state.error = action.payment.message || "Request Search Failed";
       })
+
       // Filter Request
       .addCase(filterRequest.pending, (state, action) => {
         state.loading = "pending";
@@ -276,6 +284,7 @@ const authSlice = createSlice({
         state.loading = "failed";
         state.error = action.payload.message || "Filtering Request Failed";
       })
+
       //Download Filtered Request
       .addCase(downloadRequestPdf.pending, (state, _action) => {
         state.loading = "pending";
@@ -288,6 +297,7 @@ const authSlice = createSlice({
         state.loading = "failed";
         state.error = action.payload.message || "Download Request Pdf Failed";
       })
+
       //Get Request By Id
       .addCase(getRequestById.pending, (state, _action) => {
         state.loading = "pending";

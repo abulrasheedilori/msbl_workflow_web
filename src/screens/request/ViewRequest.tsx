@@ -40,7 +40,7 @@ const ViewRequest = () => {
       {listOfRequest?.length > 0 ? (
         <section className="flex flex-col justify-start p-2 l lg:flex-wrap lg:flex-row">
           {listOfRequest?.map((item: RequestResponseType) => {
-            const { id, title, message, status, createdAt } = item;
+            const { id, title, message, status, createdAt, user } = item;
 
             return (
               <section
@@ -61,9 +61,8 @@ const ViewRequest = () => {
                   <p className="pt-2 pb-8 overflow-hidden text-sm border-green-100 overflow-ellipsis text border-y-2">
                     {message}
                   </p>
-                  <span className="mt-4 text-xs font-semibold">
-                    Created on:
-                  </span>
+                  <p className="text-xs text-gray-400">{`Created by: ${user?.firstname} ${user?.lastname}`}</p>
+                  <span className="mt-4 text-xs ">Created on:</span>
                   <p className="font-serif text-xs text-right ">
                     {formatDate?.(createdAt)}
                   </p>

@@ -15,7 +15,7 @@ const AssignRoleScreen: React.FC<{ email: string; close: () => void }> = ({
   const [showStatus, setShowStatus] = useState<boolean>(false);
   const { loading, error } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  const roles = ["initiator", "operator", "supervisor", "admin"];
+  const roles = ["initiator", "operations", "supervisor", "admin"];
 
   const formik = useFormik({
     initialValues: {
@@ -113,7 +113,9 @@ const AssignRoleScreen: React.FC<{ email: string; close: () => void }> = ({
             ))}
           </select>
           {formik.touched.roles && formik.errors.roles && (
-            <div className="mt-1 text-red-500">{formik.errors.roles}</div>
+            <div className="mt-1 text-red-500 whitespace-normal">
+              {formik.errors.roles}
+            </div>
           )}
         </div>
 
@@ -132,7 +134,7 @@ const AssignRoleScreen: React.FC<{ email: string; close: () => void }> = ({
                 : "bg-green-900 text-white"
             }   py-2 px-4 rounded-md cursor-pointer`}
           >
-            {loading === "pending" ? "Assigning Role..." : "Assign Role"}
+            {loading === "pending" ? "Assigning Role..." : "Re-assign Role"}
           </button>
         </div>
       </form>

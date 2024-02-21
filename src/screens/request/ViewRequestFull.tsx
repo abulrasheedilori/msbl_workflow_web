@@ -423,11 +423,11 @@ const ViewRequestFull = () => {
                     formik.isValid ? "bg-green-900" : "bg-gray-400"
                   }`}
                 >
-                  {loading === "pending" ? (
+                  {/* {loading === "pending" ? (
                     <p className="text-center text-white">Posting...</p>
-                  ) : (
-                    "Post"
-                  )}
+                  ) : ( */}
+                  Post
+                  {/* )} */}
                 </button>
               </div>
             </form>

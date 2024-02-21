@@ -7,13 +7,13 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Status from "../components/Status";
 import { UpdatePropType, initialUpdates } from "../request/CreateRequest";
 
-const CreateUser: React.FC = () => {
+const ChangeUserDetails: React.FC = () => {
   const [statusUpdate, setStatusUpdate] =
     useState<UpdatePropType>(initialUpdates);
   const [showStatus, setShowStatus] = useState<boolean>(false);
   const { loading } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  const roles = ["initiator", "operations", "supervisor", "admin"];
+  const roles = ["initiator", "operator", "supervisor", "admin"];
 
   const formik = useFormik({
     initialValues: {
@@ -32,10 +32,10 @@ const CreateUser: React.FC = () => {
       username: Yup.string()
         .min(3, "A minimum of 3 characters is required")
         .required("Required"),
-      firstname: Yup.string().required("required"),
-      lastname: Yup.string().required("required"),
-      // mobile: Yup.string().required("required"),
-      role: Yup.string().required("required"),
+      firstname: Yup.string().required("Required"),
+      lastname: Yup.string().required("Required"),
+      mobile: Yup.string().required("Required"),
+      role: Yup.string().required("Required"),
       password: Yup.string()
         .required("Password is required")
         .min(8, "Password must be at least 8 characters")
@@ -45,7 +45,7 @@ const CreateUser: React.FC = () => {
         ),
       confirmpassword: Yup.string()
         .oneOf([Yup.ref("password"), ""], "Passwords must match")
-        .required("please, confirm your password"),
+        .required("Confirm Password is required"),
     }),
     onSubmit: (values) => {
       const { firstname, lastname, role, email, username, mobile, password } =
@@ -94,17 +94,15 @@ const CreateUser: React.FC = () => {
   return (
     <section className="w-full h-full overflow-y-auto">
       <header className="hidden py-4 text-xl font-bold text-black lg:pt-12 lg:px-8 lg:flex lg:text-4xl">
-        Create User
+        Update User
       </header>
       <p className="hidden mx-8 mb-8 text-xs text-white lg:flex lg:text-lg lg:text-black">
-        Welcome! you can create a new user with a role here. Just fill in all
-        the details, enable the user and the user is a go.
+        You can update a user details and change all details here. Just update
+        all the details.
       </p>
       <div className=" w-full p-8 lg:w-[33vw]  mx-auto rounded-xl shadow-lg border-2 border-grey">
-        <h2 className="text-2xl font-bold text-center">Create New User</h2>
-        <p className="p-4 pl-0 text-justify">
-          Kindly create a user and assign its role here
-        </p>
+        <h2 className="text-2xl font-bold text-center">Update New User</h2>
+        <p className="p-4 pl-0 text-justify">Kindly update user here</p>
         <form
           onSubmit={formik.handleSubmit}
           className="flex flex-col w-full pb-8"
@@ -187,7 +185,7 @@ const CreateUser: React.FC = () => {
               id="mobile"
               name="mobile"
               onChange={formik.handleChange}
-              // onBlur={formik.handleBlur}
+              onBlur={formik.handleBlur}
               value={formik.values.mobile}
               className="w-full p-2 border rounded outline-none focus:border-green-900 "
             />
@@ -208,6 +206,7 @@ const CreateUser: React.FC = () => {
               type="email"
               id="email"
               name="email"
+              disabled
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.email}
@@ -231,6 +230,7 @@ const CreateUser: React.FC = () => {
               type="password"
               id="password"
               name="password"
+              disabled
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.password}
@@ -254,6 +254,7 @@ const CreateUser: React.FC = () => {
               type="password"
               id="confirmpassword"
               name="confirmpassword"
+              disabled
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.confirmpassword}
@@ -309,7 +310,7 @@ const CreateUser: React.FC = () => {
                   : "bg-green-900 text-white"
               }   py-2 px-4 font-bold rounded cursor-pointer shadow-md mb-4`}
             >
-              {loading === "pending" ? "Proccessing..." : "Create User"}
+              {loading === "pending" ? "Proceesing..." : "Update User"}
             </button>
           </div>
         </form>
@@ -318,4 +319,4 @@ const CreateUser: React.FC = () => {
   );
 };
 
-export default CreateUser;
+export default ChangeUserDetails;
