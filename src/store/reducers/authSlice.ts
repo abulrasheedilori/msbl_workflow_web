@@ -96,7 +96,7 @@ const authSlice = createSlice({
           "Sign Up a user failed. Please, check and try again";
       })
 
-      //signup
+      //update User
       .addCase(updateUser.pending, (state) => {
         state.loading = "pending";
         state.error = null;

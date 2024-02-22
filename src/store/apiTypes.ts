@@ -11,6 +11,10 @@ type User = {
 };
 export default User;
 
+export type ApprovalStatusPropType =
+  | "AWAITING_APPROVAL"
+  | "APPROVED"
+  | "DECLINED";
 export type UserUpdate = {
   userId: number;
   username: string;

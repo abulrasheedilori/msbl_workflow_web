@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaArrowLeft, FaTrash } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
@@ -22,6 +22,8 @@ import Status from "../components/Status";
 import { UpdatePropType, initialUpdates } from "./CreateRequest";
 
 type UpdateStatusPromptPropType = { id: string; value: string };
+type ReqType = { id: string; value: string };
+
 const options: UpdateStatusPromptPropType[] = [
   { id: "1", value: "started" },
   { id: "2", value: "pending" },
@@ -30,8 +32,6 @@ const options: UpdateStatusPromptPropType[] = [
   { id: "5", value: "awaiting confirmation" },
   { id: "6", value: "completed" },
 ];
-
-type ReqType = { id: string; value: string };
 
 const ViewRequestFull = () => {
   const [paramId, setParamId] = useState<number>(1);
@@ -43,15 +43,25 @@ const ViewRequestFull = () => {
   const [statusUpdate, setStatusUpdate] =
     useState<UpdatePropType>(initialUpdates);
   const [showStatus, setShowStatus] = useState<boolean>(false);
-  const [isAuthorize, setIsAuthorize] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
   const { loading, user, error } = useAppSelector((state) => state.auth);
   const { id } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async (id: string) => {
+  const showApprovalStatus = (status: boolean) => {
+    switch (status) {
+      case true:
+        return "APPROVED";
+      case false:
+        return "DECLINED";
+      default:
+        return "AWAITING_APPROVAL";
+    }
+  };
+
+  const fetchData = useCallback(
+    async (id: string) => {
       try {
         if (typeof id !== "undefined") {
           const parsedId = parseInt(id);
@@ -88,10 +98,13 @@ const ViewRequestFull = () => {
                     id: "Narration",
                     value: request.narration ?? "NA",
                   },
-                  { id: "Status", value: request.status ?? "STARTED" },
+                  {
+                    id: "Status",
+                    value: request.status ?? "STARTED",
+                  },
                   {
                     id: "Is Approved",
-                    value: request.isApproved ? "APPROVED" : "NOT APPROVED",
+                    value: showApprovalStatus(request.isApproved),
                   },
                   {
                     id: "Debit Authorization URL",
@@ -137,54 +150,57 @@ const ViewRequestFull = () => {
           setShowStatus(true);
         }
       } catch (error) {
-        // console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error);
       }
-    };
+    },
+    [showStatus]
+  );
 
-    fetchData?.(id!);
-  }, [dispatch]);
+  useEffect(() => {
+    id && fetchData(id);
+  }, [fetchData]);
 
   const goBack = () => {
     navigate("/dashboard");
   };
 
-  const handleAuthorizeRequest = (requestId: number, isApproved: boolean) => {
-    const request = { requestId, isApproved };
-    dispatch(approveRequest(request))
-      .then(async (response) => {
-        if (response.payload.status === 200) {
-          // user?.roles.includes("ROLE_OPERATOR") &&
-          dispatch(getRequestById(requestId))
-            .then((response) => {
-              setSelectedReq(response.payload.data.data);
-            })
-            .catch((err) => {
-              console.log("RELOAD_STATUS: ", err);
+  //Handle Authorize
+  const handleAuthorizeRequest = useCallback(
+    (requestId: number, isApproved: boolean) => {
+      const request = { requestId, isApproved };
+      dispatch(approveRequest(request))
+        .then((response) => {
+          console.log("HANDLE_APPROVE_REQ = ", response);
+          if (response.payload.status === 200) {
+            dispatch(getRequestById(paramId)).then((reponse) =>
+              setSelectedReq(reponse.payload.data.data)
+            );
+            setStatusUpdate({
+              status: "succeeded",
+              title: "Successful",
+              message: response.payload.data.message,
             });
+            setShowStatus(true);
+          } else {
+            setStatusUpdate({
+              status: "failed",
+              title: "Failed",
+              message: response.payload.response.data.message,
+            });
+          }
+        })
+        .catch((err: any) => {
+          // console.log("ERROR IN ASSIGN_ROLES: ", err);
           setStatusUpdate({
-            status: "succeeded",
-            title: "Successful",
-            message: response.payload.data.message,
+            status: "error",
+            title: "Failed",
+            message: error!,
           });
           setShowStatus(true);
-        } else {
-          setStatusUpdate({
-            status: "failed",
-            title: "Failed",
-            message: response.payload.response.data.message,
-          });
-        }
-      })
-      .catch((err: any) => {
-        // console.log("ERROR IN ASSIGN_ROLES: ", err);
-        setStatusUpdate({
-          status: "error",
-          title: "Failed",
-          message: error!,
         });
-        setShowStatus(true);
-      });
-  };
+    },
+    [selectedReq]
+  );
 
   //Update Request
   const handleUpdateStatus = (e: string) => {
@@ -195,7 +211,7 @@ const ViewRequestFull = () => {
     };
     dispatch(updateStatus(req)).then((response) => {
       response.payload.status === 200 &&
-        user?.roles.includes("ROLE_OPERATOR") &&
+        user?.roles.includes("ROLE_OPERATIONS") &&
         dispatch(getRequestById(paramId))
           .then((response) => {
             setSelectedReq(response.payload.data.data);
@@ -205,6 +221,7 @@ const ViewRequestFull = () => {
           });
     });
   };
+
   //delete Request
   const handleDeleteRequest = (requestId: number) => {
     paramId &&
@@ -292,7 +309,7 @@ const ViewRequestFull = () => {
               </div>
             ))
           ) : (
-            <p className="text-4xl text-center">Loading ...</p>
+            <p className="text-4xl text-center">Loading request...</p>
           )}
           <Status
             {...statusUpdate}
@@ -300,8 +317,9 @@ const ViewRequestFull = () => {
             setShowStatus={setShowStatus}
           />
           <section className="flex flex-col items-center justify-start gap-4 m-4 lg:flex-row">
-            {user?.roles.includes("ROLE_INITIATOR") ||
-              (user?.roles.includes("ROLE_OPERATOR") && (
+            {(selectedReq?.isApproved &&
+              user?.roles.includes("ROLE_INITIATOR")) ||
+              (user?.roles.includes("ROLE_OPERATIONS") && (
                 <select
                   className="w-[180px] h-[40px] rounded-md bg-slate-200 p-2 outline-none"
                   value={selectedOption}
@@ -337,23 +355,24 @@ const ViewRequestFull = () => {
             showStatus={showStatus}
             setShowStatus={setShowStatus}
           />
-          {user?.roles.includes("ROLE_OPERATOR") &&
-            !selectedReq?.isApproved && (
-              <section className="flex flex-row justify-start gap-4 m-4 item-center">
-                <span
-                  onClick={() => handleAuthorizeRequest(paramId, true)}
-                  className="w-24 p-2 text-center text-white bg-green-500 rounded-md cursor-pointer hover:bg-green-700"
-                >
-                  Approve
-                </span>
-              </section>
-            )}
+          {user?.roles.includes("ROLE_OPERATIONS") && (
+            <section className="flex flex-row justify-start gap-4 m-4 item-center">
+              <span
+                onClick={() =>
+                  handleAuthorizeRequest(paramId, !selectedReq?.isApproved)
+                }
+                className="w-24 p-2 text-center text-white bg-green-500 rounded-md cursor-pointer hover:bg-green-700"
+              >
+                {selectedReq?.isApproved ? "Decline" : "Approve"}
+              </span>
+            </section>
+          )}
         </section>
 
         <section className="w-full lg:w-[40vw] p-4 mx-auto flex flex-col items-center justify-center gap-2">
           <section className="w-full p-4 bg-gray-50 bg-opacity-10">
             <p className="mt-8 mb-4 text-xl font-bold text-center text-green-900">
-              {selectedReq?.title ?? "Loading ..."}
+              {selectedReq?.title.toUpperCase() ?? "Loading ..."}
             </p>
             <p className=" text-md text-left border-green-200 lg:w-[30vw] ">
               {selectedReq?.message ?? "Loading..."}
@@ -364,6 +383,7 @@ const ViewRequestFull = () => {
               </p>
             )}
           </section>
+
           {/* ------display comments ------------- */}
           <section className="p-4 my-4 border border-green-100">
             <p className="py-2 text-xs text-gray-500">Comments</p>
