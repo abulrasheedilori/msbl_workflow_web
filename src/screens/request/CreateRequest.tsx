@@ -85,7 +85,7 @@ const CreateRequest: React.FC = () => {
             setStatusUpdate({
               status: "failed",
               title: "Failed Request Creation",
-              message: response.payload.response.data.message,
+              message: response.payload.message,
             });
           }
           setShowStatus(true);
@@ -94,7 +94,7 @@ const CreateRequest: React.FC = () => {
           setStatusUpdate({
             status: "error",
             title: "Failed",
-            message: error.response.data.message,
+            message: error.message,
           });
           setShowStatus(true);
         });

@@ -158,7 +158,7 @@ const ViewRequestFull = () => {
 
   useEffect(() => {
     id && fetchData(id);
-  }, [fetchData]);
+  }, [id, fetchData]);
 
   const goBack = () => {
     navigate("/dashboard");
@@ -199,7 +199,7 @@ const ViewRequestFull = () => {
           setShowStatus(true);
         });
     },
-    [selectedReq]
+    [selectedReq] // selectedReq
   );
 
   //Update Request
@@ -301,6 +301,7 @@ const ViewRequestFull = () => {
                       className="font-semibold text-red-600 underline whitespace-normal text-md"
                       href={item.value}
                       target="_blank"
+                      rel="noreferrer"
                     >
                       {item.value}
                     </a>
@@ -317,9 +318,8 @@ const ViewRequestFull = () => {
             setShowStatus={setShowStatus}
           />
           <section className="flex flex-col items-center justify-start gap-4 m-4 lg:flex-row">
-            {(selectedReq?.isApproved &&
-              user?.roles.includes("ROLE_INITIATOR")) ||
-              (user?.roles.includes("ROLE_OPERATIONS") && (
+            {selectedReq?.isApproved &&
+              user?.roles.includes("ROLE_INITIATOR") && (
                 <select
                   className="w-[180px] h-[40px] rounded-md bg-slate-200 p-2 outline-none"
                   value={selectedOption}
@@ -334,7 +334,7 @@ const ViewRequestFull = () => {
                     </option>
                   ))}
                 </select>
-              ))}
+              )}
             {user?.roles.includes("ROLE_SUPERVISOR") && (
               <section
                 onClick={() => handleDeleteRequest(paramId)}

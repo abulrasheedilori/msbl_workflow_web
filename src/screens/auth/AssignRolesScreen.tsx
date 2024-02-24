@@ -34,34 +34,36 @@ const AssignRoleScreen: React.FC<{ email: string; close: () => void }> = ({
       };
       console.log("Assign_Roles Req Obj submitted:", user);
       dispatch(assignRoles(user))
-        .then((response) => {
-          console.log("SIGN IN RESPONSE : ", response);
-          if (response.payload.status === 200) {
+        .then((result) => {
+          console.log("ASSIGN ROLE RESULT : ", result);
+          if (result.payload.status === 200) {
             setStatusUpdate({
               status: "succeeded",
               title: "Successful",
-              message: response.payload.data.message,
+              message: result.payload.data.message,
             });
             formik.resetForm();
             setShowStatus(true);
           } else {
+            console.log("ASSIGN_ROLE: INVALID CLIENT RESPONSE ", result);
             setStatusUpdate({
               status: "failed",
               title: "Failed",
-              message: response.payload.response.data.message,
+              message: result.payload.response.data.message,
             });
+            setShowStatus(true);
           }
         })
         .then(() => {
           dispatch(getAllUsers());
-          setTimeout(() => close(), 1000);
+          setTimeout(() => close(), 2000);
         })
         .catch((err: any) => {
           console.log("ERROR IN ASSIGN_ROLES: ", err);
           setStatusUpdate({
             status: "error",
             title: "Failed",
-            message: error!,
+            message: err.message,
           });
           setShowStatus(true);
         });
