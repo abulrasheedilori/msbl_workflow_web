@@ -79,109 +79,121 @@ const ViewUsersScreen = () => {
                 <th className="flex-1 px-2 py-1">Actions</th>
               )}
               {user?.roles.includes("ROLE_ADMIN") && (
-                <th className="flex-1 px-2 py-1 ">Update User Details</th>
+                <th className="flex-1 px-2 py-1 ">Update Details</th>
               )}
             </tr>
           </thead>
           <tbody>
-            {listOfUser
-              .filter((user) => !user.roles.includes("ROLE_ADMIN"))
-              .map((user_, index) => (
-                <tr
-                  key={user_?.id?.toString()}
-                  className="text-center border-b bg-slate-50 text-nowrap hover:bg-green-900 hover:text-green-50"
-                >
-                  <td className="flex-1 px-2 py-1">{index + 1}</td>
-                  <td className="px-2 py-1 tex-wrap flex-3">
-                    {user_?.username}
-                  </td>
-                  <td className="px-2 py-1 text-wrap flex-3">
-                    {user_?.firstname + " " + user_.lastname}
-                  </td>
-                  <td className="px-2 py-1 text-wrap flex-3">{user_?.email}</td>
-                  {user?.roles.includes("ROLE_ADMIN") && (
-                    <td
-                      className="flex-1 px-2 py-1 "
-                      onClick={() => handleShowResetPopUp(user_?.email)}
-                    >
-                      <span className="flex-1 px-2 py-1 text-sm font-semibold text-center text-yellow-700 hover:underline hover:text-md">
-                        Change
-                      </span>
-                    </td>
-                  )}
-                  <td
-                    className="flex-1 px-2 py-1 "
-                    onClick={
-                      user?.roles.includes("ROLE_SUPERVISOR")
-                        ? () => handleShowAssignRolePopUp(user_?.email)
-                        : () => null
-                    }
+            {listOfUser.length > 0 ? (
+              listOfUser
+                .filter((user) => !user.roles.includes("ROLE_ADMIN"))
+                .map((user_, index) => (
+                  <tr
+                    key={user_?.id?.toString()}
+                    className="text-center border-b bg-slate-50 text-nowrap hover:bg-green-900 hover:text-green-50"
                   >
-                    {user_.roles.map((role) => (
-                      <div className="flex-1 px-2 py-1 ">
-                        <p className="text-sm hover:text-sm">{role.slice(5)}</p>
-                        {user?.roles.includes("ROLE_SUPERVISOR") && (
-                          <p className="text-xs text-center text-red-500 hover:underline">
-                            re-assign
-                          </p>
-                        )}
-                      </div>
-                    ))}
-                  </td>
-                  {user?.roles.includes("ROLE_ADMIN") && (
-                    <td
-                      className="flex-1 px-2 py-1 text-sm hover:text:md"
-                      onClick={() =>
-                        handleEnableOrDisabledUser(
-                          user_?.email,
-                          !user_?.isDisabled
-                        )
-                      }
-                    >
-                      <p
-                        className={`${
-                          user_.isDisabled ? "text-green-600" : "text-red-600"
-                        } font-bold `}
-                      >
-                        {user_?.isDisabled ? "ENABLED" : "DISABLED"}
-                      </p>
-                      <p className="text-xs text-red-500 hover:underline">
-                        {!user_?.isDisabled ? "enable" : "disable"}
-                      </p>
+                    <td className="flex-1 px-2 py-1">{index + 1}</td>
+                    <td className="px-2 py-1 tex-wrap flex-3">
+                      {user_?.username}
                     </td>
-                  )}
-                  {user?.roles.includes("ROLE_ADMIN") && (
+                    <td className="px-2 py-1 text-wrap flex-3">
+                      {user_?.firstname + " " + user_.lastname}
+                    </td>
+                    <td className="px-2 py-1 text-wrap flex-3">
+                      {user_?.email}
+                    </td>
+                    {user?.roles.includes("ROLE_ADMIN") && (
+                      <td
+                        className="flex-1 px-2 py-1 "
+                        onClick={() => handleShowResetPopUp(user_?.email)}
+                      >
+                        <span className="flex-1 px-2 py-1 text-sm font-semibold text-center text-yellow-700 hover:underline hover:text-md">
+                          Change
+                        </span>
+                      </td>
+                    )}
                     <td
                       className="flex-1 px-2 py-1 "
-                      onClick={() =>
-                        handleShowUserDetailPopUp(user_.id!, user_)
+                      onClick={
+                        user?.roles.includes("ROLE_SUPERVISOR")
+                          ? () => handleShowAssignRolePopUp(user_?.email)
+                          : () => null
                       }
                     >
-                      <span className="flex-1 px-2 py-1 text-sm font-semibold text-center text-yellow-700 hover:underline hover:text-md">
-                        Update User
-                      </span>
+                      {user_.roles.map((role) => (
+                        <div className="flex-1 px-2 py-1 ">
+                          <p className="text-sm hover:text-sm">
+                            {role.slice(5)}
+                          </p>
+                          {user?.roles.includes("ROLE_SUPERVISOR") && (
+                            <p className="text-xs text-center text-red-500 hover:underline">
+                              re-assign
+                            </p>
+                          )}
+                        </div>
+                      ))}
                     </td>
-                  )}
-                  {showResetPopUp && (
-                    <ResetPwdScreen
-                      email={targetedUserEmail}
-                      close={handleCloseResetPopUp}
-                    />
-                  )}
-                  {showAssignRolePopUp && (
-                    <AssignRolesScreen
-                      email={targetedUserEmail}
-                      close={handleCLoseAssignRolePopUp}
-                    />
-                  )}
-                  {showUserDetailPopUp && (
-                    <ChangeUserDetails
-                      user={selectedUser!}
-                      close={() => setShowUserDetailPopUp(false)}
-                    />
-                  )}
-                </tr>
-              ))}
+                    {user?.roles.includes("ROLE_ADMIN") && (
+                      <td
+                        className="flex-1 px-2 py-1 text-sm hover:text:md"
+                        onClick={() =>
+                          handleEnableOrDisabledUser(
+                            user_?.email,
+                            !user_?.isDisabled
+                          )
+                        }
+                      >
+                        <p
+                          className={`${
+                            user_.isDisabled ? "text-green-600" : "text-red-600"
+                          } font-bold `}
+                        >
+                          {user_?.isDisabled ? "ENABLED" : "DISABLED"}
+                        </p>
+                        <p className="text-xs text-red-500 hover:underline">
+                          {!user_?.isDisabled ? "enable" : "disable"}
+                        </p>
+                      </td>
+                    )}
+                    {user?.roles.includes("ROLE_ADMIN") && (
+                      <td
+                        className="flex-1 px-2 py-1 "
+                        onClick={() =>
+                          handleShowUserDetailPopUp(user_.id!, user_)
+                        }
+                      >
+                        <span className="flex-1 px-2 py-1 text-sm font-semibold text-center text-yellow-700 hover:underline hover:text-md">
+                          update user
+                        </span>
+                      </td>
+                    )}
+                    {showResetPopUp && (
+                      <ResetPwdScreen
+                        email={targetedUserEmail}
+                        close={handleCloseResetPopUp}
+                      />
+                    )}
+                    {showAssignRolePopUp && (
+                      <AssignRolesScreen
+                        email={targetedUserEmail}
+                        close={handleCLoseAssignRolePopUp}
+                      />
+                    )}
+                    {showUserDetailPopUp && (
+                      <ChangeUserDetails
+                        user={selectedUser!}
+                        close={() => setShowUserDetailPopUp(false)}
+                      />
+                    )}
+                  </tr>
+                ))
+            ) : (
+              <section>
+                <p className="text-center text-md p-auto lg:text-xl">
+                  No user found yet, Create one
+                </p>
+              </section>
+            )}
           </tbody>
         </table>
       </section>

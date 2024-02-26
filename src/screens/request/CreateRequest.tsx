@@ -78,14 +78,14 @@ const CreateRequest: React.FC = () => {
             setStatusUpdate({
               status: "succeeded",
               title: "Successful",
-              message: response.payload.data.message,
+              message: response.payload?.data?.message,
             });
             formik.resetForm();
           } else {
             setStatusUpdate({
               status: "failed",
               title: "Failed Request Creation",
-              message: response.payload.message,
+              message: response.payload.response?.data?.message,
             });
           }
           setShowStatus(true);
@@ -98,7 +98,7 @@ const CreateRequest: React.FC = () => {
           });
           setShowStatus(true);
         });
-      console.log("Create Request Obj submitted:", values);
+      // console.log("Create Request Obj submitted:", values);
     },
   });
 

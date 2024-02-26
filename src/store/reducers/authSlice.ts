@@ -183,7 +183,7 @@ const authSlice = createSlice({
       })
       .addCase(getAllRequestType.fulfilled, (state, action) => {
         state.loading = "succeeded";
-        state.requestTypes = action.payload.data.data;
+        state.requestTypes = action.payload?.data?.data;
       })
       .addCase(getAllRequestType.rejected, (state, action: any) => {
         state.loading = "failed";
