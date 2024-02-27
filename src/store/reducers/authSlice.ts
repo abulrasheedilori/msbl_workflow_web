@@ -75,6 +75,7 @@ const authSlice = createSlice({
         const stringValue = JSON.stringify(action.payload.data.data);
         localStorage.setItem("user", stringValue);
         state.message = action.payload.data.message;
+        state.loading = "idle";
       })
       .addCase(login.rejected, (state, action: any) => {
         // console.log("ACTION_REJECTED: ", action.payload);
