@@ -211,7 +211,7 @@ const ViewRequestFull = () => {
     };
     dispatch(updateStatus(req)).then((response) => {
       response.payload.status === 200 &&
-        user?.roles.includes("ROLE_OPERATIONS") &&
+        // user?.roles.includes("ROLE_OPERATIONS") &&
         dispatch(getRequestById(paramId))
           .then((response) => {
             setSelectedReq(response.payload.data.data);
@@ -444,11 +444,11 @@ const ViewRequestFull = () => {
                     formik.isValid ? "bg-green-900" : "bg-gray-400"
                   }`}
                 >
-                  {/* {loading === "pending" ? (
+                  {loading === "pending" ? (
                     <p className="text-center text-white">Posting...</p>
-                  ) : ( */}
-                  Post
-                  {/* )} */}
+                  ) : (
+                    "Post"
+                  )}
                 </button>
               </div>
             </form>

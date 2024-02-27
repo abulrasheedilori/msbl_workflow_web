@@ -80,6 +80,7 @@ const authSlice = createSlice({
         // console.log("ACTION_REJECTED: ", action.payload);
         state.loading = "failed";
         state.error = "Invalid Login. Please, check and try again";
+        state.loading = "idle";
       })
       //signup
       .addCase(signup.pending, (state) => {
@@ -144,10 +145,12 @@ const authSlice = createSlice({
       })
       .addCase(postComment.fulfilled, (state, action) => {
         state.loading = "succeeded";
+        state.loading = "idle";
       })
       .addCase(postComment.rejected, (state, action: any) => {
         state.loading = "failed";
-        state.error = action.payload.message || "Posting comment Failed";
+        state.error = action.payload?.message || "Posting comment Failed";
+        state.loading = "idle";
       })
 
       //update status

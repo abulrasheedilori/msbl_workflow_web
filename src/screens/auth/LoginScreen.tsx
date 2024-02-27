@@ -39,7 +39,11 @@ const LoginScreen: React.FC = () => {
           if (result.payload.status === 200) {
             navigate("dashboard");
           } else {
-            console.log(" RESPONSE : ", result.payload.message);
+            console.log(
+              " RESPONSE : ",
+              result.payload.response?.data?.message ||
+                "Please, check your network"
+            );
             setStatusUpdate(failureObj);
           }
         })

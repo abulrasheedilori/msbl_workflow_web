@@ -98,7 +98,6 @@ const CreateRequest: React.FC = () => {
           });
           setShowStatus(true);
         });
-      // console.log("Create Request Obj submitted:", values);
     },
   });
 
@@ -314,11 +313,12 @@ const CreateRequest: React.FC = () => {
                 <option value="" disabled>
                   Select Request-Type
                 </option>
-                {requestTypes.map((reqType: RequestTypeType) => (
-                  <option key={reqType.id} value={reqType.id}>
-                    {reqType.title.toUpperCase()}
-                  </option>
-                ))}
+                {requestTypes &&
+                  requestTypes.map((reqType: RequestTypeType) => (
+                    <option key={reqType.id} value={reqType.id}>
+                      {reqType.title.toUpperCase()}
+                    </option>
+                  ))}
               </select>
               {selectedOption && (
                 <p className="text-xs">Note: {selectedOption?.description}</p>
