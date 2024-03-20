@@ -13,7 +13,7 @@ import User, {
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
-  // baseURL: "http://localhost:8080/api",
+  // baseURL: process.env.REACT_APP_LOCAL_BASE_URL,
   timeout: 60000,
 });
 
@@ -26,7 +26,7 @@ const login = createAsyncThunk(
       console.log("LOGIN_RESPONSE: ", response);
       return response;
     } catch (error: any) {
-      console.log("LOGIN_ERROR: ", error);
+      console.log("LOGIN_ERROR: ", error.response.data.message);
       return error;
     }
   }

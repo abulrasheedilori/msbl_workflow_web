@@ -11,7 +11,7 @@ import StatusUpdateLayout from "../components/StatusUpdateLayout";
 const LoginScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { error, loading } = useAppSelector((state) => state.auth);
+  const { loading } = useAppSelector((state) => state.auth);
   const [statusUpdate, setStatusUpdate] =
     useState<StatusUpdatePropsType | null>(null);
 
@@ -22,34 +22,30 @@ const LoginScreen: React.FC = () => {
     },
     validationSchema: Yup.object({
       username: Yup.string().required("Username is required"),
-      password: Yup.string()
-        .required("Password is required")
-        .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-          "Atleast an uppercase letter, a lowercase letter, a digit, a special character, and 8 characters long or more."
-        ),
+      password: Yup.string().required("Password is required"),
+      // .matches(
+      //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      //   "Atleast an uppercase letter, a lowercase letter, a digit, a special character, and 8 characters long or more."
+      // ),
     }),
     onSubmit: async (values: LoginType) => {
-      const failureObj: StatusUpdatePropsType = {
-        message: error! ?? "Invalid Credentials",
-        status: "failed",
-      };
       dispatch(login(values))
         .then((result: any) => {
           if (result.payload.status === 200) {
             navigate("dashboard");
           } else {
-            console.log(
-              " RESPONSE : ",
-              result.payload.response?.data?.message ||
-                "Please, check your network"
-            );
-            setStatusUpdate(failureObj);
+            setStatusUpdate({
+              message: result.payload.response.data.message,
+              status: "failed",
+            });
           }
         })
         .catch((error) => {
-          console.log(" ERROR: ", error);
-          setStatusUpdate(failureObj);
+          console.log("Error occur while logging in ...  ", error.message);
+          setStatusUpdate({
+            message: error.message,
+            status: "failed",
+          });
         });
     },
   });

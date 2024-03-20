@@ -78,10 +78,6 @@ const ViewRequestFull = () => {
                     value: formatDate(request.createdAt) ?? "NA",
                   },
                   {
-                    id: "Updated At",
-                    value: formatDate(request.updatedAt) ?? "NA",
-                  },
-                  {
                     id: "Client Email",
                     value: request.clientEmail ?? "NA",
                   },
@@ -117,6 +113,20 @@ const ViewRequestFull = () => {
                   {
                     id: "Request Type",
                     value: request.requestType.title ?? "NA",
+                  },
+                  {
+                    id: "Initiator",
+                    value:
+                      `${request.user.firstname} ${request.user.lastname}` ??
+                      "NA",
+                  },
+                  {
+                    id: "Initiator`s Mobile",
+                    value: `${request.user.mobile}` ?? "NA",
+                  },
+                  {
+                    id: "Initiator`s Email",
+                    value: `${request.user.email}` ?? "NA",
                   },
                 ]);
                 setStatusUpdate({
@@ -211,13 +221,12 @@ const ViewRequestFull = () => {
     };
     dispatch(updateStatus(req)).then((response) => {
       response.payload.status === 200 &&
-        // user?.roles.includes("ROLE_OPERATIONS") &&
         dispatch(getRequestById(paramId))
           .then((response) => {
             setSelectedReq(response.payload.data.data);
           })
           .catch((err) => {
-            // console.log("RELOAD_STATUS: ", err);
+            console.log("RELOAD_STATUS: ", err);
           });
     });
   };
@@ -294,16 +303,21 @@ const ViewRequestFull = () => {
                   id="clientName"
                   className="px-2 text-green-900 lg:text-md text-bold"
                 >
-                  {!item?.id.toLowerCase().includes("url") ? (
+                  {!item?.id.toLowerCase().includes("url") &&
+                  !item?.id.toLowerCase().includes("email") ? (
                     item?.value
                   ) : (
                     <a
-                      className="font-semibold text-red-600 underline whitespace-normal text-md"
-                      href={item.value}
+                      className="text-xs italic font-semibold text-red-600 underline whitespace-normal"
+                      href={`mailto:${item.value}`}
                       target="_blank"
                       rel="noreferrer"
                     >
-                      {item.value}
+                      {`${
+                        item?.id.toLowerCase().includes("email")
+                          ? `${item?.value}`
+                          : item?.value
+                      }`}
                     </a>
                   )}
                 </span>
@@ -355,18 +369,46 @@ const ViewRequestFull = () => {
             showStatus={showStatus}
             setShowStatus={setShowStatus}
           />
-          {user?.roles.includes("ROLE_OPERATIONS") && (
-            <section className="flex flex-row justify-start gap-4 m-4 item-center">
-              <span
-                onClick={() =>
-                  handleAuthorizeRequest(paramId, !selectedReq?.isApproved)
-                }
-                className="w-24 p-2 text-center text-white bg-green-500 rounded-md cursor-pointer hover:bg-green-700"
-              >
-                {selectedReq?.isApproved ? "Decline" : "Approve"}
-              </span>
-            </section>
-          )}
+          {user?.roles.includes("ROLE_OPERATIONS") &&
+            selectedReq?.isApproved === null && (
+              <section className="flex flex-row justify-start gap-4 m-4 item-center">
+                <span
+                  onClick={() => handleAuthorizeRequest(paramId, true)}
+                  className="w-24 p-2 text-center text-white bg-green-500 rounded-md cursor-pointer hover:bg-green-700"
+                >
+                  {"Approve"}
+                </span>
+                <span
+                  onClick={() => handleAuthorizeRequest(paramId, false)}
+                  className="w-24 p-2 text-center text-white bg-red-500 rounded-md cursor-pointer hover:bg-red-700"
+                >
+                  {"Decline"}
+                </span>
+              </section>
+            )}
+          {user?.roles.includes("ROLE_OPERATIONS") &&
+            selectedReq?.isApproved && (
+              <section className="flex flex-row justify-start gap-4 m-4 item-center">
+                <span
+                  onClick={() => handleAuthorizeRequest(paramId, false)}
+                  className="w-24 p-2 text-center text-white bg-red-500 rounded-md cursor-pointer hover:bg-red-700"
+                >
+                  {"Decline"}
+                </span>
+              </section>
+            )}
+
+          {user?.roles.includes("ROLE_OPERATIONS") &&
+            selectedReq?.isApproved === false && (
+              <section className="flex flex-row justify-start gap-4 m-4 item-center">
+                <span
+                  onClick={() => handleAuthorizeRequest(paramId, true)}
+                  className="w-24 p-2 text-center text-white bg-green-500 rounded-md cursor-pointer hover:bg-green-700"
+                >
+                  {"Approve"}
+                </span>
+              </section>
+            )}
         </section>
 
         <section className="w-full lg:w-[40vw] p-4 mx-auto flex flex-col items-center justify-center gap-2">
