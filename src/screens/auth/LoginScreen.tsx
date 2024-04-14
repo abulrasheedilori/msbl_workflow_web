@@ -35,15 +35,15 @@ const LoginScreen: React.FC = () => {
             navigate("dashboard");
           } else {
             setStatusUpdate({
-              message: result.payload.response.data.message,
+              message: result.payload.response.data.message || "Invalid Login",
               status: "failed",
             });
           }
         })
-        .catch((error) => {
+        .catch((error: any) => {
           console.log("Error occur while logging in ...  ", error.message);
           setStatusUpdate({
-            message: error.message,
+            message: "Network Issue, check your network & try again later",
             status: "failed",
           });
         });

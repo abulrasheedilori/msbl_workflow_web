@@ -19,7 +19,7 @@ const App = () => {
     console.log("Checking cache for access token = ", isAuth);
     const cachedUser = localStorage.getItem("user");
     const parsedAuth = cachedUser && JSON.parse(cachedUser);
-    setIsAuth(!!parsedAuth?.accesstoken);
+    setIsAuth(parsedAuth?.accesstoken);
     console.log("Access token set, IsAuth = ", isAuth);
   }, [isAuth]);
 
