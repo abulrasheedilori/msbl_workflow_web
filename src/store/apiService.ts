@@ -27,7 +27,7 @@ const login = createAsyncThunk(
       return response;
     } catch (error: any) {
       console.log("LOGIN_ERROR: ", error?.message);
-      return error.message;
+      return error;
     }
   }
 );

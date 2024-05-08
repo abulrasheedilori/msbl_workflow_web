@@ -299,28 +299,36 @@ const ViewRequestFull = () => {
                 >
                   {item.id}:
                 </label>
-                <span
-                  id="clientName"
-                  className="px-2 text-green-900 lg:text-md text-bold"
-                >
-                  {!item?.id.toLowerCase().includes("url") &&
-                  !item?.id.toLowerCase().includes("email") ? (
-                    item?.value
-                  ) : (
+                <section>
+                  {item?.id.toLowerCase().includes("email") && (
                     <a
                       className="text-xs italic font-semibold text-red-600 underline whitespace-normal"
                       href={`mailto:${item.value}`}
                       target="_blank"
                       rel="noreferrer"
                     >
-                      {`${
-                        item?.id.toLowerCase().includes("email")
-                          ? `${item?.value}`
-                          : item?.value
-                      }`}
+                      {item?.value}
                     </a>
                   )}
-                </span>
+
+                  {item?.id.toLowerCase().includes("url") && (
+                    <a
+                      className="text-xs italic font-semibold text-red-600 underline whitespace-normal"
+                      href={`${item.value}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {item?.value}
+                    </a>
+                  )}
+
+                  {!item?.id.toLowerCase().includes("email") &&
+                    !item?.id.toLowerCase().includes("url") && (
+                      <span className="px-2 text-green-900 lg:text-md text-bold">
+                        {item?.value}
+                      </span>
+                    )}
+                </section>
               </div>
             ))
           ) : (

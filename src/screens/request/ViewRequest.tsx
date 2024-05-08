@@ -22,7 +22,7 @@ const ViewRequest = () => {
   };
 
   return (
-    <section className="flex-1 w-full mx-auto overflow-y-auto lg:pt-12 scroll-smooth">
+    <section className="flex-1 w-full h-full mx-auto overflow-y-auto lg:pt-12 scroll-smooth">
       <section className="sticky top-0 left-0 right-0 z-40 w-full py-2 bg-green-950 lg:static lg:bg-transparent">
         <section>
           <header className="mx-2 text-xl font-bold text-white lg:text-black text-start lg:mx-8 lg:text-4xl">
