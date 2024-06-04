@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { useCallback, useEffect, useState } from "react";
-import { FaArrowLeft, FaTrash } from "react-icons/fa";
+import { FaArrowLeft, FaRegEdit, FaTrash } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import {
@@ -174,6 +174,11 @@ const ViewRequestFull = () => {
     navigate("/dashboard");
   };
 
+  const handleNavToEditReq = () =>
+    navigate("edit-request", {
+      state: { request: { ...selectedReq, requestId: id && parseInt(id) } },
+    });
+
   //Handle Authorize
   const handleAuthorizeRequest = useCallback(
     (requestId: number, isApproved: boolean) => {
@@ -272,7 +277,7 @@ const ViewRequestFull = () => {
   });
 
   return (
-    <section className="w-full lg:h-[90vh] flex-1 bg-green-50 mx-auto p-2 pt-8 overflow-y-auto">
+    <section className="relative w-full lg:h-[90vh] flex-1 bg-green-50 mx-auto p-2 pt-8 overflow-y-auto">
       <header className="mx-8 text-xl font-bold text-center lg:text-4xl">
         Request Details
       </header>
@@ -286,6 +291,7 @@ const ViewRequestFull = () => {
         >
           <FaArrowLeft size={24} />
         </button>
+
         <section className="mt-16">
           {request ? (
             request?.map((item) => (
@@ -406,7 +412,7 @@ const ViewRequestFull = () => {
               </section>
             )}
 
-          {user?.roles.includes("ROLE_OPERATIONS") &&
+          {user?.roles.includes("ROLE_INITIATOR") &&
             selectedReq?.isApproved === false && (
               <section className="flex flex-row justify-start gap-4 m-4 item-center">
                 <span
@@ -417,6 +423,22 @@ const ViewRequestFull = () => {
                 </span>
               </section>
             )}
+          {user?.roles.includes("ROLE_INITIATOR") && (
+            // selectedReq?.isApproved === false &&
+            <button
+              onClick={handleNavToEditReq}
+              className="flex flex-row items-center justify-center gap-2 p-2 ml-4 border rounded-lg shadow-md border-slate-200 hover:bg-green-700 "
+            >
+              <FaRegEdit
+                size={24}
+                color="green"
+                className="cursor-pointer hover:bg-green-700"
+              />
+              <span className="font-bold text-md text-green-950 hover:text-slate-50">
+                Edit Details
+              </span>
+            </button>
+          )}
         </section>
 
         <section className="w-full lg:w-[40vw] p-4 mx-auto flex flex-col items-center justify-center gap-2">

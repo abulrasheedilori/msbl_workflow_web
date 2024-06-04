@@ -17,6 +17,7 @@ import {
   resetPassword,
   searchRequest,
   signup,
+  updateRequest,
   updateStatus,
   updateUser,
 } from "../apiService";
@@ -331,6 +332,20 @@ const authSlice = createSlice({
         state.loading = "failed";
         state.error =
           action.payload.message || "Retrieving Request by Id Failed";
+      })
+
+      //Update Request
+      //create request
+      .addCase(updateRequest.pending, (state, action) => {
+        state.loading = "pending";
+        state.error = null;
+      })
+      .addCase(updateRequest.fulfilled, (state, action) => {
+        state.loading = "succeeded";
+      })
+      .addCase(updateRequest.rejected, (state, action: any) => {
+        state.loading = "failed";
+        state.error = action.payload.message || "Creating Request Failed";
       });
   },
 });

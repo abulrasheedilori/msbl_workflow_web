@@ -41,6 +41,7 @@ export type LoginResponse = {
 };
 
 export type RequestReqType = {
+  requestId?: number;
   title: string;
   message: string;
   clientName: string;

@@ -5,6 +5,7 @@ import ViewUsersScreen from "./screens/auth/ViewUsersScreen";
 import DashboardScreen from "./screens/dashboard/DashboardScreen";
 import Homepage from "./screens/homepage/Homepage";
 import CreateRequest from "./screens/request/CreateRequest";
+import EditRequest from "./screens/request/EditRequest";
 import ViewRequest from "./screens/request/ViewRequest";
 import ViewRequestFull from "./screens/request/ViewRequestFull";
 import RequestTable from "./screens/review/RequestTable";
@@ -33,15 +34,16 @@ const App = () => {
             ) : (
               <Route index element={<ViewUsersScreen />} />
             )}
-
             {user && !user.roles.includes("ROLE_ADMIN") && (
               <Route path="/dashboard/:id" element={<ViewRequestFull />} />
             )}
-
             <Route path="create-request" element={<CreateRequest />} />
             <Route path="create-user" element={<CreateUser />} />
             <Route path="manage-user" element={<ViewUsersScreen />} />
             <Route path="audit" element={<RequestTable />} />
+            <Route path="edit-request" element={<EditRequest />} />
+            <Route path=":id/edit-request" element={<EditRequest />} />
+            {/* New nested route */}
           </Route>
         ) : (
           <Route path="*" element={<Homepage />} />

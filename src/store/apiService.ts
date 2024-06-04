@@ -381,6 +381,25 @@ const getRequestById = createAsyncThunk(
   }
 );
 
+//update request
+const updateRequest = createAsyncThunk(
+  "request/updateRequest",
+  async (request: RequestReqType) => {
+    try {
+      const user = localStorage.getItem("user");
+      const parsedAuth = JSON.parse(user!);
+      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const response = await api.patch(`/requests`, request, {
+        headers: auth,
+      });
+      console.log("UPDATE_REQUEST:", response);
+      return response;
+    } catch (error: any) {
+      return error;
+    }
+  }
+);
+
 export default api;
 export {
   approveRequest,
@@ -402,6 +421,7 @@ export {
   resetPassword,
   searchRequest,
   signup,
+  updateRequest,
   updateStatus,
   updateUser,
 };
