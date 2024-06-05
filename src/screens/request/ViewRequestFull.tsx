@@ -412,7 +412,7 @@ const ViewRequestFull = () => {
               </section>
             )}
 
-          {user?.roles.includes("ROLE_INITIATOR") &&
+          {user?.roles.includes("ROLE_OPERATIONS") &&
             selectedReq?.isApproved === false && (
               <section className="flex flex-row justify-start gap-4 m-4 item-center">
                 <span
@@ -423,22 +423,22 @@ const ViewRequestFull = () => {
                 </span>
               </section>
             )}
-          {user?.roles.includes("ROLE_INITIATOR") && (
-            // selectedReq?.isApproved === false &&
-            <button
-              onClick={handleNavToEditReq}
-              className="flex flex-row items-center justify-center gap-2 p-2 ml-4 border rounded-lg shadow-md border-slate-200 hover:bg-green-700 "
-            >
-              <FaRegEdit
-                size={24}
-                color="green"
-                className="cursor-pointer hover:bg-green-700"
-              />
-              <span className="font-bold text-md text-green-950 hover:text-slate-50">
-                Edit Details
-              </span>
-            </button>
-          )}
+          {user?.roles.includes("ROLE_INITIATOR") &&
+            selectedReq?.isApproved === false && (
+              <button
+                onClick={handleNavToEditReq}
+                className="flex flex-row items-center justify-center gap-2 p-2 ml-4 border rounded-lg shadow-md border-slate-200 hover:bg-green-700 "
+              >
+                <FaRegEdit
+                  size={24}
+                  color="green"
+                  className="cursor-pointer hover:bg-green-700"
+                />
+                <span className="font-bold text-md text-green-950 hover:text-slate-50">
+                  Edit Details
+                </span>
+              </button>
+            )}
         </section>
 
         <section className="w-full lg:w-[40vw] p-4 mx-auto flex flex-col items-center justify-center gap-2">
