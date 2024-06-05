@@ -12,8 +12,8 @@ import User, {
 } from "./apiTypes";
 
 const api = axios.create({
-  // baseURL: process.env.REACT_APP_BASE_URL,
-  baseURL: process.env.REACT_APP_LOCAL_BASE_URL,
+  baseURL: process.env.REACT_APP_BASE_URL,
+  // baseURL: process.env.REACT_APP_LOCAL_BASE_URL,
   timeout: 60000,
 });
 
