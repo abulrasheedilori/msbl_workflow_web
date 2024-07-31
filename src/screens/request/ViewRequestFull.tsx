@@ -441,12 +441,12 @@ const ViewRequestFull = () => {
             )}
         </section>
 
-        <section className="w-full lg:w-[40vw] p-4 mx-auto flex flex-col items-center justify-center gap-2">
+        <section className=" w-full lg:w-[40vw] p-4 mx-auto flex flex-col items-center justify-center gap-2">
           <section className="w-full p-4 bg-gray-50 bg-opacity-10">
-            <p className="mt-8 mb-4 text-xl font-bold text-center text-green-900">
+            <p className="mt-8 mb-4 text-xl font-bold text-center text-green-900 break-words whitespace-normal">
               {selectedReq?.title.toUpperCase() ?? "Loading ..."}
             </p>
-            <p className=" text-md text-left border-green-200 lg:w-[30vw] ">
+            <p className="whitespace-normal break-words text-md text-center border-green-200 lg:w-[30vw] ">
               {selectedReq?.message ?? "Loading..."}
             </p>
             {selectedReq && (
@@ -457,12 +457,15 @@ const ViewRequestFull = () => {
           </section>
 
           {/* ------display comments ------------- */}
-          <section className="p-4 my-4 border border-green-100">
+          {/* <section className="p-4 my-4 border border-green-900"> */}
+          <section className=" w-full lg:w-[38vw] p-4 mx-auto flex flex-col items-center justify-center gap-2">
             <p className="py-2 text-xs text-gray-500">Comments</p>
             {selectedReq && selectedReq.comments.length > 0 ? (
               selectedReq?.comments.map((comment: CommentResponseType) => (
-                <section className="p-4 mb-8 bg-gray-200 divide-gray-400 rounded-lg divide-2">
-                  <p>{comment.message}</p>
+                <section className="w-full p-4 mb-8 bg-gray-200 divide-gray-400 rounded-lg divide-2">
+                  <p className="break-words whitespace-normal ">
+                    {comment.message}
+                  </p>
                   <div className="flex flex-col w-full lg:flex-row lg:justify-between">
                     {comment && (
                       <span className="pr-4 text-xs text-left text-slate-400 lg:text-sm lg:text-right">
