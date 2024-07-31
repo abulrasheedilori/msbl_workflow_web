@@ -457,7 +457,7 @@ const ViewRequestFull = () => {
           </section>
 
           {/* ------display comments ------------- */}
-          <section className="p-4 my-4 border border-green-100">
+          <section className="w-[50vw] mx-auto p-4 my-4 border border-green-100">
             <p className="py-2 text-xs text-gray-500">Comments</p>
             {selectedReq && selectedReq.comments.length > 0 ? (
               selectedReq?.comments.map((comment: CommentResponseType) => (
