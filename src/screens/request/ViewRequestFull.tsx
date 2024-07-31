@@ -457,12 +457,12 @@ const ViewRequestFull = () => {
           </section>
 
           {/* ------display comments ------------- */}
-          <section className="w-[50vw] mx-auto p-4 my-4 border border-green-100">
+          <section className=" p-4 my-4 border border-green-100">
             <p className="py-2 text-xs text-gray-500">Comments</p>
             {selectedReq && selectedReq.comments.length > 0 ? (
               selectedReq?.comments.map((comment: CommentResponseType) => (
                 <section className="p-4 mb-8 bg-gray-200 divide-gray-400 rounded-lg divide-2">
-                  <p>{comment.message}</p>
+                  <p className="w-[50vw] mx-auto">{comment.message}</p>
                   <div className="flex flex-col w-full lg:flex-row lg:justify-between">
                     {comment && (
                       <span className="pr-4 text-xs text-left text-slate-400 lg:text-sm lg:text-right">
