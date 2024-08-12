@@ -24,13 +24,16 @@ import { UpdatePropType, initialUpdates } from "./CreateRequest";
 type UpdateStatusPromptPropType = { id: string; value: string };
 type ReqType = { id: string; value: string };
 
+const iniOptions: UpdateStatusPromptPropType[] = [
+  { id: "5", value: "awaiting confirmation" },
+  { id: "6", value: "completed" },
+];
+
 const options: UpdateStatusPromptPropType[] = [
   { id: "1", value: "started" },
   { id: "2", value: "pending" },
-  { id: "3", value: "at registrars" },
   { id: "4", value: "being processed" },
-  { id: "5", value: "awaiting confirmation" },
-  { id: "6", value: "completed" },
+  { id: "3", value: "at registrars" },
 ];
 
 const ViewRequestFull = () => {
@@ -214,7 +217,7 @@ const ViewRequestFull = () => {
           setShowStatus(true);
         });
     },
-    [selectedReq] // selectedReq
+    [selectedReq]
   );
 
   //Update Request
@@ -254,6 +257,7 @@ const ViewRequestFull = () => {
     validationSchema: Yup.object({
       message: Yup.string()
         .min(2, "Length of character must be more than 2 words")
+        // .max(1500, "Length of character must not be more than 1500 words")
         .required("Required"),
     }),
     onSubmit: (values) => {
@@ -356,13 +360,33 @@ const ViewRequestFull = () => {
                   <option value="" disabled>
                     Update Status
                   </option>
-                  {options.map((option: UpdateStatusPromptPropType) => (
+                  {iniOptions.map((option: UpdateStatusPromptPropType) => (
                     <option key={option.id} value={option.value}>
                       {option.value.toUpperCase()}
                     </option>
                   ))}
                 </select>
               )}
+
+            {selectedReq?.isApproved &&
+              user?.roles.includes("ROLE_OPERATIONS") && (
+                <select
+                  className="w-[180px] h-[40px] rounded-md bg-slate-200 p-2 outline-none"
+                  value={selectedOption}
+                  onChange={(e) => handleUpdateStatus(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Update Status
+                  </option>
+                  {user?.roles.includes("ROLE_OPERATIONS") &&
+                    options.map((option: UpdateStatusPromptPropType) => (
+                      <option key={option.id} value={option.value}>
+                        {option.value.toUpperCase()}
+                      </option>
+                    ))}
+                </select>
+              )}
+
             {user?.roles.includes("ROLE_SUPERVISOR") && (
               <section
                 onClick={() => handleDeleteRequest(paramId)}
