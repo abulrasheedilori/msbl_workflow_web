@@ -35,8 +35,7 @@ const LoginScreen: React.FC = () => {
             navigate("dashboard");
           } else {
             setStatusUpdate({
-              message:
-                result?.payload?.response?.data?.message || "Invalid Login",
+              message: "Invalid Login",
               status: "failed",
             });
           }
