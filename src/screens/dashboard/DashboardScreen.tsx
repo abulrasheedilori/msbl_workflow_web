@@ -30,7 +30,6 @@ const DashboardScreen: React.FC = () => {
     setShowMenu(false);
   };
   const logUserOut = () => {
-    localStorage.clear();
     dispatch(logout());
   };
 
