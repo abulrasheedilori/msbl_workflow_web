@@ -369,7 +369,7 @@ const ViewRequestFull = () => {
               )}
 
             {/* {selectedReq?.isApproved && */}
-            {user?.roles.includes("ROLE_OPERATIONS") && (
+            {user?.roles?.includes("ROLE_OPERATIONS") && (
               <select
                 className="w-[180px] h-[40px] rounded-md bg-slate-200 p-2 outline-none"
                 value={selectedOption}
@@ -378,12 +378,11 @@ const ViewRequestFull = () => {
                 <option value="" disabled>
                   Update Status
                 </option>
-                {user?.roles.includes("ROLE_OPERATIONS") &&
-                  options.map((option: UpdateStatusPromptPropType) => (
-                    <option key={option.id} value={option.value}>
-                      {option.value.toUpperCase()}
-                    </option>
-                  ))}
+                {options.map((option: UpdateStatusPromptPropType) => (
+                  <option key={option.id} value={option.value}>
+                    {option.value.toUpperCase()}
+                  </option>
+                ))}
               </select>
             )}
 
@@ -468,10 +467,10 @@ const ViewRequestFull = () => {
         <section className=" w-full lg:w-[40vw] p-4 mx-auto flex flex-col items-center justify-center gap-2">
           <section className="w-full p-4 bg-gray-50 bg-opacity-10">
             <p className="mt-8 mb-4 text-xl font-bold text-center text-green-900 break-words whitespace-normal">
-              {selectedReq?.title.toUpperCase() ?? "Loading ..."}
+              {selectedReq?.title?.toUpperCase()}
             </p>
             <p className="whitespace-normal break-words text-md text-center border-green-200 lg:w-[30vw] ">
-              {selectedReq?.message ?? "Loading..."}
+              {selectedReq?.message}
             </p>
             {selectedReq && (
               <p className="font-serif text-xs text-right text-slate-500 ">
