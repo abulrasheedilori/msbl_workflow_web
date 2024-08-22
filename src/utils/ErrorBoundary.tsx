@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import Homepage from "../screens/homepage/Homepage";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -38,17 +39,9 @@ class ErrorBoundary extends React.Component<
     if (this.state.hasError) {
       // Render custom fallback UI
       return (
-        <div className="my-[50vh]">
-          <h1 className="text-center text-4xl">Something went wrong</h1>
-          <p className=" animate-spin  my-8 text-2xl text-center text-green-900">
-            MBSL
-          </p>
-          <p className="text-center mt-8">Please, try again</p>
-
-          {/* <p>{this.state.error && this.state.error.toString()}</p>
-          <div>
-            {this.state.errorInfo && this.state.errorInfo.componentStack}
-          </div> */}
+        <div className="relative">
+          <Homepage />
+          <p className="absolute top-[45vh] left-[45vw]">Please, try again</p>
         </div>
       );
     }
