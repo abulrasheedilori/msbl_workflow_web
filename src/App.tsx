@@ -52,30 +52,24 @@ const App = () => {
             <Route path="/" element={<Navigate to="/dashboard" />} />
           )}
 
-          {/* Protected routes */}
           {isAuth && (
             <Route path="/dashboard" element={<DashboardScreen />}>
-              <Route
-                index
-                element={
-                  user && !user.roles.includes("ROLE_ADMIN") ? (
-                    <ViewRequest />
-                  ) : (
-                    <ViewUsersScreen />
-                  )
-                }
-              />
+              {user && !user.roles.includes("ROLE_ADMIN") ? (
+                <Route index element={<ViewRequest />} />
+              ) : (
+                <Route index element={<ViewUsersScreen />} />
+              )}
+              {user && !user.roles.includes("ROLE_ADMIN") && (
+                <Route path="/dashboard/:id" element={<ViewRequestFull />} />
+              )}
               <Route path="create-request" element={<CreateRequest />} />
               <Route path="create-user" element={<CreateUser />} />
               <Route path="manage-user" element={<ViewUsersScreen />} />
               <Route path="audit" element={<RequestTable />} />
               <Route path="edit-request" element={<EditRequest />} />
               <Route path=":id/edit-request" element={<EditRequest />} />
-              <Route path=":id" element={<ViewRequestFull />} />
             </Route>
           )}
-
-          {/* Redirect to Homepage if none of the above routes match */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>
