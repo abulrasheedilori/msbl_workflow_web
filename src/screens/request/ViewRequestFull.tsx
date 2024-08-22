@@ -368,24 +368,24 @@ const ViewRequestFull = () => {
                 </select>
               )}
 
-            {selectedReq?.isApproved &&
-              user?.roles.includes("ROLE_OPERATIONS") && (
-                <select
-                  className="w-[180px] h-[40px] rounded-md bg-slate-200 p-2 outline-none"
-                  value={selectedOption}
-                  onChange={(e) => handleUpdateStatus(e.target.value)}
-                >
-                  <option value="" disabled>
-                    Update Status
-                  </option>
-                  {user?.roles.includes("ROLE_OPERATIONS") &&
-                    options.map((option: UpdateStatusPromptPropType) => (
-                      <option key={option.id} value={option.value}>
-                        {option.value.toUpperCase()}
-                      </option>
-                    ))}
-                </select>
-              )}
+            {/* {selectedReq?.isApproved && */}
+            {user?.roles.includes("ROLE_OPERATIONS") && (
+              <select
+                className="w-[180px] h-[40px] rounded-md bg-slate-200 p-2 outline-none"
+                value={selectedOption}
+                onChange={(e) => handleUpdateStatus(e.target.value)}
+              >
+                <option value="" disabled>
+                  Update Status
+                </option>
+                {user?.roles.includes("ROLE_OPERATIONS") &&
+                  options.map((option: UpdateStatusPromptPropType) => (
+                    <option key={option.id} value={option.value}>
+                      {option.value.toUpperCase()}
+                    </option>
+                  ))}
+              </select>
+            )}
 
             {user?.roles.includes("ROLE_SUPERVISOR") && (
               <section

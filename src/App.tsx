@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import useNetworkStatus from "./hooks/useNetworkStatus";
+import "./index.css";
+import { showToast } from "./middlewares/Toast";
 import CreateUser from "./screens/auth/CreateUser";
 import ViewUsersScreen from "./screens/auth/ViewUsersScreen";
 import DashboardScreen from "./screens/dashboard/DashboardScreen";
@@ -16,18 +19,27 @@ const App = () => {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
   const { user } = useAppSelector((state) => state.auth);
 
+  const isOnline = useNetworkStatus();
+
   useEffect(() => {
-    console.log("Checking cache for access token = ", isAuth);
+    if (!isOnline) {
+      showToast("error", "Your Internet is off", 2000);
+    } else {
+      showToast("success", "Great!, You back online", 1000);
+    }
+  }, [isOnline]);
+
+  useEffect(() => {
     const cachedUser = localStorage.getItem("user");
     const parsedAuth = cachedUser && JSON.parse(cachedUser);
-    setIsAuth(parsedAuth?.accesstoken);
-    console.log("Access token set, IsAuth = ", isAuth);
-  }, [isAuth]);
+    setIsAuth(parsedAuth.accesstoken);
+    console.log("Access token set, IsAuth = ", parsedAuth.accesstoken);
+  }, []);
 
   return (
     <BrowserRouter>
       <Routes>
-        {isAuthenticated ? (
+        {isAuth ? (
           <Route path="dashboard" element={<DashboardScreen />}>
             {user && !user.roles.includes("ROLE_ADMIN") ? (
               <Route index element={<ViewRequest />} />

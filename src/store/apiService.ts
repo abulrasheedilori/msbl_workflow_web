@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { resolveRequestQueries } from "../utils/formatDate";
+import { retrieveCacheData } from "../utils/helperFunctions";
 import User, {
   FilteredReqType,
   LoginType,
@@ -45,9 +46,10 @@ const updateUser = createAsyncThunk(
   "auth/updateUser",
   async (req: UserUpdate) => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = user && JSON.parse(user);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const token = retrieveCacheData("accessToken");
+      // const user = localStorage.getItem("user");
+      // const parsedAuth = user && JSON.parse(user);
+      const auth = { "x-access-token": `${token}` };
       const response = await api.patch("/users", req, {
         headers: auth,
       });
@@ -62,9 +64,8 @@ const createRequest = createAsyncThunk(
   "request/createRequest",
   async (request: RequestReqType) => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const token = retrieveCacheData("accessToken");
+      const auth = { "x-access-token": `${token}` };
       const response = await api.post("/requests/create", request, {
         headers: auth,
       });

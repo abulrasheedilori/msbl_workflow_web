@@ -2,6 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --toast-success-bg: green;
+  --toast-info-bg: rgb(173, 173, 54);
+  --toast-warning-bg: lightcoral;
+  --toast-error-bg: red;
+
+  --toast-text-color-light: rgb(243, 246, 246);
+  --toast-text-color-dark: black;
+}
+
+.Toastify__toast--success {
+  background-color: var(--toast-success-bg) !important;
+  color: var(--toast-text-color-light) !important;
+}
+
+.Toastify__toast--info {
+  background-color: var(--toast-info-bg) !important;
+  color: var(--toast-text-color-dark) !important;
+}
+
+.Toastify__toast--warning {
+  background-color: var(--toast-warning-bg) !important;
+  color: var(--toast-text-color-light) !important;
+}
+
+.Toastify__toast--error {
+  background-color: var(--toast-error-bg) !important;
+  color: var(--toast-text-color-light) !important;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

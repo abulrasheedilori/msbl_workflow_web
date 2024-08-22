@@ -66,9 +66,9 @@ const EditRequest: React.FC = () => {
       requestTypeId: requestTypeId || "",
     } as RequestReqType,
     validationSchema: Yup.object({
-      title: Yup.string()
-        .min(2, "Length must be more than 2 characters")
-        .required("Required"),
+      // title: Yup.string()
+      //   .min(2, "Length must be more than 2 characters")
+      //   .required("Required"),
       message: Yup.string()
         .min(2, "Length must be more than 2 characters")
         .required("Required"),
@@ -141,7 +141,7 @@ const EditRequest: React.FC = () => {
             Kindly update this request here.
           </p>
           <form onSubmit={formik.handleSubmit} className="flex flex-col flex-1">
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label
                 htmlFor="title"
                 className="block text-sm font-medium text-gray-600"
@@ -160,6 +160,33 @@ const EditRequest: React.FC = () => {
               {formik.touched.title && formik.errors.title && (
                 <div className="mt-1 text-xs text-red-500">
                   {formik.errors.title}
+                </div>
+              )}
+            </div> */}
+            <div className="my-4 ">
+              <select
+                name="requestTypeId"
+                id="requestTypeId"
+                className="w-full h-[40px] bg-green-700 px-4 rounded-md text-white border-2 outline-none focus:border-green-900"
+                value={selectedOption?.id}
+                onChange={(e) => handleRequestType(e.target.value)}
+              >
+                <option value="" disabled>
+                  Select Request-Type
+                </option>
+                {requestTypes &&
+                  requestTypes.map((reqType: RequestTypeType) => (
+                    <option key={reqType.id} value={reqType.id}>
+                      {reqType.title.toUpperCase()}
+                    </option>
+                  ))}
+              </select>
+              {selectedOption && (
+                <p className="text-xs">Note: {selectedOption?.description}</p>
+              )}
+              {formik.touched.requestTypeId && formik.errors.requestTypeId && (
+                <div className="mt-1 text-xs text-red-500">
+                  {formik.errors.requestTypeId}
                 </div>
               )}
             </div>
@@ -324,33 +351,6 @@ const EditRequest: React.FC = () => {
               )}
             </div>
 
-            <div className="my-4 ">
-              <select
-                name="requestTypeId"
-                id="requestTypeId"
-                className="w-full h-[40px] bg-green-700 px-4 rounded-md text-white border-2 outline-none focus:border-green-900"
-                value={selectedOption?.id}
-                onChange={(e) => handleRequestType(e.target.value)}
-              >
-                <option value="" disabled>
-                  Select Request-Type
-                </option>
-                {requestTypes &&
-                  requestTypes.map((reqType: RequestTypeType) => (
-                    <option key={reqType.id} value={reqType.id}>
-                      {reqType.title.toUpperCase()}
-                    </option>
-                  ))}
-              </select>
-              {selectedOption && (
-                <p className="text-xs">Note: {selectedOption?.description}</p>
-              )}
-              {formik.touched.requestTypeId && formik.errors.requestTypeId && (
-                <div className="mt-1 text-xs text-red-500">
-                  {formik.errors.requestTypeId}
-                </div>
-              )}
-            </div>
             <Status
               {...statusUpdate}
               showStatus={showStatus}

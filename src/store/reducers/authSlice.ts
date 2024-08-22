@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { cacheData } from "../../utils/helperFunctions";
 import {
   approveRequest,
   assignRoles,
@@ -73,15 +74,17 @@ const authSlice = createSlice({
         state.loading = "succeeded";
         state.isAuthenticated = true;
         state.user = action.payload.data.data;
-        const stringValue = JSON.stringify(action.payload.data.data);
-        localStorage.setItem("user", stringValue);
+        cacheData("user", action.payload.data.data);
+        cacheData("accessToken", action.payload.data.data.accessToken);
         state.message = action.payload.data.message;
         state.loading = "idle";
       })
       .addCase(login.rejected, (state, action: any) => {
         // console.log("ACTION_REJECTED: ", action.payload);
         state.loading = "failed";
-        state.error = "Invalid Login. Please, check and try again";
+        state.error =
+          action.console.error.message ||
+          "Invalid Login. Please, check and try again";
         state.loading = "idle";
       })
       //signup
