@@ -45,15 +45,10 @@ const App = () => {
       <Toast />
       <BrowserRouter>
         <Routes>
-          {/* Route for Homepage (login) when not authenticated */}
           {!isAuth ? (
             <Route path="/" element={<Homepage />} />
           ) : (
-            <Route path="/" element={<Navigate to="/dashboard" />} />
-          )}
-
-          {isAuth && (
-            <Route path="/dashboard" element={<DashboardScreen />}>
+            <Route path="dashboard" element={<DashboardScreen />}>
               {user && !user.roles.includes("ROLE_ADMIN") ? (
                 <Route index element={<ViewRequest />} />
               ) : (
