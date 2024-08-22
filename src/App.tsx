@@ -14,6 +14,7 @@ import ViewRequest from "./screens/request/ViewRequest";
 import ViewRequestFull from "./screens/request/ViewRequestFull";
 import RequestTable from "./screens/review/RequestTable";
 import { useAppSelector } from "./store/hooks";
+import { retrieveCacheData } from "./utils/helperFunctions";
 
 const App = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -24,17 +25,16 @@ const App = () => {
 
   useEffect(() => {
     if (!isOnline) {
-      showToast("error", "Your Internet is off", 2000);
-    } else {
-      showToast("success", "Great!, You back online", 1000);
+      showToast("error", "Your Internet is off", 1000);
+      // } else {
+      //   showToast("success", "Great!, You back online", 1000);
     }
   }, [isOnline]);
 
   useEffect(() => {
-    const cachedUser = localStorage.getItem("user");
-    const parsedAuth = cachedUser && JSON.parse(cachedUser);
-    setIsAuth(parsedAuth.accesstoken);
-    console.log("Access token set, IsAuth = ", parsedAuth.accesstoken);
+    const user = retrieveCacheData("user");
+    setIsAuth(!!user.accessToken);
+    // console.log("Access token set, IsAuth = ", parsedAuth.accesstoken);
   }, []);
 
   return (

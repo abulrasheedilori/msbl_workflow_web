@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { FaArrowLeft, FaRegEdit, FaTrash } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
+import { showToast } from "../../middlewares/showToast";
 import {
   approveRequest,
   deleteRequest,
@@ -132,37 +133,55 @@ const ViewRequestFull = () => {
                     value: `${request.user.email}` ?? "NA",
                   },
                 ]);
-                setStatusUpdate({
-                  status: "succeeded",
-                  title: "Successful",
-                  message: response.payload.data.message,
-                });
+                showToast("success", response.payload.data.message, 1000);
+                // setStatusUpdate({
+                //   status: "succeeded",
+                //   title: "Successful",
+                //   message: response.payload.data.message,
+                // });
               } else {
-                setStatusUpdate({
-                  status: "failed",
-                  title: "Failed retrieving Request",
-                  message: response.payload.response.data.message,
-                });
-                setShowStatus(true);
+                showToast(
+                  "warning",
+                  response?.payload?.response?.data?.message ||
+                    "Failed retrieving Request",
+                  1000
+                );
+                // setStatusUpdate({
+                //   status: "failed",
+                //   title: "Failed retrieving Request",
+                //   message: response.payload.response.data.message,
+                // });
+                // setShowStatus(true);
               }
             })
             .catch((error: any) => {
-              setStatusUpdate({
-                status: "error",
-                title: "Failed",
-                message: error.response.data.message,
-              });
-              setShowStatus(true);
+              showToast(
+                "error",
+                error?.response?.data?.message || "An error occured ",
+                1000
+              );
+              // setStatusUpdate({
+              //   status: "error",
+              //   title: "Failed",
+              //   message: error.response.data.message,
+              // });
+              // setShowStatus(true);
             });
         } else {
-          setStatusUpdate({
-            status: "error",
-            title: "Error",
-            message: "Request is not available",
-          });
-          setShowStatus(true);
+          showToast("warning", "Request is not available", 1000);
+          // setStatusUpdate({
+          //   status: "error",
+          //   title: "Error",
+          //   message: "Request is not available",
+          // });
+          // setShowStatus(true);
         }
-      } catch (error) {
+      } catch (error: any) {
+        showToast(
+          "error",
+          error?.response?.data?.message || "An error occured ",
+          1000
+        );
         console.error("Error fetching data:", error);
       }
     },
@@ -193,27 +212,31 @@ const ViewRequestFull = () => {
             dispatch(getRequestById(paramId)).then((reponse) =>
               setSelectedReq(reponse.payload.data.data)
             );
-            setStatusUpdate({
-              status: "succeeded",
-              title: "Successful",
-              message: response.payload.data.message,
-            });
-            setShowStatus(true);
+            // setStatusUpdate({
+            //   status: "succeeded",
+            //   title: "Successful",
+            //   message: response.payload.data.message,
+            // });
+            showToast("success", "Welcome to MSBL Workflow", 1000);
+            // setShowStatus(true);
           } else {
-            setStatusUpdate({
-              status: "failed",
-              title: "Failed",
-              message: response.payload.response.data.message,
-            });
+            showToast("error", response.payload.response.data.message, 2000);
+
+            // setStatusUpdate({
+            //   status: "failed",
+            //   title: "Failed",
+            //   message: response.payload.response.data.message,
+            // });
           }
         })
         .catch((err: any) => {
           // console.log("ERROR IN ASSIGN_ROLES: ", err);
-          setStatusUpdate({
-            status: "error",
-            title: "Failed",
-            message: error!,
-          });
+          showToast("error", error || "An error Occured ", 2000);
+          // setStatusUpdate({
+          //   status: "error",
+          //   title: "Failed",
+          //   message: error!,
+          // });
           setShowStatus(true);
         });
     },
@@ -232,8 +255,10 @@ const ViewRequestFull = () => {
         dispatch(getRequestById(paramId))
           .then((response) => {
             setSelectedReq(response.payload.data.data);
+            showToast("success", response.payload.data.message, 1000);
           })
           .catch((err) => {
+            showToast("error", "An error occured", 1000);
             console.log("RELOAD_STATUS: ", err);
           });
     });

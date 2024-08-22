@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FaLock, FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { showToast } from "../../middlewares/showToast";
 import { login } from "../../store/apiService";
 import { LoginType, StatusUpdatePropsType } from "../../store/apiTypes";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -34,18 +35,29 @@ const LoginScreen: React.FC = () => {
           if (result.payload.status === 200) {
             navigate("dashboard");
           } else {
-            setStatusUpdate({
-              message: "Invalid Login",
-              status: "failed",
-            });
+            showToast(
+              "warning",
+              result?.payload?.response?.data?.message ||
+                "Invalid Credentials ",
+              1000
+            );
+            // setStatusUpdate({
+            //   message: "Invalid Login",
+            //   status: "failed",
+            // });
           }
         })
         .catch((error: any) => {
           console.log("Error occur while logging in ...  ", error.message);
-          setStatusUpdate({
-            message: "Network Issue, check your network & try again later",
-            status: "failed",
-          });
+          showToast(
+            "error",
+            error?.response?.data?.message || "Invalid Credentials ",
+            1000
+          );
+          // setStatusUpdate({
+          //   message: "Network Issue, check your network & try again later",
+          //   status: "failed",
+          // });
         });
     },
   });
