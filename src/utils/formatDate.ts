@@ -1,22 +1,8 @@
+import moment from "moment";
 import { FilteredReqType, RequestResponseType } from "../store/apiTypes";
 
 const formatDate = (input: string) => {
-  if (!input) return "NA";
-  const config: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    hour12: true,
-  };
-  const date = new Date(input);
-  const formatter = new Intl.DateTimeFormat("en-US", config);
-  const formattedDate = formatter.format(date);
-
-  // console.log("FORMATTED_DATE: ", formattedDate);
-  return formattedDate;
+  return moment(input).format("ddd Do of MMM, YYYY | h:mm:ssA");
 };
 export default formatDate;
 
