@@ -33,7 +33,11 @@ const App = () => {
 
   useEffect(() => {
     const user = retrieveCacheData("user");
-    setIsAuth(!!user.accessToken);
+    if (user.accessToken) {
+      setIsAuth(true);
+    } else {
+      setIsAuth(false);
+    }
     // console.log("Access token set, IsAuth = ", parsedAuth.accesstoken);
   }, []);
 
