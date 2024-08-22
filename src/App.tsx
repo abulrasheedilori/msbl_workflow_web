@@ -18,7 +18,6 @@ import { retrieveCacheData } from "./utils/helperFunctions";
 
 const App = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
-  const { isAuthenticated } = useAppSelector((state) => state.auth);
   const { user } = useAppSelector((state) => state.auth);
 
   const isOnline = useNetworkStatus();
@@ -26,8 +25,6 @@ const App = () => {
   useEffect(() => {
     if (!isOnline) {
       showToast("error", "Your Internet is off", 1000);
-      // } else {
-      //   showToast("success", "Great!, You back online", 1000);
     }
   }, [isOnline]);
 
@@ -38,7 +35,6 @@ const App = () => {
     } else {
       setIsAuth(false);
     }
-    // console.log("Access token set, IsAuth = ", parsedAuth.accesstoken);
   }, []);
 
   return (
@@ -48,21 +44,23 @@ const App = () => {
         <Routes>
           {isAuth ? (
             <Route path="dashboard" element={<DashboardScreen />}>
-              {user && !user.roles.includes("ROLE_ADMIN") ? (
-                <Route index element={<ViewRequest />} />
-              ) : (
-                <Route index element={<ViewUsersScreen />} />
-              )}
-              {user && !user.roles.includes("ROLE_ADMIN") && (
-                <Route path="/dashboard/:id" element={<ViewRequestFull />} />
-              )}
+              <Route
+                index
+                element={
+                  user && !user.roles.includes("ROLE_ADMIN") ? (
+                    <ViewRequest />
+                  ) : (
+                    <ViewUsersScreen />
+                  )
+                }
+              />
               <Route path="create-request" element={<CreateRequest />} />
               <Route path="create-user" element={<CreateUser />} />
               <Route path="manage-user" element={<ViewUsersScreen />} />
               <Route path="audit" element={<RequestTable />} />
               <Route path="edit-request" element={<EditRequest />} />
               <Route path=":id/edit-request" element={<EditRequest />} />
-              {/* New nested route */}
+              <Route path=":id" element={<ViewRequestFull />} />
             </Route>
           ) : (
             <Route path="*" element={<Homepage />} />
