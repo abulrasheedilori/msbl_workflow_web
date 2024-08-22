@@ -33,7 +33,7 @@ const LoginScreen: React.FC = () => {
       dispatch(login(values))
         .then((result: any) => {
           if (result.payload.status === 200) {
-            navigate("dashboard");
+            navigate("/dashboard");
           } else {
             showToast(
               "warning",

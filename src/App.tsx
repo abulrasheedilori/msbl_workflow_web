@@ -45,9 +45,37 @@ const App = () => {
       <Toast />
       <BrowserRouter>
         <Routes>
+          {/* Route for Homepage (login) when not authenticated */}
           {!isAuth ? (
             <Route path="/" element={<Homepage />} />
           ) : (
+            <Route path="/" element={<Navigate to="/dashboard" />} />
+          )}
+
+          {/* Protected routes */}
+          {/* {isAuth && (
+            <Route path="dashboard" element={<DashboardScreen />}>
+              <Route
+                index
+                element={
+                  user && !user.roles.includes("ROLE_ADMIN") ? (
+                    <ViewRequest />
+                  ) : (
+                    <ViewUsersScreen />
+                  )
+                }
+              />
+              <Route path="create-request" element={<CreateRequest />} />
+              <Route path="create-user" element={<CreateUser />} />
+              <Route path="manage-user" element={<ViewUsersScreen />} />
+              <Route path="audit" element={<RequestTable />} />
+              <Route path="edit-request" element={<EditRequest />} />
+              <Route path=":id/edit-request" element={<EditRequest />} />
+              <Route path=":id" element={<ViewRequestFull />} />
+            </Route>
+          )} */}
+
+          {isAuth ? (
             <Route path="dashboard" element={<DashboardScreen />}>
               {user && !user.roles.includes("ROLE_ADMIN") ? (
                 <Route index element={<ViewRequest />} />
@@ -63,9 +91,14 @@ const App = () => {
               <Route path="audit" element={<RequestTable />} />
               <Route path="edit-request" element={<EditRequest />} />
               <Route path=":id/edit-request" element={<EditRequest />} />
+              {/* New nested route */}
             </Route>
+          ) : (
+            <Route path="*" element={<Homepage />} />
           )}
-          <Route path="*" element={<Navigate to="/" />} />
+
+          {/* Redirect to Homepage if none of the above routes match */}
+          {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </Routes>
       </BrowserRouter>
     </section>
