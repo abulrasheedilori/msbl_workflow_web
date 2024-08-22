@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import useNetworkStatus from "./hooks/useNetworkStatus";
 import "./index.css";
 import { showToast } from "./middlewares/showToast";
@@ -18,6 +18,7 @@ import { retrieveCacheData } from "./utils/helperFunctions";
 
 const App = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
   const { user } = useAppSelector((state) => state.auth);
 
   const isOnline = useNetworkStatus();
@@ -25,12 +26,14 @@ const App = () => {
   useEffect(() => {
     if (!isOnline) {
       showToast("error", "Your Internet is off", 1000);
+      // } else {
+      //   showToast("success", "Great!, You back online", 1000);
     }
   }, [isOnline]);
 
   useEffect(() => {
-    const user = retrieveCacheData("user");
-    if (user.accessToken) {
+    const cachedUser = retrieveCacheData("user");
+    if (cachedUser && cachedUser.accessToken) {
       setIsAuth(true);
     } else {
       setIsAuth(false);
@@ -42,8 +45,16 @@ const App = () => {
       <Toast />
       <BrowserRouter>
         <Routes>
-          {isAuth ? (
-            <Route path="dashboard" element={<DashboardScreen />}>
+          {/* Route for Homepage (login) when not authenticated */}
+          {!isAuth ? (
+            <Route path="/" element={<Homepage />} />
+          ) : (
+            <Route path="/" element={<Navigate to="/dashboard" />} />
+          )}
+
+          {/* Protected routes */}
+          {isAuth && (
+            <Route path="/dashboard" element={<DashboardScreen />}>
               <Route
                 index
                 element={
@@ -62,9 +73,10 @@ const App = () => {
               <Route path=":id/edit-request" element={<EditRequest />} />
               <Route path=":id" element={<ViewRequestFull />} />
             </Route>
-          ) : (
-            <Route path="*" element={<Homepage />} />
           )}
+
+          {/* Redirect to Homepage if none of the above routes match */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </BrowserRouter>
     </section>
