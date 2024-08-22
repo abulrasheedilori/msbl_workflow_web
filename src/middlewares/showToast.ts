@@ -8,8 +8,8 @@ export const showToast = (
   duration?: number
 ) => {
   const options: ToastOptions = {
-    position: "top-left",
-    autoClose: duration || 5000,
+    position: "top-right",
+    autoClose: duration || 3000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
