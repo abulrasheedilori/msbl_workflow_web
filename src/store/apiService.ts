@@ -24,7 +24,7 @@ const login = createAsyncThunk(
   async (credentials: LoginType) => {
     try {
       const response = await api.post("/auth/signin", credentials);
-      console.log("LOGIN_RESPONSE: ", response);
+      // console.log("LOGIN_RESPONSE: ", response);
       return response;
     } catch (error: any) {
       console.log("LOGIN_ERROR: ", error?.message);
@@ -46,10 +46,8 @@ const updateUser = createAsyncThunk(
   "auth/updateUser",
   async (req: UserUpdate) => {
     try {
-      const token = retrieveCacheData("accessToken");
-      // const user = localStorage.getItem("user");
-      // const parsedAuth = user && JSON.parse(user);
-      const auth = { "x-access-token": `${token}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.patch("/users", req, {
         headers: auth,
       });
@@ -64,8 +62,8 @@ const createRequest = createAsyncThunk(
   "request/createRequest",
   async (request: RequestReqType) => {
     try {
-      const token = retrieveCacheData("accessToken");
-      const auth = { "x-access-token": `${token}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.post("/requests/create", request, {
         headers: auth,
       });
@@ -80,9 +78,8 @@ const getRequestsWithComments = createAsyncThunk(
   "request/getRequestsWithComments",
   async () => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.get("/requests/request-with-comments", {
         headers: auth,
       });
@@ -98,9 +95,8 @@ const postComment = createAsyncThunk(
   "request/postComment",
   async (comment: PostCommentType) => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.post("/comments/post", comment, {
         headers: auth,
       });
@@ -115,9 +111,8 @@ const updateStatus = createAsyncThunk(
   "request/updateStatus",
   async (request: UpdateStatusRequestType) => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.patch("/requests/status", request, {
         headers: auth,
       });
@@ -133,9 +128,8 @@ const approveRequest = createAsyncThunk(
   "request/approveRequest",
   async (request: { requestId: number; isApproved: boolean }) => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.patch("/requests/approval", request, {
         headers: auth,
       });
@@ -150,9 +144,8 @@ const enableOrDisableUser = createAsyncThunk(
   "request/enableOrDisableUser",
   async (request: { email: string; isDisabled: boolean }) => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.patch("/users/enable-or-disable", request, {
         headers: auth,
       });
@@ -167,9 +160,8 @@ const resetPassword = createAsyncThunk(
   "request/resetPassword",
   async (request: { email: string; newPassword: string }) => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.patch("/users/resetpassword", request, {
         headers: auth,
       });
@@ -184,9 +176,8 @@ const deleteRequest = createAsyncThunk(
   "request/deleteRequest",
   async (requestId: number) => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.delete(`/requests/${requestId}`, {
         headers: auth,
       });
@@ -201,9 +192,8 @@ const getAllRequestType = createAsyncThunk(
   "request/getAllRequestType",
   async () => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.get(`/requestType`, {
         headers: auth,
       });
@@ -219,16 +209,15 @@ const getAllRequestsFromAllUsers = createAsyncThunk(
   "request/getAllRequestsFromAllUsers",
   async () => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.get(`/requests`, {
         headers: auth,
       });
       // console.log("getAllRequestsFromAllUsers: ", response);
       return response;
     } catch (error: any) {
-      // console.log("GET_ALL_REQUESTS_FROM_ALL_USERS: ", error);
+      console.log("GET_ALL_REQUESTS_FROM_ALL_USERS: ", error);
       return error;
     }
   }
@@ -237,9 +226,8 @@ const getAllRequestsFromAllUsers = createAsyncThunk(
 //Get All Users
 const getAllUsers = createAsyncThunk("request/getAllUsers", async () => {
   try {
-    const user = localStorage.getItem("user");
-    const parsedAuth = JSON.parse(user!);
-    const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+    const user = retrieveCacheData("user");
+    const auth = { "x-access-token": `${user.accessToken}` };
     const response = await api.get(`/users`, {
       headers: auth,
     });
@@ -253,9 +241,8 @@ const getUserById = createAsyncThunk(
   "request/getUserById",
   async (id: number) => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.post(
         `/users`,
         { id },
@@ -273,9 +260,8 @@ const getUserById = createAsyncThunk(
 //Get All Roles
 const getAllRoles = createAsyncThunk("request/getAllRoles", async () => {
   try {
-    const user = localStorage.getItem("user");
-    const parsedAuth = JSON.parse(user!);
-    const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+    const user = retrieveCacheData("user");
+    const auth = { "x-access-token": `${user.accessToken}` };
     const response = await api.get(`/roles`, {
       headers: auth,
     });
@@ -290,9 +276,8 @@ const assignRoles = createAsyncThunk(
   "request/assignRoles",
   async (request: { email: string; roles: string[] }) => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.post(`/roles/assign`, request, {
         headers: auth,
       });
@@ -308,9 +293,8 @@ const searchRequest = createAsyncThunk(
   "request/searchRequest",
   async (searchItem: string) => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.get(
         `/requests/search?searchItem=${searchItem}`,
         {
@@ -329,9 +313,8 @@ const filterRequest = createAsyncThunk(
   "request/filterRequest",
   async (filteredReq: FilteredReqType) => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.get(
         `/requests/filter?${resolveRequestQueries(filteredReq)}`,
         {
@@ -350,9 +333,8 @@ const downloadRequestPdf = createAsyncThunk(
   "request/downloadRequestPdf",
   async (request: RequestsListType) => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.post(`/requests/pdf`, request, {
         headers: auth,
       });
@@ -368,13 +350,12 @@ const getRequestById = createAsyncThunk(
   "request/getRequestById",
   async (requestId: number) => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.get(`/requests/${requestId}`, {
         headers: auth,
       });
-      console.log("GET_REQUEST_BY_ID:", response);
+      // console.log("GET_REQUEST_BY_ID:", response);
       return response;
     } catch (error: any) {
       return error;
@@ -387,13 +368,12 @@ const updateRequest = createAsyncThunk(
   "request/updateRequest",
   async (request: RequestReqType) => {
     try {
-      const user = localStorage.getItem("user");
-      const parsedAuth = JSON.parse(user!);
-      const auth = { "x-access-token": `${parsedAuth.accessToken}` };
+      const user = retrieveCacheData("user");
+      const auth = { "x-access-token": `${user.accessToken}` };
       const response = await api.patch(`/requests`, request, {
         headers: auth,
       });
-      console.log("UPDATE_REQUEST:", response);
+      // console.log("UPDATE_REQUEST:", response);
       return response;
     } catch (error: any) {
       return error;

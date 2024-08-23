@@ -3,6 +3,7 @@ import { FaUser } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { showToast } from "../../middlewares/showToast";
 import { LoginResponse } from "../../store/apiTypes";
 import { useAppDispatch } from "../../store/hooks";
 import { logOut } from "../../store/reducers/authSlice";
@@ -40,6 +41,7 @@ const DashboardScreen: React.FC = () => {
   };
 
   const logUserOut = () => {
+    showToast("error", `Successfully Logged Out`, 1000);
     dispatch(logOut());
     navigate("/home");
   };
@@ -160,7 +162,7 @@ const DashboardScreen: React.FC = () => {
             </Link>
 
             <Link
-              to="/"
+              to="/home"
               onClick={() => logUserOut()}
               className={`border border-green-300 hover:bg-green-900 hover:text-white p-2 rounded-md ${
                 selectedRoute === "LOGOUT" && "bg-green-900 text-white"

@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { showToast } from "../../middlewares/showToast";
 import { getAllRequestType, updateRequest } from "../../store/apiService";
 import { RequestReqType, RequestTypeType } from "../../store/apiTypes";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -97,29 +98,30 @@ const EditRequest: React.FC = () => {
       dispatch(updateRequest({ ...values }))
         .then((response) => {
           if (response.payload.status === 200) {
-            setStatusUpdate({
-              status: "succeeded",
-              title: "Successful",
-              message: response.payload?.data?.message,
-            });
+            showToast(
+              "success",
+              response?.payload?.data?.message ||
+                `Request Successfully Updated`,
+              1000
+            );
             // formik.resetForm();
             handleGoBack();
           } else {
-            setStatusUpdate({
-              status: "failed",
-              title: "Failed Request Creation",
-              message: response.payload.response?.data?.message,
-            });
+            showToast(
+              "warning",
+              response?.payload?.response?.data?.message ||
+                ` Updating Request Failed`,
+              1000
+            );
           }
           setShowStatus(true);
         })
         .catch((error: any) => {
-          setStatusUpdate({
-            status: "error",
-            title: "Failed",
-            message: error.message,
-          });
-          setShowStatus(true);
+          showToast(
+            "error",
+            error?.response?.data?.message || ` Error Updating Request`,
+            1000
+          );
         });
     },
   });

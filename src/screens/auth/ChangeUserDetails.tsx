@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
+import { showToast } from "../../middlewares/showToast";
 import { getAllUsers, updateUser } from "../../store/apiService";
 import { UserUpdate } from "../../store/apiTypes";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -43,38 +44,34 @@ const ChangeUserDetails: React.FC<{ user: UserUpdate; close: () => void }> = ({
         lastname: lastname.trim(),
         mobile: mobile.trim().toString(),
       };
-      console.log("User Update Request:", user);
       dispatch(updateUser(user))
         .then((response) => {
-          console.log("UpdateUser RESPONSE : ", response);
           if (response.payload.status === 200) {
-            setStatusUpdate({
-              status: "succeeded",
-              title: "Success Status",
-              message: response.payload.data.message,
-            });
+            showToast(
+              "success",
+              response?.payload?.data?.message || `User Details Updated`,
+              1000
+            );
             formik.resetForm();
           } else {
-            setStatusUpdate({
-              status: "failed",
-              title: "Error Status",
-              message: response.payload.response.data.message,
-            });
+            showToast(
+              "warning",
+              response?.payload?.response?.data?.message ||
+                `User Details Update Failed`,
+              1000
+            );
           }
-          setShowStatus(true);
         })
         .then(() => {
           dispatch(getAllUsers());
-          setTimeout(() => close(), 1000);
+          // setTimeout(() => close(), 1000);
         })
         .catch((err: any) => {
-          console.log("ERROR IN SIGN UP: ", err);
-          setStatusUpdate({
-            status: "error",
-            title: "Error Upodating User",
-            message: "An unexpected error occur while creating a new user",
-          });
-          setShowStatus(true);
+          showToast(
+            "error",
+            err?.response?.data?.message || `Error Updating User Details`,
+            1000
+          );
         });
     },
   });

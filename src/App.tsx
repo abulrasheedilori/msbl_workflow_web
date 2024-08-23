@@ -16,7 +16,7 @@ import RequestTable from "./screens/review/RequestTable";
 import { LoginResponse } from "./store/apiTypes";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { updateIsAuthenticated } from "./store/reducers/authSlice";
-import { isAuthenticated } from "./utils/helperFunctions";
+import { isAuthenticated, retrieveCacheData } from "./utils/helperFunctions";
 
 const App = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -32,12 +32,14 @@ const App = () => {
   }, [isOnline]);
 
   useEffect(() => {
-    if (isAuthenticated()) {
+    setUser(retrieveCacheData("user"));
+    const updated = isAuthenticated();
+    if (updated) {
       setIsAuth(true);
     } else {
       setIsAuth(false);
     }
-    dispatch(updateIsAuthenticated);
+    dispatch(updateIsAuthenticated(updated));
   }, [isLoggedIn]);
 
   return (

@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import { memo, useState } from "react";
 import * as Yup from "yup";
+import { showToast } from "../../middlewares/showToast";
 import { assignRoles, getAllUsers } from "../../store/apiService";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Status from "../components/Status";
@@ -37,21 +38,20 @@ const AssignRoleScreen: React.FC<{ email: string; close: () => void }> = ({
         .then((result) => {
           console.log("ASSIGN ROLE RESULT : ", result);
           if (result.payload.status === 200) {
-            setStatusUpdate({
-              status: "succeeded",
-              title: "Successful",
-              message: result.payload.data.message,
-            });
+            showToast(
+              "success",
+              result?.payload?.data?.message || `Role Re-assigned Successfully`,
+              1000
+            );
             formik.resetForm();
-            setShowStatus(true);
           } else {
             console.log("ASSIGN_ROLE: INVALID CLIENT RESPONSE ", result);
-            setStatusUpdate({
-              status: "failed",
-              title: "Failed",
-              message: result.payload.response.data.message,
-            });
-            setShowStatus(true);
+            showToast(
+              "warning",
+              result?.payload?.response?.data?.message ||
+                `Role Re-assigned Failed`,
+              1000
+            );
           }
         })
         .then(() => {
@@ -59,13 +59,12 @@ const AssignRoleScreen: React.FC<{ email: string; close: () => void }> = ({
           setTimeout(() => close(), 2000);
         })
         .catch((err: any) => {
-          console.log("ERROR IN ASSIGN_ROLES: ", err);
-          setStatusUpdate({
-            status: "error",
-            title: "Failed",
-            message: err.message,
-          });
-          setShowStatus(true);
+          // console.log("ERROR IN ASSIGN_ROLES: ", err);
+          showToast(
+            "error",
+            err?.response?.data?.message || `Error Re-assigning Role`,
+            1000
+          );
         });
     },
   });

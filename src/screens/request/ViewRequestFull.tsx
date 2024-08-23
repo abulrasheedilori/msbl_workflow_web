@@ -133,12 +133,6 @@ const ViewRequestFull = () => {
                     value: `${request.user.email}` ?? "NA",
                   },
                 ]);
-                // showToast("success", response.payload.data.message, 1000);
-                // setStatusUpdate({
-                //   status: "succeeded",
-                //   title: "Successful",
-                //   message: response.payload.data.message,
-                // });
               } else {
                 showToast(
                   "warning",
@@ -146,12 +140,6 @@ const ViewRequestFull = () => {
                     "Failed retrieving Request",
                   1000
                 );
-                // setStatusUpdate({
-                //   status: "failed",
-                //   title: "Failed retrieving Request",
-                //   message: response.payload.response.data.message,
-                // });
-                // setShowStatus(true);
               }
             })
             .catch((error: any) => {
@@ -160,21 +148,9 @@ const ViewRequestFull = () => {
                 error?.response?.data?.message || "An error occured ",
                 1000
               );
-              // setStatusUpdate({
-              //   status: "error",
-              //   title: "Failed",
-              //   message: error.response.data.message,
-              // });
-              // setShowStatus(true);
             });
         } else {
           showToast("warning", "Request is not available", 1000);
-          // setStatusUpdate({
-          //   status: "error",
-          //   title: "Error",
-          //   message: "Request is not available",
-          // });
-          // setShowStatus(true);
         }
       } catch (error: any) {
         showToast(
@@ -207,37 +183,26 @@ const ViewRequestFull = () => {
       const request = { requestId, isApproved };
       dispatch(approveRequest(request))
         .then((response) => {
-          console.log("HANDLE_APPROVE_REQ = ", response);
+          // console.log("HANDLE_APPROVE_REQ = ", response);
           if (response.payload.status === 200) {
             dispatch(getRequestById(paramId)).then((reponse) =>
               setSelectedReq(reponse.payload.data.data)
             );
-            // setStatusUpdate({
-            //   status: "succeeded",
-            //   title: "Successful",
-            //   message: response.payload.data.message,
-            // });
-            showToast("success", "Welcome to MSBL Workflow", 1000);
-            // setShowStatus(true);
+            showToast(
+              "success",
+              response?.payload?.data?.message || "Authorized Successfully",
+              1000
+            );
           } else {
-            showToast("error", response.payload.response.data.message, 2000);
-
-            // setStatusUpdate({
-            //   status: "failed",
-            //   title: "Failed",
-            //   message: response.payload.response.data.message,
-            // });
+            showToast(
+              "error",
+              response?.payload?.response?.data?.message || "Error Authorizing",
+              2000
+            );
           }
         })
         .catch((err: any) => {
-          // console.log("ERROR IN ASSIGN_ROLES: ", err);
           showToast("error", error || "An error Occured ", 2000);
-          // setStatusUpdate({
-          //   status: "error",
-          //   title: "Failed",
-          //   message: error!,
-          // });
-          setShowStatus(true);
         });
     },
     [selectedReq]
@@ -255,11 +220,15 @@ const ViewRequestFull = () => {
         dispatch(getRequestById(paramId))
           .then((response) => {
             setSelectedReq(response.payload.data.data);
-            showToast("success", response.payload.data.message, 1000);
+            showToast(
+              "success",
+              response?.payload?.data?.message || `Successfully Updated`,
+              1000
+            );
           })
           .catch((err) => {
-            showToast("error", "An error occured", 1000);
-            console.log("RELOAD_STATUS: ", err);
+            showToast("error", "An error occured", 2000);
+            // console.log("RELOAD_STATUS: ", err);
           });
     });
   };
@@ -269,9 +238,32 @@ const ViewRequestFull = () => {
     paramId &&
       dispatch(deleteRequest(requestId))
         .then((response) => {
-          response.payload.status === 200 && navigate("/dashboard");
+          if (response.payload.status === 200) {
+            showToast(
+              "success",
+              response?.payload?.data?.message ||
+                `Request Deleted Successfully`,
+              1000
+            );
+            navigate("/dashboard");
+          } else {
+            showToast(
+              "warning",
+              response?.payload?.response?.data?.message ||
+                `Request Deletion Failed`,
+              1000
+            );
+          }
         })
-        .catch(console.error);
+
+        .catch((err: any) => {
+          showToast(
+            "error",
+            err?.response?.data?.message ||
+              `Error Occured while deleting Request`,
+            1000
+          );
+        });
   };
 
   const formik = useFormik<PostCommentType>({
@@ -282,7 +274,7 @@ const ViewRequestFull = () => {
     validationSchema: Yup.object({
       message: Yup.string()
         .min(2, "Length of character must be more than 2 words")
-        // .max(1500, "Length of character must not be more than 1500 words")
+        .max(1500, "Length of character must not be more than 1500 words")
         .required("Required"),
     }),
     onSubmit: (values) => {
@@ -292,13 +284,24 @@ const ViewRequestFull = () => {
           requestId: paramId,
         };
         dispatch(postComment(commentReq)).then((comment) => {
+          showToast(
+            "success",
+            comment?.payload?.data?.message || `Comment Updated`,
+            1000
+          );
           formik.resetForm();
+
           dispatch(getRequestById(paramId))
             .then((response) => {
               setSelectedReq(response.payload.data.data);
             })
             .catch((err) => {
-              // formik.setFieldError("message", err.message);
+              showToast(
+                "error",
+                err?.response?.payload?.data?.message ||
+                  `Error Posting Comment`,
+                1000
+              );
             });
         });
       }

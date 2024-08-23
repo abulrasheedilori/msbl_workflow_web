@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
+import { showToast } from "../../middlewares/showToast";
 import { signup } from "../../store/apiService";
 import User from "../../store/apiTypes";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -59,34 +60,30 @@ const CreateUser: React.FC = () => {
         password: password.trim(),
         roles: [role.toLowerCase()],
       };
-      // console.log("Sign UP submitted:", user);
       dispatch(signup(user))
         .then((response) => {
-          // console.log("SIGN IN RESPONSE : ", response);
           if (response.payload.status === 201) {
-            setStatusUpdate({
-              status: "succeeded",
-              title: "Successful Sign Up",
-              message: response.payload.data.message,
-            });
+            showToast(
+              "success",
+              response?.payload?.data?.message || `User Created Successfully`,
+              1000
+            );
             formik.resetForm();
           } else {
-            setStatusUpdate({
-              status: "failed",
-              title: "Failed Sign Up",
-              message: response.payload.response.data.message,
-            });
+            showToast(
+              "warning",
+              response?.payload?.response?.data?.message ||
+                `User Creation Failed`,
+              1000
+            );
           }
-          setShowStatus(true);
         })
         .catch((err: any) => {
-          console.log("ERROR IN SIGN UP: ", err);
-          setStatusUpdate({
-            status: "error",
-            title: "Error Creating User",
-            message: "An unexpected error occur while creating a new user",
-          });
-          setShowStatus(true);
+          showToast(
+            "error",
+            err?.response?.data?.message || `Error Creating User`,
+            1000
+          );
         });
     },
   });

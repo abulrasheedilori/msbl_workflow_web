@@ -108,7 +108,7 @@ const LoginScreen: React.FC = () => {
           }`}
           disabled={formik.isSubmitting || !formik.isValid}
         >
-          {"Log In"}
+          {loading === "pending" ? "Logging In..." : "Log In"}
         </button>
       </form>
     </div>

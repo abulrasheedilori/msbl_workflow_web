@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { showToast } from "../../middlewares/showToast";
 import { enableOrDisableUser, getAllUsers } from "../../store/apiService";
 import User, { UserUpdate } from "../../store/apiTypes";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -21,12 +22,18 @@ const ViewUsersScreen = () => {
 
   const handleEnableOrDisabledUser = (email: string, isDisabled: boolean) => {
     const request = { email, isDisabled };
-    dispatch(enableOrDisableUser(request)).then(() => dispatch(getAllUsers()));
+    dispatch(enableOrDisableUser(request)).then((response) => {
+      dispatch(getAllUsers());
+      showToast(
+        "success",
+        response?.payload?.data?.message || ` User Status Updated`,
+        1000
+      );
+    });
   };
 
   const handleShowUserDetailPopUp = (id: number, user: User) => {
     const { username, firstname, lastname, mobile } = user && user;
-    console.log("PROPS FOR USERUPDATE = ", user);
     if (!id) return;
     const userReq: UserUpdate = {
       userId: id,
@@ -40,14 +47,14 @@ const ViewUsersScreen = () => {
   };
 
   const handleShowResetPopUp = (email: string) => {
-    setTargetedUserEmail(email); // Set the targeted user's email
+    setTargetedUserEmail(email);
     setShowResetPopUp(true);
   };
   const handleCloseResetPopUp = () => {
     setShowResetPopUp(false);
   };
   const handleShowAssignRolePopUp = (email: string) => {
-    setTargetedUserEmail(email); // Set the targeted user's email
+    setTargetedUserEmail(email);
     setShowAssignRolePopUp(true);
   };
   const handleCLoseAssignRolePopUp = () => {
@@ -121,7 +128,10 @@ const ViewUsersScreen = () => {
                       }
                     >
                       {user_.roles.map((role) => (
-                        <div className="flex-1 px-2 py-1 ">
+                        <div
+                          key={role.toString()}
+                          className="flex-1 px-2 py-1 "
+                        >
                           <p className="text-sm hover:text-sm">
                             {role.slice(5)}
                           </p>
@@ -188,11 +198,14 @@ const ViewUsersScreen = () => {
                   </tr>
                 ))
             ) : (
-              <section>
-                <p className="text-center text-md p-auto lg:text-xl">
-                  No user found yet, Create one
-                </p>
-              </section>
+              <tr>
+                <td
+                  colSpan={6}
+                  className="text-xs text-center text-red-600 p-auto lg:text-sm"
+                >
+                  No user found yet!
+                </td>
+              </tr>
             )}
           </tbody>
         </table>

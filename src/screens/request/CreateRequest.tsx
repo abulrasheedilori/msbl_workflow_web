@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
+import { showToast } from "../../middlewares/showToast";
 import { createRequest, getAllRequestType } from "../../store/apiService";
 import { RequestReqType, RequestTypeType } from "../../store/apiTypes";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -75,28 +76,28 @@ const CreateRequest: React.FC = () => {
       dispatch(createRequest(values))
         .then((response) => {
           if (response.payload.status === 201) {
-            setStatusUpdate({
-              status: "succeeded",
-              title: "Successful",
-              message: response.payload?.data?.message,
-            });
+            showToast(
+              "success",
+              response?.payload?.data?.message ||
+                `Request Created Successfully`,
+              1000
+            );
             formik.resetForm();
           } else {
-            setStatusUpdate({
-              status: "failed",
-              title: "Failed Request Creation",
-              message: response.payload.response?.data?.message,
-            });
+            showToast(
+              "warning",
+              response?.payload?.response?.data?.message ||
+                ` Create Request Failed`,
+              1000
+            );
           }
-          setShowStatus(true);
         })
         .catch((error: any) => {
-          setStatusUpdate({
-            status: "error",
-            title: "Failed",
-            message: error.message,
-          });
-          setShowStatus(true);
+          showToast(
+            "error",
+            error?.response?.data?.message || ` Error Creating Request`,
+            1000
+          );
         });
     },
   });

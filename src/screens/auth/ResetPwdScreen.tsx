@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import { memo, useState } from "react";
 import * as Yup from "yup";
+import { showToast } from "../../middlewares/showToast";
 import { getAllUsers, resetPassword } from "../../store/apiService";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Status from "../components/Status";
@@ -39,34 +40,32 @@ const ResetPwdScreen: React.FC<{
       console.log("USER REQ: ", user);
       dispatch(resetPassword(user))
         .then((response) => {
-          // console.log("SIGN IN RESPONSE : ", response);
           if (response.payload.status === 200) {
-            setStatusUpdate({
-              status: "succeeded",
-              title: "Successful",
-              message: response.payload.data.message,
-            });
-            setShowStatus(true);
+            showToast(
+              "success",
+              response?.payload?.data?.message || `Password Reset Successfully`,
+              1000
+            );
             formik.resetForm();
           } else {
-            setStatusUpdate({
-              status: "failed",
-              title: "Failed",
-              message: response.payload.response.data.message,
-            });
+            showToast(
+              "warning",
+              response?.payload?.response?.data?.message ||
+                `Resetting Password Failed`,
+              1000
+            );
           }
         })
         .then(() => {
           dispatch(getAllUsers());
-          setTimeout(() => close(), 1000);
+          // setTimeout(() => close(), 1000);
         })
         .catch((err: any) => {
-          // console.log("ERROR IN SIGN UP: ", err);
-          setStatusUpdate({
-            status: "error",
-            title: "Failed",
-            message: error!,
-          });
+          showToast(
+            "error",
+            err?.response?.data?.message || `Error Reseting Password`,
+            1000
+          );
         });
     },
   });

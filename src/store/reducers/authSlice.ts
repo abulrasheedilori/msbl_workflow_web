@@ -76,6 +76,7 @@ const authSlice = createSlice({
         state.loading = "succeeded";
         state.user = action?.payload?.data?.data;
         cacheData("user", action.payload.data.data);
+
         cacheData("accessToken", action.payload.data.data.accessToken);
         state.isAuthenticated = isAuthenticated();
         state.message = action.payload.data.message;
