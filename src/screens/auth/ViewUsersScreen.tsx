@@ -84,7 +84,7 @@ const ViewUsersScreen = () => {
             </tr>
           </thead>
           <tbody>
-            {listOfUser.length > 0 ? (
+            {listOfUser?.length > 0 ? (
               listOfUser
                 .filter((user) => !user.roles.includes("ROLE_ADMIN"))
                 .map((user_, index) => (

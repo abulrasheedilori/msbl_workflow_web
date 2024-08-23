@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
-import { Link, Outlet } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { logout } from "../../store/reducers/authSlice";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { LoginResponse } from "../../store/apiTypes";
+import { useAppDispatch } from "../../store/hooks";
+import { logOut } from "../../store/reducers/authSlice";
+import { retrieveCacheData } from "../../utils/helperFunctions";
 
 type RouteType =
   | "VIEW_REQUEST"
@@ -15,7 +17,8 @@ type RouteType =
   | "MANAGE_USER";
 
 const DashboardScreen: React.FC = () => {
-  const { user } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const [user, setUser] = useState<LoginResponse>();
   const [selectedRoute, setSelectedRoute] = useState<RouteType>(
     `${
       user && !user.roles[0].includes("ADMIN") ? "VIEW_REQUEST" : "MANAGE_USER"
@@ -23,14 +26,21 @@ const DashboardScreen: React.FC = () => {
   );
   const [showMenu, setShowMenu] = useState(false);
 
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = retrieveCacheData("user");
+    setUser(user);
+  }, []);
 
   const handleSelectedRoute = (route: RouteType) => {
     setSelectedRoute(route);
     setShowMenu(false);
   };
+
   const logUserOut = () => {
-    dispatch(logout());
+    dispatch(logOut());
+    navigate("/");
   };
 
   const handleShowMenu = () => {

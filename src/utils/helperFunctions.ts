@@ -14,4 +14,9 @@ const retrieveCacheData = (key: string) => {
   return JSON.parse(data);
 };
 
-export { cacheData, retrieveCacheData };
+const isAuthenticated = () => {
+  const user = retrieveCacheData("user");
+  return !!user;
+};
+
+export { cacheData, isAuthenticated, retrieveCacheData };

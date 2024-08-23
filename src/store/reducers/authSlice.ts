@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { cacheData } from "../../utils/helperFunctions";
+import { cacheData, isAuthenticated } from "../../utils/helperFunctions";
 import {
   approveRequest,
   assignRoles,
@@ -56,11 +56,14 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logout: (state) => {
+    logOut: (state) => {
       state.isAuthenticated = false;
       state.listOfRequest = [];
       state.user = null;
       localStorage.clear();
+    },
+    updateIsAuthenticated: (state, action) => {
+      state.isAuthenticated = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -70,23 +73,17 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
-        // console.log("ACTION_SUCCESSFUL: ", action.payload.data);
         state.loading = "succeeded";
-        state.isAuthenticated = true;
         state.user = action.payload.data.data;
         cacheData("user", action.payload.data.data);
-        console.log("LOGIN USER DATA IN SLICE >>> ", action.payload.data.data);
         cacheData("accessToken", action.payload.data.data.accessToken);
+        state.isAuthenticated = isAuthenticated();
         state.message = action.payload.data.message;
-        state.loading = "idle";
       })
       .addCase(login.rejected, (state, action: any) => {
-        // console.log("ACTION_REJECTED: ", action.payload);
         state.loading = "failed";
         state.error =
-          action.console.error.message ||
-          "Invalid Login. Please, check and try again";
-        state.loading = "idle";
+          action.error.message || "Invalid Login. Please, check and try again";
       })
       //signup
       .addCase(signup.pending, (state) => {
@@ -206,7 +203,7 @@ const authSlice = createSlice({
       })
       .addCase(getAllUsers.fulfilled, (state, action) => {
         state.loading = "succeeded";
-        state.listOfUser = action.payload.data.data;
+        state.listOfUser = action?.payload?.data?.data;
       })
       .addCase(getAllUsers.rejected, (state, action: any) => {
         state.loading = "failed";
@@ -353,5 +350,5 @@ const authSlice = createSlice({
       });
   },
 });
-export const { logout } = authSlice.actions;
+export const { logOut, updateIsAuthenticated } = authSlice.actions;
 export default authSlice.reducer;

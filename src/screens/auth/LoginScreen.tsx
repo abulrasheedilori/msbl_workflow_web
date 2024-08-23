@@ -24,10 +24,6 @@ const LoginScreen: React.FC = () => {
     validationSchema: Yup.object({
       username: Yup.string().required("Username is required"),
       password: Yup.string().required("Password is required"),
-      // .matches(
-      //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      //   "Atleast an uppercase letter, a lowercase letter, a digit, a special character, and 8 characters long or more."
-      // ),
     }),
     onSubmit: async (values: LoginType) => {
       dispatch(login(values))
@@ -39,25 +35,12 @@ const LoginScreen: React.FC = () => {
               "warning",
               result?.payload?.response?.data?.message ||
                 "Invalid Credentials ",
-              1000
+              2000
             );
-            // setStatusUpdate({
-            //   message: "Invalid Login",
-            //   status: "failed",
-            // });
           }
         })
         .catch((error: any) => {
-          console.log("Error occur while logging in ...  ", error.message);
-          showToast(
-            "error",
-            error?.response?.data?.message || "Invalid Credentials ",
-            1000
-          );
-          // setStatusUpdate({
-          //   message: "Network Issue, check your network & try again later",
-          //   status: "failed",
-          // });
+          showToast("error", "Invalid username or password", 2000);
         });
     },
   });
@@ -120,12 +103,12 @@ const LoginScreen: React.FC = () => {
           type="submit"
           className={`w-full px-4 py-2 text-white rounded cursor-pointer ${
             formik.isSubmitting || !formik.isValid
-              ? "bg-gray-500 cursor-not-allowed"
+              ? "bg-slate-400 cursor-not-allowed"
               : "bg-green-900"
           }`}
           disabled={formik.isSubmitting || !formik.isValid}
         >
-          {loading === "pending" ? "Processing..." : "Log In"}
+          {"Log In"}
         </button>
       </form>
     </div>
