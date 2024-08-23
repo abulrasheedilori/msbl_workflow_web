@@ -19,6 +19,7 @@ type RouteType =
 const DashboardScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const [user, setUser] = useState<LoginResponse>();
+  // const user = useAppSelector((state) => state.auth.user);
   const [selectedRoute, setSelectedRoute] = useState<RouteType>(
     `${
       user && !user.roles[0].includes("ADMIN") ? "VIEW_REQUEST" : "MANAGE_USER"
@@ -40,7 +41,7 @@ const DashboardScreen: React.FC = () => {
 
   const logUserOut = () => {
     dispatch(logOut());
-    navigate("/");
+    navigate("/home");
   };
 
   const handleShowMenu = () => {
