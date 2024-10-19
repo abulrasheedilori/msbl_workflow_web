@@ -27,7 +27,7 @@ const ViewUsersScreen = () => {
       dispatch(getAllUsers());
       showToast(
         isDisabled ? "success" : "warning",
-        isDisabled ? "User is disabled" : "User is Enabled",
+        isDisabled ? "User is enabled" : "User is disabled",
         500
       );
     });
