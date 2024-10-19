@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaFilter } from "react-icons/fa";
 import * as XLSX from "xlsx";
+import { showToast } from "../../middlewares/showToast";
 import {
   filterRequest,
   getAllRequestsFromAllUsers,
@@ -97,6 +98,8 @@ const RequestsTable = () => {
       console.log(isDateValid);
       setStartDate("");
       setEndDate("");
+      showToast("warning", "Ensure the start date is lesser than the end date");
+      setShowFilter(false);
       return;
     }
 
@@ -114,6 +117,7 @@ const RequestsTable = () => {
         setRequests(filteredRequests);
         setStartDate("");
         setEndDate("");
+        setShowFilter(false);
       })
       .catch((error: any) => setIsDateValid(false));
   };
@@ -131,100 +135,98 @@ const RequestsTable = () => {
 
   if (!requests) {
     return (
-      <section className="w-full h-full">
-        <header className="text-2xl text-center lg:text-4xl">Loading...</header>
+      <section className="box-content justify-center items-center w-full h-[80vh]">
+        <span className="flex-1 text-2xl text-center lg:text-4xl">
+          Wait! Loading all request...
+        </span>
       </section>
     );
   }
 
   return (
-    <section className="relative p-2 w-full h-[90vh] lg:p-8 lg:pt-12  scroll-smooth">
-      <section className="w-full lg:static lg:bg-transparent">
+    <section className=" box-content w-[90vw] lg:w-[85vw] h-[80vh] p-4 lg:p-8 lg:pt-4 scroll-smooth">
+      {showFilter && (
+        <section className="absolute top-0 bottom-0 left-0 right-0 z-50 w-screen h-full duration-500 ease-in-out rounded-md bg-opacity-60 transition-bg-opacity bg-green-950 hover:bg-opacity-80">
+          <section className=" flex flex-col justify-center  w-[94vw] mx-auto lg:w-fit gap-1 p-4 mt-0  lg:mt-8 lg:items-center lg:flex-row">
+            <section className="flex flex-col justify-start gap-2 lg:flex-row">
+              <section className="flex flex-col items-center gap-2 lg:flex-row flex-center">
+                <input
+                  className="w-[70vw] lg:w-[12vw] p-2 h-[40px] focus:border-green-600 outline-none border-2 border-slate-200 rounded-lg shadow-sm"
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => handleStartDate(e)}
+                  // onBlur={validateDates}
+                />
+                <input
+                  className="w-[70vw]  p-2 lg:w-[12vw] lg:mx-0 h-[40px] border-2 focus:border-green-600 outline-none border-slate-200 rounded-lg shadow-sm"
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => handleEndDate(e)}
+                  // onBlur={validateDates}
+                />
+                <button
+                  onClick={filterRequestByDate}
+                  className="w-[70vw] lg:w-auto p-2 font-serif font-bold text-white bg-green-900 border border-green-800 rounded-lg hover:bg-green-600"
+                >
+                  Filter
+                </button>
+                <button
+                  className="w-[70vw]  p-2 font-serif font-bold text-green-900 bg-yellow-400 border border-green-800 rounded-lg lg:w-auto hover:bg-green-600"
+                  onClick={exportToExcel}
+                >
+                  Export to Excel
+                </button>
+                <button
+                  className="w-[70vw]  p-2 font-serif font-bold text-white bg-red-400 border border-red-800 rounded-lg lg:w-auto hover:bg-red-600"
+                  onClick={() => setShowFilter(false)}
+                >
+                  Close
+                </button>
+              </section>
+            </section>
+          </section>
+        </section>
+      )}
+      <section className="">
         <section className="mb-4 lg:p-4">
-          <section className="flex items-center justify-between fle-row">
-            <header className="text-xl font-bold text-black text-start lg:text-4xl">
+          <section className="flex flex-row items-center justify-between">
+            <header className="text-xl font-bold text-black text-start lg:text-2xl">
               Audit Requests
             </header>
             <FaFilter color="black" size={18} onClick={handleShowFilter} />
           </section>
-          <p className="my-4 text-xs lg:text-lg">
+          <p className="my-4 text-xs lg:text-lg text-slate-500">
             You can filter all requests here and export it as an excel sheet for
             auditing purpose.
           </p>
         </section>
-        {showFilter && (
-          <section className="fixed transition-opacity duration-300 ease-in-out bg-white rounded-md opacity-100 lg:static lg:bg-transparent top-40 left-2 right-2 hover:opacity-100">
-            <section className="flex flex-col justify-center  w-[94vw] mx-auto lg:w-fit gap-1 p-4 mt-0  lg:mt-8 lg:items-center lg:flex-row">
-              <section className="flex flex-col justify-start gap-2 lg:flex-row">
-                <section className="flex flex-col gap-2 lg:flex-row flex-start">
-                  <input
-                    className="w-full lg:w-[12vw] p-2 h-[40px] focus:border-green-600 outline-none border-2 border-slate-200 rounded-lg shadow-sm"
-                    type="date"
-                    value={startDate}
-                    onChange={(e) => handleStartDate(e)}
-                    // onBlur={validateDates}
-                  />
-                  <input
-                    className="w-full mx-auto p-2 lg:w-[12vw] lg:mx-0 h-[40px] border-2 focus:border-green-600 outline-none border-slate-200 rounded-lg shadow-sm"
-                    type="date"
-                    value={endDate}
-                    onChange={(e) => handleEndDate(e)}
-                    // onBlur={validateDates}
-                  />
-                  <button
-                    onClick={filterRequestByDate}
-                    className="p-2 font-serif font-bold text-white bg-green-900 border border-green-800 rounded-lg hover:bg-green-600"
-                  >
-                    Filter
-                  </button>
-                </section>
-                <section className="flex flex-row gap-4 flex-start">
-                  <button
-                    className="w-full p-2 font-serif font-bold text-green-900 bg-yellow-400 border border-green-800 rounded-lg lg:w-auto hover:bg-green-600"
-                    onClick={exportToExcel}
-                  >
-                    Export to Excel
-                  </button>
-                </section>
-              </section>
-            </section>
-            {!isDateValid && (
-              <p className="px-4 pb-4 text-xs text-center text-red-500">
-                Start date must not be greater than end date. All fields are
-                required.
-              </p>
-            )}
-          </section>
-        )}
       </section>
 
-      <section className="w-full h-full lg:w-[85vw] lg:h-[73vh] overflow-auto">
+      <section className="box-content  w-[85vw]  h-[65vh] overflow-auto">
         <table className="mx-auto bg-white border border-gray-300">
           <thead className="sticky top-0 ">
             <tr className="border border-gray-300 bg-slate-50 text-nowrap">
-              <th className="flex-1 px-2 py-1 text-center border-b">S/NO</th>
-              <th className="flex-1 px-2 py-1 text-center border-b">ID</th>
-              <th className="px-2 py-1 text-center border-b flex-3">TITLE</th>
-              <th className="flex-1 px-2 py-1 text-center border-b">STATUS</th>
-              <th className="flex-1 px-2 py-1 text-center border-b">NAME</th>
-              <th className="flex-1 px-2 py-1 text-center border-b">EMAIL</th>
-              <th className="flex-1 px-2 py-1 text-center border-b">MOBILE</th>
-              <th className="flex-1 px-2 py-1 text-center border-b">
-                APPROVAL
-              </th>
-              <th className="flex-1 px-2 py-1 text-center border-b">
+              <th className="flex-1 px-2 py-1 border-b text-start">S/NO</th>
+              <th className="flex-1 px-2 py-1 border-b text-start">ID</th>
+              <th className="px-2 py-1 border-b text-start flex-3">TITLE</th>
+              <th className="flex-1 px-2 py-1 border-b text-start">STATUS</th>
+              <th className="flex-1 px-2 py-1 border-b text-start">NAME</th>
+              <th className="flex-1 px-2 py-1 border-b text-start">EMAIL</th>
+              <th className="flex-1 px-2 py-1 border-b text-start">MOBILE</th>
+              <th className="flex-1 px-2 py-1 border-b text-start">APPROVAL</th>
+              <th className="flex-1 px-2 py-1 border-b text-start">
                 INITIATOR
               </th>
-              <th className="flex-1 px-2 py-1 text-center border-b">
+              <th className="flex-1 px-2 py-1 border-b text-start">
                 INITIATOR MOBILE
               </th>
-              <th className="px-2 py-1 text-center border-b flex-3">
+              <th className="px-2 py-1 border-b text-start flex-3">
                 REQUEST TYPE
               </th>
-              <th className="flex-1 px-2 py-1 text-center border-b">
+              <th className="flex-1 px-2 py-1 border-b text-start">
                 CREATED AT
               </th>
-              <th className="flex-1 px-2 py-1 text-center border-b">
+              <th className="flex-1 px-2 py-1 border-b text-start">
                 LAST COMMENTS
               </th>
             </tr>

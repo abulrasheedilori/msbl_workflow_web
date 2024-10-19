@@ -337,7 +337,6 @@ const authSlice = createSlice({
       })
 
       //Update Request
-      //create request
       .addCase(updateRequest.pending, (state, action) => {
         state.loading = "pending";
         state.error = null;

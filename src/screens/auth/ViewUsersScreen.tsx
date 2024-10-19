@@ -23,11 +23,12 @@ const ViewUsersScreen = () => {
   const handleEnableOrDisabledUser = (email: string, isDisabled: boolean) => {
     const request = { email, isDisabled };
     dispatch(enableOrDisableUser(request)).then((response) => {
+      console.log("IS_DISABLED : ", isDisabled);
       dispatch(getAllUsers());
       showToast(
-        "success",
+        isDisabled ? "success" : "warning",
         response?.payload?.data?.message || ` User Status Updated`,
-        1000
+        500
       );
     });
   };
@@ -62,32 +63,34 @@ const ViewUsersScreen = () => {
   };
 
   return (
-    <section className="w-full h-full lg:w-[85vw] lg:h-[90vh] p-8 border-4 ">
-      <header className="text-xl font-bold lg:pt-8 lg:text-4xl">
-        Manage Users
-      </header>
-      <p className="mt-4 mb-8 text-xs lg:text-lg">
+    <section className="w-full h-full lg:h-[90vh] p-4  lg:px-8">
+      <header className="text-xl font-bold lg:pt-4 lg:text-2xl">Users</header>
+      <p className="mt-4 mb-8 text-xs lg:text-lg text-slate-500">
         You can manage all users, change password, re-assign roles and
         disable/enable users here.
       </p>
-      <section className="w-full h-[70vh] overflow-auto">
-        <table className="mx-auto bg-white border border-gray-300">
+      <section className=" h-[70vh] overflow-auto hide-scrolbar">
+        <table className="mx-4 text-sm bg-white border border-gray-300">
           <thead className="sticky top-0 ">
             <tr className="border border-gray-300 bg-slate-50 text-wrap">
-              <th className="flex-1 px-2 py-1">ID</th>
-              <th className="px-2 py-1 flex-6">Username</th>
-              <th className="px-2 py-1 flex-6">Full Name</th>
-              <th className="px-2 py-1 flex-6">Email</th>
+              <th className="px-2 py-1 text-start">ID</th>
+              <th className="px-2 py-1 text-start">USERNAME</th>
+              <th className="px-2 py-1 text-start">FULL NAME</th>
+              <th className="px-2 py-1 text-start">EMAIL</th>
               {user?.roles.includes("ROLE_ADMIN") && (
-                <th className="flex-1 px-2 py-1 ">Password</th>
+                <th className="px-2 py-1 text-start">PASSWORD</th>
               )}
-              <th className="flex-1 px-2 py-1 ">Roles</th>
+              {user?.roles.includes("ROLE_SUPERVISOR") ? (
+                <th className="px-2 py-1 text-start">RE-ASSIGN ROLE</th>
+              ) : (
+                <th className="px-2 py-1 text-start">ROLE</th>
+              )}
+              {/* {user?.roles.includes("ROLE_ADMIN") && (
+                <th className="flex-1 px-2 py-1 text-start">ACTION</th>
+              )}
               {user?.roles.includes("ROLE_ADMIN") && (
-                <th className="flex-1 px-2 py-1">Actions</th>
-              )}
-              {user?.roles.includes("ROLE_ADMIN") && (
-                <th className="flex-1 px-2 py-1 ">Update Details</th>
-              )}
+                <th className="px-2 py-1 text-start">UPDATE</th>
+              )} */}
             </tr>
           </thead>
           <tbody>
@@ -97,53 +100,50 @@ const ViewUsersScreen = () => {
                 .map((user_, index) => (
                   <tr
                     key={user_?.id?.toString()}
-                    className="text-center border-b bg-slate-50 text-nowrap hover:bg-green-900 hover:text-green-50"
+                    className="border-b bg-slate-50 text-start whitespace-nowrap text-nowrap hover:bg-green-900 hover:text-green-50"
                   >
-                    <td className="flex-1 px-2 py-1">{index + 1}</td>
-                    <td className="px-2 py-1 tex-wrap flex-3">
-                      {user_?.username}
-                    </td>
-                    <td className="px-2 py-1 text-wrap flex-3">
+                    <td className="px-2 py-1">{index + 1}</td>
+                    <td className="px-2 py-1 ">{user_?.username}</td>
+                    <td className="px-2 py-1 ">
                       {user_?.firstname + " " + user_.lastname}
                     </td>
-                    <td className="px-2 py-1 text-wrap flex-3">
-                      {user_?.email}
-                    </td>
-                    {user?.roles.includes("ROLE_ADMIN") && (
+                    <td className="px-2 py-1 ">{user_?.email}</td>
+                    {user?.roles?.includes("ROLE_ADMIN") && (
                       <td
                         className="flex-1 px-2 py-1 "
                         onClick={() => handleShowResetPopUp(user_?.email)}
                       >
-                        <span className="flex-1 px-2 py-1 text-sm font-semibold text-center text-yellow-700 hover:underline hover:text-md">
-                          Change
+                        <span className="flex-1 px-2 py-1 text-sm italic font-semibold text-center text-yellow-700 underline cursor-pointer hover:underline hover:text-md">
+                          {`reset ${user_.firstname}`}
                         </span>
                       </td>
                     )}
                     <td
                       className="flex-1 px-2 py-1 "
                       onClick={
-                        user?.roles.includes("ROLE_SUPERVISOR")
+                        user?.roles?.includes("ROLE_SUPERVISOR")
                           ? () => handleShowAssignRolePopUp(user_?.email)
                           : () => null
                       }
                     >
                       {user_.roles.map((role) => (
                         <div
-                          key={role.toString()}
+                          key={role?.toString()}
                           className="flex-1 px-2 py-1 "
                         >
-                          <p className="text-sm hover:text-sm">
-                            {role.slice(5)}
-                          </p>
-                          {user?.roles.includes("ROLE_SUPERVISOR") && (
-                            <p className="text-xs text-center text-red-500 hover:underline">
-                              re-assign
+                          {user?.roles?.includes("ROLE_SUPERVISOR") ? (
+                            <p className="text-xs text-center text-red-500 cursor-pointer hover:underline">
+                              {role.slice(5).toLocaleLowerCase()}
+                            </p>
+                          ) : (
+                            <p className="text-sm hover:text-sm">
+                              {role?.slice(5)}
                             </p>
                           )}
                         </div>
                       ))}
                     </td>
-                    {user?.roles.includes("ROLE_ADMIN") && (
+                    {user?.roles?.includes("ROLE_ADMIN") && (
                       <td
                         className="flex-1 px-2 py-1 text-sm hover:text:md"
                         onClick={() =>
@@ -154,26 +154,25 @@ const ViewUsersScreen = () => {
                         }
                       >
                         <p
-                          className={`${
-                            user_.isDisabled ? "text-green-600" : "text-red-600"
-                          } font-bold `}
+                          className={`text-xs underline italic font-bold ${
+                            user_.isDisabled ? "text-red-500" : "text-green-500"
+                          } cursor-pointer hover:underline`}
                         >
-                          {user_?.isDisabled ? "ENABLED" : "DISABLED"}
-                        </p>
-                        <p className="text-xs text-red-500 hover:underline">
-                          {!user_?.isDisabled ? "enable" : "disable"}
+                          {!user_?.isDisabled
+                            ? `enable ${user_.firstname}`
+                            : `disable ${user_.firstname}`}
                         </p>
                       </td>
                     )}
-                    {user?.roles.includes("ROLE_ADMIN") && (
+                    {user?.roles?.includes("ROLE_ADMIN") && (
                       <td
                         className="flex-1 px-2 py-1 "
                         onClick={() =>
                           handleShowUserDetailPopUp(user_.id!, user_)
                         }
                       >
-                        <span className="flex-1 px-2 py-1 text-sm font-semibold text-center text-yellow-700 hover:underline hover:text-md">
-                          update user
+                        <span className="flex-1 px-2 py-1 text-xs italic font-semibold text-center text-yellow-700 underline cursor-pointer hover:underline hover:text-md">
+                          {`update ${user_.firstname}`}
                         </span>
                       </td>
                     )}

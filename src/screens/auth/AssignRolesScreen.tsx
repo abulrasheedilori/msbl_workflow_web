@@ -33,24 +33,21 @@ const AssignRoleScreen: React.FC<{ email: string; close: () => void }> = ({
         email,
         roles,
       };
-      console.log("Assign_Roles Req Obj submitted:", user);
       dispatch(assignRoles(user))
         .then((result) => {
-          console.log("ASSIGN ROLE RESULT : ", result);
           if (result.payload.status === 200) {
             showToast(
               "success",
               result?.payload?.data?.message || `Role Re-assigned Successfully`,
-              1000
+              500
             );
             formik.resetForm();
           } else {
-            console.log("ASSIGN_ROLE: INVALID CLIENT RESPONSE ", result);
             showToast(
               "warning",
               result?.payload?.response?.data?.message ||
                 `Role Re-assigned Failed`,
-              1000
+              500
             );
           }
         })
@@ -59,86 +56,88 @@ const AssignRoleScreen: React.FC<{ email: string; close: () => void }> = ({
           setTimeout(() => close(), 2000);
         })
         .catch((err: any) => {
-          // console.log("ERROR IN ASSIGN_ROLES: ", err);
           showToast(
             "error",
             err?.response?.data?.message || `Error Re-assigning Role`,
-            1000
+            500
           );
         });
     },
   });
 
   return (
-    <section
-      className={`w-[96vw] mx-auto lg:size-fit bg-slate-50 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 rounded-md shadow-md`}
-    >
-      <p className="text-2xl text-red-500 text-end" onClick={close}>
-        X
-      </p>
-      <h2 className="text-lg font-bold text-center text-green-900 lg:text-2xl">
-        Re-assign Roles
-      </h2>
-      <p className="p-4 pl-0 text-sm text-green-900">
-        Kindly re-assign a user with a role here
-      </p>
-      <form onSubmit={formik.handleSubmit} className="flex flex-col">
-        <div className="mb-4">
-          <label
-            htmlFor="role"
-            className="block text-sm font-medium text-gray-600 text-start"
-          >
-            {/* Role */}
-          </label>
-          <select
-            id="roles"
-            name="roles"
-            multiple
-            onChange={(e) => {
-              formik.setFieldValue(
-                "roles",
-                Array.from(e.target.selectedOptions, (option) => option.value)
-              );
-            }}
-            onBlur={formik.handleBlur}
-            value={formik.values.roles}
-            className="p-2 border-2 rounded outline-none focus-green-900 w-36"
-          >
-            <option value="" disabled>
-              Select a role
-            </option>
-            {roles.map((role) => (
-              <option key={role} value={role} className="text-green-900">
-                {role.toUpperCase()}
+    <section className="absolute top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center w-screen h-full duration-500 ease-in-out bg-transparent hover:bg-green-50 transition-hover">
+      <section className="relative p-4 bg-white border rounded-md shadow-md w-fit border-slate-200">
+        <h2 className="font-bold text-center text-green-950 text-md lg:text-lg">
+          Re-assign Roles
+        </h2>
+        <p className="p-4 pl-0 text-sm text-slate-500">
+          Kindly re-assign a user with a role here
+        </p>
+        <span
+          className="absolute p-1 text-xs font-bold text-red-500 border border-red-600 cursor-pointer top-4 right-4 hover:bg-red-700 hover:text-white rounded-2xl"
+          onClick={close}
+        >
+          close
+        </span>
+        <form onSubmit={formik.handleSubmit} className="flex flex-col">
+          <div className="mb-4">
+            <label
+              htmlFor="roles"
+              className="block text-sm font-medium text-gray-600 text-start"
+            >
+              {/* Role */}
+            </label>
+            <select
+              id="roles"
+              name="roles"
+              multiple
+              onChange={(e) => {
+                formik.setFieldValue(
+                  "roles",
+                  Array.from(e.target.selectedOptions, (option) => option.value)
+                );
+              }}
+              onBlur={formik.handleBlur}
+              value={formik.values.roles}
+              className="p-2 border-2 rounded outline-none focus:ring focus:ring-green-900 w-36"
+            >
+              <option value="" disabled>
+                Select a role
               </option>
-            ))}
-          </select>
-          {formik.touched.roles && formik.errors.roles && (
-            <div className="mt-1 text-red-500 whitespace-normal">
-              {formik.errors.roles}
-            </div>
-          )}
-        </div>
+              {roles.map((role) => (
+                <option key={role} value={role} className="text-green-900">
+                  {role.toUpperCase()}
+                </option>
+              ))}
+            </select>
+            {formik.touched.roles && formik.errors.roles && (
+              <div className="mt-1 text-red-500 whitespace-normal">
+                {formik.errors.roles}
+              </div>
+            )}
+          </div>
 
-        <Status
-          {...statusUpdate}
-          showStatus={showStatus}
-          setShowStatus={setShowStatus}
-        />
-        <div className="text-center">
-          <button
-            type="submit"
-            disabled={!formik.isValid || !formik.dirty}
-            className={`${
-              !formik.isValid || !formik.dirty
-                ? "bg-slate-400 text-gray-500"
-                : "bg-green-900 text-white"
-            }   py-2 px-4 rounded-md cursor-pointer`}
-          >
-            {loading === "pending" ? "Assigning Role..." : "Re-assign Role"}
-          </button>
-        </div>
-      </form>
+          <Status
+            {...statusUpdate}
+            showStatus={showStatus}
+            setShowStatus={setShowStatus}
+          />
+          <div className="text-center">
+            <button
+              type="submit"
+              disabled={!formik.isValid || !formik.dirty}
+              className={`${
+                !formik.isValid || !formik.dirty
+                  ? "bg-slate-400 text-gray-500"
+                  : "bg-green-900 text-white"
+              } py-2 px-4 rounded-md cursor-pointer`}
+            >
+              {loading === "pending" ? "Assigning Role..." : "Re-assign Role"}
+            </button>
+          </div>
+        </form>
+      </section>
     </section>
   );
 };

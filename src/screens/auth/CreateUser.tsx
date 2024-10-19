@@ -90,17 +90,18 @@ const CreateUser: React.FC = () => {
 
   return (
     <section className="w-full h-full overflow-y-auto">
-      <header className="hidden py-4 text-xl font-bold text-black lg:pt-12 lg:px-8 lg:flex lg:text-4xl">
-        Create User
+      <header className="hidden py-4 text-xl font-bold text-black lg:pt-8 lg:px-8 lg:flex lg:text-2xl">
+        New User
       </header>
-      <p className="hidden mx-8 mb-8 text-xs text-white lg:flex lg:text-lg lg:text-black">
+      <p className="hidden mx-8 mb-8 text-xs text-slate-500 lg:flex lg:text-lg">
         Welcome! you can create a new user with a role here. Just fill in all
         the details, enable the user and the user is a go.
       </p>
-      <div className=" w-full p-8 lg:w-[33vw]  mx-auto rounded-xl shadow-lg border-2 border-grey">
-        <h2 className="text-2xl font-bold text-center">Create New User</h2>
-        <p className="p-4 pl-0 text-justify">
-          Kindly create a user and assign its role here
+      <div className=" w-full mb-8 p-8 lg:w-[33vw]  mx-auto rounded-xl shadow-lg border-2 border-grey">
+        <h2 className="text-lg font-bold text-center">Create User</h2>
+        <p className="p-4 pl-0 text-xs text-justify lg:text-sm text-slate-400">
+          Kindly create a new user here and assign a role to it. You can later
+          change role, password or delete as a supervisor.
         </p>
         <form
           onSubmit={formik.handleSubmit}

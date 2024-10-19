@@ -32,6 +32,10 @@
   color: var(--toast-text-color-light) !important;
 }
 
+.bg-linear-green {
+  @apply bg-gradient-to-r from-green-100 via-green-400 to-green-900;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

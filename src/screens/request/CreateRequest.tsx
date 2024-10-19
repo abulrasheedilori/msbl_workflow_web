@@ -103,24 +103,30 @@ const CreateRequest: React.FC = () => {
   });
 
   return (
-    <section className="w-full h-[90vh] bg-green-50 overflow-y-auto">
-      <header className="m-8 text-xl font-bold text-left lg:text-4xl">
-        Create Request
+    <section className="w-full lg:pt-4  h-[90vh] bg-green-50 overflow-y-auto hide-scrollbar scroll-smooth">
+      <header className="pt-4 mx-2 text-xl font-bold text-start lg:mx-8 lg:text-2xl">
+        New Request
       </header>
-      <p className="mx-8 my-4 text-xs lg:text-lg">
-        Welcome!, you can create or log a request here. Just fill in all the
-        details and your request shall be attended to
+      <p className="mx-2 my-4 text-xs lg:text-lg lg:mx-8 lg:text-slate-500">
+        You can create or log a new request here. Just fill in all the details
+        and your request shall be attended to.
       </p>
-      <div className="w-full lg:w-[45vw] h-auto lg:mx-auto my-8 rounded-2xl lg:shadow-md border-2 border-slate-200">
+      <div className="box-content w-[90vw] lg:w-[45vw] h-auto mx-auto my-8 rounded-2xl lg:shadow-md border lg:border-2 border-slate-200">
         <div className="p-8 ">
-          <h2 className="hidden text-lg font-bold text-center text-black lg:flex lg:text-2xl">
-            New Request Form
+          <h2 className="font-bold text-center text-black text-md lg:text-2xl">
+            Request Form
           </h2>
-          <p className="p-4 pl-0 text-sm lg:text-md">
+          <p className="p-4 pl-0 text-sm text-slate-400 lg:text-md">
             Kindly fill in your request here.
           </p>
           <form onSubmit={formik.handleSubmit} className="flex flex-col flex-1">
             <div className="my-4 ">
+              <label
+                htmlFor="title"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Title Of Request
+              </label>
               <select
                 name="requestTypeId"
                 id="requestTypeId"

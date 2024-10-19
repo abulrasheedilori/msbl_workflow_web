@@ -100,10 +100,10 @@ const ViewRequestFull = () => {
                   },
                   {
                     id: "Status",
-                    value: request.status ?? "STARTED",
+                    value: request.status ?? "NA",
                   },
                   {
-                    id: "Is Approved",
+                    id: "Approval Status",
                     value: showApprovalStatus(request.isApproved),
                   },
                   {
@@ -183,14 +183,13 @@ const ViewRequestFull = () => {
       const request = { requestId, isApproved };
       dispatch(approveRequest(request))
         .then((response) => {
-          // console.log("HANDLE_APPROVE_REQ = ", response);
           if (response.payload.status === 200) {
             dispatch(getRequestById(paramId)).then((reponse) =>
               setSelectedReq(reponse.payload.data.data)
             );
             showToast(
               "success",
-              response?.payload?.data?.message || "Authorized Successfully",
+              response?.payload?.data?.message || "Authorized",
               1000
             );
           } else {
@@ -228,7 +227,6 @@ const ViewRequestFull = () => {
           })
           .catch((err) => {
             showToast("error", "An error occured", 2000);
-            // console.log("RELOAD_STATUS: ", err);
           });
     });
   };
@@ -309,9 +307,9 @@ const ViewRequestFull = () => {
   });
 
   return (
-    <section className="relative w-full lg:h-[90vh] flex-1 bg-green-50 mx-auto p-2 pt-8 overflow-y-auto">
-      <header className="mx-8 text-xl font-bold text-center lg:text-4xl">
-        Request Details
+    <section className="relative w-full lg:h-[90vh] flex-1 bg-green-50 mx-auto p-2 pt-4 overflow-y-auto">
+      <header className="mx-8 text-xl font-bold text-center lg:text-2xl">
+        REQUEST DETAILS
       </header>
       <section className="relative h-auto p-4 mx-auto my-8 rounded-md lg:p-16">
         <span className="text-sm lg:text.md absolute p-2 shadow-md top-2 right-2 bg-red-50 rounded-xl">
@@ -324,23 +322,23 @@ const ViewRequestFull = () => {
           <FaArrowLeft size={24} />
         </button>
 
-        <section className="mt-16">
+        <section className="mt-16 overflow-x-hidden">
           {request ? (
             request?.map((item) => (
               <div
                 key={item.id.toString()}
-                className="flex flex-col w-full my-4 lg:flex-row item-center"
+                className="flex flex-col w-full gap-2 my-4 lg:flex-row item-center"
               >
                 <label
                   htmlFor={item.id}
-                  className="px-2 font-bold text-gray-400 text-md"
+                  className="text-sm font-bold text-gray-400"
                 >
                   {item.id}:
                 </label>
                 <section>
                   {item?.id.toLowerCase().includes("email") && (
                     <a
-                      className="text-xs italic font-semibold text-red-600 underline whitespace-normal"
+                      className="text-xs font-semibold text-red-400 underline whitespace-nowrap"
                       href={`mailto:${item.value}`}
                       target="_blank"
                       rel="noreferrer"
@@ -351,7 +349,7 @@ const ViewRequestFull = () => {
 
                   {item?.id.toLowerCase().includes("url") && (
                     <a
-                      className="text-xs italic font-semibold text-red-600 underline whitespace-normal"
+                      className="text-xs font-semibold text-red-400 underline whitespace-nowrap"
                       href={`${item.value}`}
                       target="_blank"
                       rel="noreferrer"
@@ -362,7 +360,7 @@ const ViewRequestFull = () => {
 
                   {!item?.id.toLowerCase().includes("email") &&
                     !item?.id.toLowerCase().includes("url") && (
-                      <span className="px-2 text-green-900 lg:text-md text-bold">
+                      <span className="font-bold text-black lg:text-md text-bold">
                         {item?.value}
                       </span>
                     )}
@@ -492,9 +490,9 @@ const ViewRequestFull = () => {
             )}
         </section>
 
-        <section className=" w-full lg:w-[40vw] p-4 mx-auto flex flex-col items-center justify-center gap-2">
+        <section className=" w-full lg:w-[40vw] p-4 mx-auto flex flex-col items-center justify-center gap-2 border">
           <section className="w-full p-4 bg-gray-50 bg-opacity-10">
-            <p className="mt-8 mb-4 text-xl font-bold text-center text-green-900 break-words whitespace-normal">
+            <p className="mt-8 mb-4 font-bold text-center text-black break-words whitespace-normal text-md lg:text-lg">
               {selectedReq?.title?.toUpperCase()}
             </p>
             <p className="whitespace-normal break-words text-md text-center border-green-200 lg:w-[30vw] ">
@@ -508,8 +506,7 @@ const ViewRequestFull = () => {
           </section>
 
           {/* ------display comments ------------- */}
-          {/* <section className="p-4 my-4 border border-green-900"> */}
-          <section className=" w-full lg:w-[38vw] p-4 mx-auto flex flex-col items-center justify-center gap-2">
+          <section className=" w-full lg:w-[38vw] p-4 mx-auto flex flex-col items-center justify-center gap-2 border ">
             <p className="py-2 text-xs text-gray-500">Comments</p>
             {selectedReq && selectedReq.comments.length > 0 ? (
               selectedReq?.comments.map((comment: CommentResponseType) => (
@@ -534,13 +531,12 @@ const ViewRequestFull = () => {
                 </section>
               ))
             ) : (
-              <p className="my-8 text-lg text-center text-red-500">
+              <p className="my-8 text-xs text-center text-red-500">
                 No Comments yet!
               </p>
             )}
 
             {/* ------- Add comments ----------- */}
-            {/* {user?.roles.includes("ROLE_INITIATOR") || */}
             <form
               onSubmit={formik.handleSubmit}
               className="flex flex-col items-start justify-center gap-4 lg:flex-row"

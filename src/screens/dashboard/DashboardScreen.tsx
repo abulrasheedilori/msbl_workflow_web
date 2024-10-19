@@ -55,8 +55,8 @@ const DashboardScreen: React.FC = () => {
   };
 
   return (
-    <section className="w-screen h-screen">
-      <section className=" w-full h-[10vh] bg-green-950 flex flex-row justify-between items-center">
+    <section className="box-border w-full h-full bg-green-50">
+      <section className="box-content flex flex-row items-center justify-between w-full h-[10vh] bg-green-950">
         <img
           src={require("../../asset/images/meristem_name_logo.png")}
           alt=""
@@ -93,22 +93,22 @@ const DashboardScreen: React.FC = () => {
           <FaUser size={48} className="mr-8 text-green-100" />
         </section>
       </section>
-      <section className="relative flex w-full h-[90vh] lg:flex-row bg-green-50">
+      <section className="box-content relative flex w-full lg:h-[90vh]  lg:flex-row bg-green-50">
         <nav
           className={`${
             !showMenu && "hidden lg:flex"
-          } absolute top-0 right-0 lg:static lg:w-[15vw] md:h-[90vh] bg-green-200 p-2 shadow-md z-50`}
+          } absolute top-0 right-0 lg:static lg:w-[15vw]  bg-green-50 p-4 shadow-md z-50 border-2 border-green-50`}
         >
           <ul className="flex flex-col w-full gap-1">
             {user && !user.roles.includes("ROLE_ADMIN") && (
               <Link
                 to="/dashboard"
                 onClick={() => handleSelectedRoute("VIEW_REQUEST")}
-                className={`border border-green-300 hover:bg-green-900 hover:text-white p-2 rounded-md ${
+                className={`text-xs font-bold hover:bg-green-900 hover:text-white p-2 rounded-md ${
                   selectedRoute === "VIEW_REQUEST" && "bg-green-900 text-white"
                 }`}
               >
-                View Requests
+                Requests
               </Link>
             )}
             {user &&
@@ -117,12 +117,12 @@ const DashboardScreen: React.FC = () => {
                 <Link
                   to="/dashboard/create-request"
                   onClick={() => handleSelectedRoute("CREATE_REQUEST")}
-                  className={`border border-green-300 hover:bg-green-900 hover:text-white p-2 rounded-md ${
+                  className={`text-xs font-bold   hover:bg-green-900 hover:text-white p-2 rounded-md ${
                     selectedRoute === "CREATE_REQUEST" &&
                     "bg-green-900 text-white"
                   }`}
                 >
-                  Create Request
+                  New Request
                 </Link>
               )}
             {user &&
@@ -131,11 +131,11 @@ const DashboardScreen: React.FC = () => {
                 <Link
                   to="/dashboard/manage-user"
                   onClick={() => handleSelectedRoute("MANAGE_USER")}
-                  className={`border border-green-300 hover:bg-green-900 hover:text-white p-2 rounded-md ${
+                  className={`text-xs font-bold hover:bg-green-900 hover:text-white p-2 rounded-md ${
                     selectedRoute === "MANAGE_USER" && "bg-green-900 text-white"
                   }`}
                 >
-                  Manage Users
+                  Users Mgmt
                 </Link>
               )}
 
@@ -143,18 +143,18 @@ const DashboardScreen: React.FC = () => {
               <Link
                 to="/dashboard/create-user"
                 onClick={() => handleSelectedRoute("CREATE_USER")}
-                className={`border border-green-300 hover:bg-green-900 hover:text-white p-2 rounded-md ${
+                className={`text-xs font-bold hover:bg-green-900 hover:text-white p-2 rounded-md ${
                   selectedRoute === "CREATE_USER" && "bg-green-900 text-white"
                 }`}
               >
-                Create User
+                New User
               </Link>
             )}
 
             <Link
               to="/dashboard/audit"
               onClick={() => handleSelectedRoute("AUDIT")}
-              className={`border border-green-300 hover:bg-green-900 hover:text-white p-2 rounded-md ${
+              className={`text-xs font-bold hover:bg-green-900 hover:text-white p-2 rounded-md ${
                 selectedRoute === "AUDIT" && "bg-green-900 text-white"
               }`}
             >
@@ -164,8 +164,8 @@ const DashboardScreen: React.FC = () => {
             <Link
               to="/home"
               onClick={() => logUserOut()}
-              className={`border border-green-300 hover:bg-green-900 hover:text-white p-2 rounded-md ${
-                selectedRoute === "LOGOUT" && "bg-green-900 text-white"
+              className={`text-xs font-bold  hover:bg-red-700 hover:text-white p-2 rounded-md ${
+                selectedRoute === "LOGOUT" && "bg-red-700 text-white"
               }`}
             >
               Log Out

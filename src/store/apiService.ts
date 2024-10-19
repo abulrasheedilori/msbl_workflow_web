@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import { resolveRequestQueries } from "../utils/formatDate";
 import { retrieveCacheData } from "../utils/helperFunctions";
 import User, {
@@ -11,12 +10,7 @@ import User, {
   UpdateStatusRequestType,
   UserUpdate,
 } from "./apiTypes";
-
-const api = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
-  // baseURL: process.env.REACT_APP_LOCAL_BASE_URL,
-  timeout: 60000,
-});
+import api from "./axios";
 
 //api or endpoints
 const login = createAsyncThunk(
@@ -27,7 +21,7 @@ const login = createAsyncThunk(
       // console.log("LOGIN_RESPONSE: ", response);
       return response;
     } catch (error: any) {
-      console.log("LOGIN_ERROR: ", error?.message);
+      // console.log("LOGIN_ERROR: ", error?.message);
       return error;
     }
   }
@@ -118,7 +112,7 @@ const updateStatus = createAsyncThunk(
       });
       return response;
     } catch (error: any) {
-      console.log("UPDATE_STATUS_ERR: ", error);
+      // console.log("UPDATE_STATUS_ERR: ", error);
       return error;
     }
   }
@@ -217,7 +211,7 @@ const getAllRequestsFromAllUsers = createAsyncThunk(
       // console.log("getAllRequestsFromAllUsers: ", response);
       return response;
     } catch (error: any) {
-      console.log("GET_ALL_REQUESTS_FROM_ALL_USERS: ", error);
+      // console.log("GET_ALL_REQUESTS_FROM_ALL_USERS: ", error);
       return error;
     }
   }

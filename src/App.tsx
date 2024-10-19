@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import useNetworkStatus from "./hooks/useNetworkStatus";
 import "./index.css";
@@ -25,11 +25,13 @@ const App = () => {
   const isOnline = useNetworkStatus();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (!isOnline) {
-      showToast("error", "Your Internet is off", 1000);
-    }
-  }, [isOnline]);
+  useEffect(
+    React.useCallback(() => {
+      if (!isOnline) {
+        showToast("error", "Internet is off", 500);
+      }
+    }, [])
+  );
 
   useEffect(() => {
     setUser(retrieveCacheData("user"));

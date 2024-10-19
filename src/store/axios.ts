@@ -1,23 +1,34 @@
-import api from "../store/apiService";
-import { AuthState } from "./reducers/authSlice";
-import store from "./store";
+import axios from "axios";
+import { showToast } from "../middlewares/showToast";
 
-api.interceptors.request.use(async (config) => {
-  const state = store.getState().auth as AuthState;
-  const userString = localStorage.getItem("user");
-  const user = userString && JSON.parse(userString);
-  if (new Date().getTime() / 1000 > user.expires!) {
-    const response = await api.post("/auth/refreshToken", {
-      refreshToken: user.refreshToken,
-    });
-    if (state.user) {
-      state.user.accessToken = response.data.data;
-    }
-    user.accessToken = response.data.data;
-    const stringifiedUser = JSON.stringify(user);
-    localStorage.setItem("user", stringifiedUser);
-  }
-  return config;
+const api = axios.create({
+  baseURL: process.env.REACT_APP_BASE_URL,
+  // baseURL: process.env.REACT_APP_LOCAL_BASE_URL,
+  timeout: 60000,
 });
+
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    if (
+      error?.response?.request?.status === 401 ||
+      error?.response?.request?.status === "401" ||
+      error?.response?.status === 401 ||
+      error?.response?.status === "401"
+    ) {
+      showToast(
+        "error",
+        error?.response?.data?.message || "Unauthorized, Kindly Login in",
+        500
+      );
+      localStorage.clear();
+
+      window.location.href = "/";
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;
