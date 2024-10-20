@@ -24,11 +24,10 @@ const ViewUsersScreen = () => {
     const request = { email, isDisabled };
     dispatch(enableOrDisableUser(request))
       .then((response) => {
-        // console.log("IS_DISABLED : ", !isDisabled);
         dispatch(getAllUsers());
         showToast(
-          !isDisabled ? "success" : "warning",
-          !isDisabled ? "User is enabled" : "User is disabled",
+          "info",
+          isDisabled ? "User is enabled" : "User is disabled",
           1000
         );
       })
