@@ -66,7 +66,7 @@ const AssignRoleScreen: React.FC<{ email: string; close: () => void }> = ({
   });
 
   return (
-    <section className="absolute top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center w-screen h-full duration-500 ease-in-out bg-transparent hover:bg-green-50 transition-hover">
+    <section className="absolute top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center w-screen h-full duration-500 ease-in-out bg-green-50 lg:bg-transparent lg:hover:bg-green-50 transition-hover">
       <section className="relative p-4 bg-white border rounded-md shadow-md w-fit border-slate-200">
         <h2 className="font-bold text-center text-green-950 text-md lg:text-lg">
           Re-assign Roles
