@@ -22,15 +22,19 @@ const ViewUsersScreen = () => {
 
   const handleEnableOrDisabledUser = (email: string, isDisabled: boolean) => {
     const request = { email, isDisabled };
-    dispatch(enableOrDisableUser(request)).then((response) => {
-      console.log("IS_DISABLED : ", isDisabled);
-      dispatch(getAllUsers());
-      showToast(
-        isDisabled ? "success" : "warning",
-        isDisabled ? "User is enabled" : "User is disabled",
-        500
-      );
-    });
+    dispatch(enableOrDisableUser(request))
+      .then((response) => {
+        // console.log("IS_DISABLED : ", !isDisabled);
+        dispatch(getAllUsers());
+        showToast(
+          !isDisabled ? "success" : "warning",
+          !isDisabled ? "User is enabled" : "User is disabled",
+          1000
+        );
+      })
+      .catch((err) => {
+        showToast("error", err?.response?.data?.message || err.message, 1000);
+      });
   };
 
   const handleShowUserDetailPopUp = (id: number, user: User) => {
