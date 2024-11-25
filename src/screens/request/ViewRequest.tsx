@@ -46,7 +46,7 @@ const ViewRequest = () => {
               <section
                 key={id.toString()}
                 onClick={() => handleViewRequest(id)}
-                className="relative w-full lg:w-[17vw] my-1 lg:mx-2 bg-slate-50 p-8 shadow-md rounded-md border-2 hover:bg-green-200 hover:border-green-900"
+                className="relative w-full lg:w-[17vw] my-1 lg:mx-2 bg-slate-50 p-4 shadow-md rounded-md border-2 hover:bg-green-200 hover:border-green-900"
               >
                 {item?.status && (
                   <span className="absolute p-2 text-sm shadow-md top-2 right-2 bg-red-50 rounded-xl">
@@ -54,16 +54,16 @@ const ViewRequest = () => {
                   </span>
                 )}
 
-                <p className="p-4 mt-12 mb-4 overflow-hidden font-bold text-center text-black text-md break-word overflow-ellipsis">
+                <p className="p-4 mt-4 mb-2 overflow-hidden font-bold text-center text-black text-sm break-word overflow-ellipsis">
                   {title}
                 </p>
                 <section>
-                  <p className="pt-2 pb-8 overflow-hidden text-sm border-green-100 overflow-ellipsis text border-y-2">
+                  <p className="pt-2 pb-4 overflow-hidden text-xs border-green-100 overflow-ellipsis text border-y-2">
                     {message}
                   </p>
                   <p className="text-xs text-gray-400">{`Created by: ${user?.firstname} ${user?.lastname}`}</p>
                   {/* <span className="mt-4 text-xs ">Created on:</span> */}
-                  <p className="font-serif text-xs text-right ">
+                  <p className="font-serif text-xs text-right py-2">
                     {formatDate?.(createdAt)}
                   </p>
                 </section>
