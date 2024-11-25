@@ -10,7 +10,7 @@ const Homepage = () => {
           <img
             src={require("../../asset/images/meristem_name_logo.png")}
             alt=""
-            className="bg-white w-[90px] h-[20px] lg:h-[40px] lg:w-[200px] rounded-xl shadow-md mt-4 animate-bounce"
+            className="bg-white w-[90px] h-[20px] lg:h-[20px] lg:w-[100px] rounded-xl shadow-md mt-4 animate-bounce"
           />
           <header className="lg:pl-[20vw] text-xl md:text-3xl lg:text-5xl text-center text-green-400 p-2 lg:p-8 ">
             Stock Brokers Ltd Workflow
