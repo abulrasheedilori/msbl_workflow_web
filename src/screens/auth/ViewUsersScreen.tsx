@@ -75,18 +75,18 @@ const ViewUsersScreen = () => {
       <section className="w-[80vw] h-[65vh] overflow-auto hide-scrollbar">
         <table className="mx-4 text-sm bg-white border border-gray-300">
           <thead className="sticky top-0">
-            <tr className="border border-gray-300 bg-slate-50 text-nowrap whitespace-nowrap">
-              <th className="px-2 py-1 text-center">ID</th>
-              <th className="px-2 py-1 text-start">USERNAME</th>
-              <th className="px-2 py-1 text-start">FULL NAME</th>
-              <th className="px-2 py-1 text-start">EMAIL</th>
+            <tr className="border border-gray-300 bg-slate-50 text-start text-nowrap whitespace-nowrap">
+              <th className="px-2 py-1">ID</th>
+              <th className="px-2 py-1">USERNAME</th>
+              <th className="px-2 py-1">FULL NAME</th>
+              <th className="px-2 py-1">EMAIL</th>
               {user?.roles.includes("ROLE_ADMIN") && (
                 <th className="px-2 py-1">PASSWORD</th>
               )}
               {user?.roles.includes("ROLE_SUPERVISOR") ? (
-                <th className="px-2 py-1 text-start">RE-ASSIGN ROLE</th>
+                <th className="px-2 py-1">RE-ASSIGN ROLE</th>
               ) : (
-                <th className="px-2 py-1 text-start">ROLE</th>
+                <th className="px-2 py-1">ROLE</th>
               )}
               {/* {user?.roles.includes("ROLE_ADMIN") && (
                 <th className="flex-1 px-2 py-1 text-start">ACTION</th>
