@@ -105,7 +105,7 @@ const ViewUsersScreen = () => {
                     key={user_?.id?.toString()}
                     className="border-b bg-slate-50 text-start whitespace-nowrap text-nowrap hover:bg-green-900 hover:text-green-50"
                   >
-                    <td className="px-2 py-1">{index + 1}</td>
+                    <td className="px-2 py-1 text-center">{index + 1}</td>
                     <td className="px-2 py-1 ">{user_?.username}</td>
                     <td className="px-2 py-1 ">
                       {user_?.firstname + " " + user_.lastname}
