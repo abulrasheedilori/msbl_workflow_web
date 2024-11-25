@@ -107,11 +107,11 @@ const ViewRequestFull = () => {
                     value: showApprovalStatus(request.isApproved),
                   },
                   {
-                    id: "Debit Authorization URL",
+                    id: "Debit Auth URL",
                     value: request.debitAuthorizationUrl ?? "NA",
                   },
                   {
-                    id: "Document URL",
+                    id: "Doc URL",
                     value: request.documentUrl ?? "NA",
                   },
                   {
