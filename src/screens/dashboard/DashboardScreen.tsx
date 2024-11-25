@@ -60,7 +60,7 @@ const DashboardScreen: React.FC = () => {
         <img
           src={require("../../asset/images/meristem_name_logo.png")}
           alt=""
-          className="bg-green-200 w-50 h-5 lg:w-[200px] lg:h-12 rounded-xl shadow-md m-1 lg:m-8 animate-bounce"
+          className="bg-green-200 w-50 h-5 lg:w-[100px] lg:h-6 rounded-xl shadow-md m-1 lg:m-8 animate-bounce"
         />
         <span className="hidden font-bold text-center text-white lg:p-8 lg:text-5xl lg:flex">
           MSBL DASHBOARD
