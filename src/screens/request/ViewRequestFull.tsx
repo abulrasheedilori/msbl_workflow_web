@@ -331,7 +331,7 @@ const ViewRequestFull = () => {
               >
                 <label
                   htmlFor={item.id}
-                  className="text-sm font-bold text-gray-400"
+                  className="text-sm font-bold text-gray-400 whitespace-nowrap"
                 >
                   {item.id}:
                 </label>
