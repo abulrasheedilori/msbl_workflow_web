@@ -100,7 +100,7 @@ const ViewRequestFull = () => {
                   },
                   {
                     id: "Status",
-                    value: request.status ?? "NA",
+                    value: request?.status?.toUpperCase() ?? "NA",
                   },
                   {
                     id: "Approval Status",
@@ -336,7 +336,7 @@ const ViewRequestFull = () => {
                   {item.id}:
                 </label>
                 <section>
-                  {item?.id.toLowerCase().includes("email") && (
+                  {item?.id?.toLowerCase()?.includes("email") && (
                     <a
                       className="text-xs font-semibold text-red-400 underline whitespace-nowrap"
                       href={`mailto:${item.value}`}
@@ -347,7 +347,7 @@ const ViewRequestFull = () => {
                     </a>
                   )}
 
-                  {item?.id.toLowerCase().includes("url") && (
+                  {item?.id?.toLowerCase()?.includes("url") && (
                     <a
                       className="text-xs font-semibold text-red-400 underline whitespace-nowrap"
                       href={`${item.value}`}
@@ -358,8 +358,8 @@ const ViewRequestFull = () => {
                     </a>
                   )}
 
-                  {!item?.id.toLowerCase().includes("email") &&
-                    !item?.id.toLowerCase().includes("url") && (
+                  {!item?.id?.toLowerCase()?.includes("email") &&
+                    !item?.id?.toLowerCase()?.includes("url") && (
                       <span className="font-bold text-black lg:text-md text-bold">
                         {item?.value}
                       </span>
@@ -412,7 +412,7 @@ const ViewRequestFull = () => {
               </select>
             )}
 
-            {user?.roles.includes("ROLE_SUPERVISOR") && (
+            {user?.roles?.includes("ROLE_SUPERVISOR") && (
               <section
                 onClick={() => handleDeleteRequest(paramId)}
                 className="flex flex-row justify-center w-[180px] gap-2 p-2 bg-slate-200  rounded-md item-center hover:bg-red-500 hover:text-gray-50"
@@ -432,7 +432,7 @@ const ViewRequestFull = () => {
             showStatus={showStatus}
             setShowStatus={setShowStatus}
           />
-          {user?.roles.includes("ROLE_OPERATIONS") &&
+          {user?.roles?.includes("ROLE_OPERATIONS") &&
             selectedReq?.isApproved === null && (
               <section className="flex flex-row justify-start gap-4 m-4 item-center">
                 <span
@@ -449,7 +449,7 @@ const ViewRequestFull = () => {
                 </span>
               </section>
             )}
-          {user?.roles.includes("ROLE_OPERATIONS") &&
+          {user?.roles?.includes("ROLE_OPERATIONS") &&
             selectedReq?.isApproved && (
               <section className="flex flex-row justify-start gap-4 m-4 item-center">
                 <span
@@ -461,7 +461,7 @@ const ViewRequestFull = () => {
               </section>
             )}
 
-          {user?.roles.includes("ROLE_OPERATIONS") &&
+          {user?.roles?.includes("ROLE_OPERATIONS") &&
             selectedReq?.isApproved === false && (
               <section className="flex flex-row justify-start gap-4 m-4 item-center">
                 <span
@@ -472,7 +472,7 @@ const ViewRequestFull = () => {
                 </span>
               </section>
             )}
-          {user?.roles.includes("ROLE_INITIATOR") &&
+          {user?.roles?.includes("ROLE_INITIATOR") &&
             selectedReq?.isApproved === false && (
               <button
                 onClick={handleNavToEditReq}
@@ -511,7 +511,7 @@ const ViewRequestFull = () => {
             {selectedReq && selectedReq.comments.length > 0 ? (
               selectedReq?.comments.map((comment: CommentResponseType) => (
                 <section className="w-full p-4 mb-8 bg-gray-200 divide-gray-400 rounded-lg divide-2">
-                  <p className="break-words whitespace-normal ">
+                  <p className="break-words mb-4 text-xs whitespace-normal ">
                     {comment.message}
                   </p>
                   <div className="flex flex-col w-full lg:flex-row lg:justify-between">
