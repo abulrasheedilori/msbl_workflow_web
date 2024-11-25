@@ -77,16 +77,16 @@ const ViewUsersScreen = () => {
           <thead className="sticky top-0">
             <tr className="border border-gray-300 bg-slate-50 text-nowrap whitespace-nowrap">
               <th className="px-2 py-1 text-center">ID</th>
-              <th className="px-2 py-1 text-left">USERNAME</th>
-              <th className="px-2 py-1 text-left">FULL NAME</th>
-              <th className="px-2 py-1 text-left">EMAIL</th>
+              <th className="px-2 py-1 text-start">USERNAME</th>
+              <th className="px-2 py-1 text-start">FULL NAME</th>
+              <th className="px-2 py-1 text-start">EMAIL</th>
               {user?.roles.includes("ROLE_ADMIN") && (
                 <th className="px-2 py-1">PASSWORD</th>
               )}
               {user?.roles.includes("ROLE_SUPERVISOR") ? (
-                <th className="px-2 py-1 text-left">RE-ASSIGN ROLE</th>
+                <th className="px-2 py-1 text-start">RE-ASSIGN ROLE</th>
               ) : (
-                <th className="px-2 py-1 text-left">ROLE</th>
+                <th className="px-2 py-1 text-start">ROLE</th>
               )}
               {/* {user?.roles.includes("ROLE_ADMIN") && (
                 <th className="flex-1 px-2 py-1 text-start">ACTION</th>
