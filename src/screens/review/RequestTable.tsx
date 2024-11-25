@@ -202,7 +202,7 @@ const RequestsTable = () => {
         </section>
       </section>
 
-      <section className="box-content w-[75vw] h-[65vh] overflow-auto">
+      <section className="box-content w-[80vw] h-[65vh] overflow-auto">
         <table className="mx-auto bg-white border border-gray-300">
           <thead className="sticky top-0 ">
             <tr className="border border-gray-300 bg-slate-50 text-xs text-nowrap text-left">
