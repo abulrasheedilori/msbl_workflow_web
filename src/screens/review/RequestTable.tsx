@@ -205,7 +205,7 @@ const RequestsTable = () => {
       <section className="box-content w-[75vw] h-[65vh] overflow-auto">
         <table className="mx-auto bg-white border border-gray-300">
           <thead className="sticky top-0 ">
-            <tr className="border border-gray-300 bg-slate-50 text-nowrap">
+            <tr className="border border-gray-300 bg-slate-50 text-xs text-nowrap text-left">
               <th className="flex-1 px-2 py-1 border-b text-start">S/NO</th>
               <th className="flex-1 px-2 py-1 border-b text-start">ID</th>
               <th className="px-2 py-1 border-b text-start flex-3">TITLE</th>
@@ -236,7 +236,7 @@ const RequestsTable = () => {
             {requests?.map((request, index) => (
               <tr
                 key={request?.id}
-                className="text-center text-nowrap hover:bg-green-900 hover:text-green-50"
+                className="text-left text-nowrap text-xs hover:bg-green-900 hover:text-green-50"
               >
                 <td className="flex-1 border-b">{index + 1}</td>
                 <td className="flex-1 border-b">{request?.id}</td>
