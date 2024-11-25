@@ -72,7 +72,7 @@ const ViewUsersScreen = () => {
         You can manage all users, change password, re-assign roles and
         disable/enable users here.
       </p>
-      <section className=" h-[70vh] overflow-auto hide-scrolbar">
+      <section className="w-full h-[70vh] overflow-auto hide-scrolbar">
         <table className="mx-4 text-sm bg-white border border-gray-300">
           <thead className="sticky top-0 ">
             <tr className="border border-gray-300 bg-slate-50 text-wrap">
