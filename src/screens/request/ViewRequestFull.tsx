@@ -496,7 +496,7 @@ const ViewRequestFull = () => {
               {selectedReq?.title?.toUpperCase()}
             </p>
             <p className="whitespace-normal break-words text-xs text-center border-green-200 lg:w-[30vw] ">
-              {selectedReq?.message.slice(1).toUpperCase() + selectedReq?.message.slice(2).toLowerCase()}
+              {selectedReq?.message.slice(1,2).toUpperCase() + selectedReq?.message.slice(2).toLowerCase()}
             </p>
             {selectedReq && (
               <p className="font-serif text-xs text-right text-slate-500 ">
@@ -508,10 +508,10 @@ const ViewRequestFull = () => {
           {/* ------display comments ------------- */}
           <section className=" w-full lg:w-[38vw] p-4 mx-auto flex flex-col items-center justify-center gap-2 border ">
             <p className="py-2 text-xs text-gray-500">Comments</p>
-            {selectedReq && selectedReq.comments.length > 0 ? (
+            {selectedReq && selectedReq?.comments?.length > 0 ? (
               selectedReq?.comments.map((comment: CommentResponseType) => (
                 <section className="w-full p-4 mb-8 bg-gray-200 divide-gray-400 rounded-lg divide-2">
-                  <p className="break-words mb-4 text-xs whitespace-normal ">
+                  <p className="break-words mb-4 text-xs whitespace-normal">
                     {comment.message}
                   </p>
                   <div className="flex flex-col w-full lg:flex-row lg:justify-between">
