@@ -327,7 +327,7 @@ const ViewRequestFull = () => {
             request?.map((item) => (
               <div
                 key={item.id.toString()}
-                className="flex flex-col w-full gap-2 my-4 lg:flex-row item-center"
+                className="flex flex-col w-full gap-2 my-2 lg:flex-row item-center"
               >
                 <label
                   htmlFor={item.id}
