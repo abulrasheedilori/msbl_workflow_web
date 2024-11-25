@@ -496,7 +496,7 @@ const ViewRequestFull = () => {
               {selectedReq?.title?.toUpperCase()}
             </p>
             <p className="whitespace-normal break-words text-xs text-center border-green-200 lg:w-[30vw] ">
-              {selectedReq?.message.slice(1,2).toUpperCase() + selectedReq?.message.slice(2).toLowerCase()}
+              {selectedReq?.message?.slice(1,2)?.toUpperCase() + selectedReq?.message?.slice(2)?.toLowerCase()}
             </p>
             {selectedReq && (
               <p className="font-serif text-xs text-right text-slate-500 ">
