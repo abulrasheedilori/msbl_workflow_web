@@ -512,7 +512,7 @@ const ViewRequestFull = () => {
               selectedReq?.comments.map((comment: CommentResponseType) => (
                 <section className="w-full p-4 mb-8 bg-gray-200 divide-gray-400 rounded-lg divide-2">
                   <p className="break-words whitespace-normal ">
-                    {comment?.message?.slice(1,2)?.toUppercase() + comment?.message?.slice(2)?.toLowercase()}
+                    {comment.message.toLowercase()}
                   </p>
                   <div className="flex flex-col w-full lg:flex-row lg:justify-between">
                     {comment && (
