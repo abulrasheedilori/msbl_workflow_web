@@ -66,7 +66,7 @@ const ViewUsersScreen = () => {
   };
 
   return (
-    <section className="w-full h-full lg:h-[90vh] p-4  lg:px-8">
+    <section className="w-full h-full lg:h-[90vh] p-4 lg:px-8">
       <header className="text-xl font-bold lg:pt-4 lg:text-2xl">Users</header>
       <p className="mt-4 mb-8 text-xs lg:text-lg text-slate-500">
         You can manage all users, change password, re-assign roles and
@@ -74,9 +74,9 @@ const ViewUsersScreen = () => {
       </p>
       <section className="w-[80vw] h-[70vh] overflow-auto hide-scrollbar">
         <table className="mx-4 text-sm bg-white border border-gray-300">
-          <thead className="sticky top-0 ">
+          <thead className="sticky top-0">
             <tr className="border border-gray-300 bg-slate-50 text-nowrap text-start whitespace-nowrap">
-              <th className="px-2 py-1">ID</th>
+              <th className="px-2 py-1 text-center">ID</th>
               <th className="px-2 py-1">USERNAME</th>
               <th className="px-2 py-1">FULL NAME</th>
               <th className="px-2 py-1">EMAIL</th>
