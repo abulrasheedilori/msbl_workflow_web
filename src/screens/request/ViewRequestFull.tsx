@@ -312,7 +312,7 @@ const ViewRequestFull = () => {
         REQUEST DETAILS
       </header>
       <section className="relative h-auto p-4 mx-auto my-8 rounded-md lg:p-16">
-        <span className="text-sm lg:text.md absolute p-2 shadow-md top-2 right-2 bg-red-50 rounded-xl">
+        <span className="text-sm lg:text.md absolute px-2 py-1 shadow-md top-2 right-2 bg-red-50 rounded-xl">
           {selectedReq?.status?.toUpperCase() ?? "Loading..."}
         </span>
         <button
@@ -322,7 +322,7 @@ const ViewRequestFull = () => {
           <FaArrowLeft size={18} />
         </button>
 
-        <section className="mt-4 overflow-x-hidden">
+        <section className="mt-8 overflow-x-hidden">
           {request ? (
             request?.map((item) => (
               <div
