@@ -319,7 +319,7 @@ const ViewRequestFull = () => {
           onClick={goBack}
           className="absolute p-2 ml-4 shadow-md cursor-pointer top-2 left-2 bg-blue-50 rounded-xl"
         >
-          <FaArrowLeft size={24} />
+          <FaArrowLeft size={18} />
         </button>
 
         <section className="mt-4 overflow-x-hidden">
