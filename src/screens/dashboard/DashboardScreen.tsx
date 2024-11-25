@@ -104,7 +104,7 @@ const DashboardScreen: React.FC = () => {
               <Link
                 to="/dashboard"
                 onClick={() => handleSelectedRoute("VIEW_REQUEST")}
-                className={`text-xs font-bold hover:bg-green-900 hover:text-white p-2 rounded-md ${
+                className={`text-xs font-bold hover:bg-green-900 hover:text-white p-2 rounded-md whitespace-nowrap ${
                   selectedRoute === "VIEW_REQUEST" && "bg-green-900 text-white"
                 }`}
               >
@@ -117,7 +117,7 @@ const DashboardScreen: React.FC = () => {
                 <Link
                   to="/dashboard/create-request"
                   onClick={() => handleSelectedRoute("CREATE_REQUEST")}
-                  className={`text-xs font-bold   hover:bg-green-900 hover:text-white p-2 rounded-md ${
+                  className={`text-xs font-bold   hover:bg-green-900 hover:text-white p-2 rounded-md whitespace-nowrap ${
                     selectedRoute === "CREATE_REQUEST" &&
                     "bg-green-900 text-white"
                   }`}
@@ -131,7 +131,7 @@ const DashboardScreen: React.FC = () => {
                 <Link
                   to="/dashboard/manage-user"
                   onClick={() => handleSelectedRoute("MANAGE_USER")}
-                  className={`text-xs font-bold hover:bg-green-900 hover:text-white p-2 rounded-md ${
+                  className={`text-xs font-bold hover:bg-green-900 hover:text-white p-2 rounded-md whitespace-nowrap ${
                     selectedRoute === "MANAGE_USER" && "bg-green-900 text-white"
                   }`}
                 >
@@ -143,7 +143,7 @@ const DashboardScreen: React.FC = () => {
               <Link
                 to="/dashboard/create-user"
                 onClick={() => handleSelectedRoute("CREATE_USER")}
-                className={`text-xs font-bold hover:bg-green-900 hover:text-white p-2 rounded-md ${
+                className={`text-xs font-bold hover:bg-green-900 hover:text-white p-2 rounded-md whitespace-nowrap ${
                   selectedRoute === "CREATE_USER" && "bg-green-900 text-white"
                 }`}
               >
@@ -154,7 +154,7 @@ const DashboardScreen: React.FC = () => {
             <Link
               to="/dashboard/audit"
               onClick={() => handleSelectedRoute("AUDIT")}
-              className={`text-xs font-bold hover:bg-green-900 hover:text-white p-2 rounded-md ${
+              className={`text-xs font-bold hover:bg-green-900 hover:text-white p-2 rounded-md whitespace-nowrap ${
                 selectedRoute === "AUDIT" && "bg-green-900 text-white"
               }`}
             >
@@ -164,7 +164,7 @@ const DashboardScreen: React.FC = () => {
             <Link
               to="/home"
               onClick={() => logUserOut()}
-              className={`text-xs font-bold  hover:bg-red-700 hover:text-white p-2 rounded-md ${
+              className={`text-xs font-bold  hover:bg-red-700 hover:text-white p-2 rounded-md whitespace-nowrap ${
                 selectedRoute === "LOGOUT" && "bg-red-700 text-white"
               }`}
             >
