@@ -49,7 +49,7 @@ const ViewRequest = () => {
                 className="relative w-full lg:w-[17vw] my-1 lg:mx-2 bg-slate-50 p-4 shadow-md rounded-md border-2 hover:bg-green-200 hover:border-green-900"
               >
                 {item?.status && (
-                  <span className="absolute p-2 text-sm shadow-md top-2 right-2 bg-red-50 rounded-xl">
+                  <span className="absolute p-2 text-xs shadow-md top-2 right-2 bg-red-50 rounded-xl">
                     {status?.toUpperCase()}
                   </span>
                 )}
